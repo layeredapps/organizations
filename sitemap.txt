@@ -1,0 +1,171 @@
+@layeredapps/dashboard 0.0.9
+http://localhost:8000
+
+Administrator menu:
+@layeredapps/organizations/src/www/administrator/organizations "Organizations module"
+/administrator "Dashboard administration"
+
+Account menu:
+@layeredapps/organizations/src/www/account/organizations "Manage organizations"
+/account "My account"
+
+Special HTML files:
+@layeredapps/dashboard/template.html
+@layeredapps/dashboard/error.html
+@layeredapps/dashboard/redirect.html
+
+URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQUESTS - NODEJS ------------------- HTML ---------------------
+/                                                     GUEST  FULLSCREEN                 static-page                /src/www                  
+/account                                                                GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/change-password                                                GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/change-username                                                GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/create-profile                                                 GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/create-reset-code                                              GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/delete-account                                                 GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/delete-account-complete                      GUEST  FULLSCREEN GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/delete-profile                                                 GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/delete-reset-code                                              GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/edit-profile                                                   GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/end-all-sessions                                               GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/end-session                                                    GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/organizations                                                  GET             /src/www                   /src/www                  
+/account/organizations/accept-invitation                                GET POST        /src/www                   /src/www                  
+/account/organizations/create-invitation                                GET POST        /src/www                   /src/www                  
+/account/organizations/create-organization                              GET POST        /src/www                   /src/www                  
+/account/organizations/delete-invitation                                GET POST        /src/www                   /src/www                  
+/account/organizations/delete-membership                                GET POST        /src/www                   /src/www                  
+/account/organizations/delete-organization                              GET POST        /src/www                   /src/www                  
+/account/organizations/edit-membership-profile                          GET POST        /src/www                   /src/www                  
+/account/organizations/edit-organization                                GET POST        /src/www                   /src/www                  
+/account/organizations/invitation                                       GET             /src/www                   /src/www                  
+/account/organizations/membership                                       GET             /src/www                   /src/www                  
+/account/organizations/memberships                                      GET             /src/www                   /src/www                  
+/account/organizations/organization                                     GET             /src/www                   /src/www                  
+/account/organizations/organization-invitations                         GET             /src/www                   /src/www                  
+/account/organizations/organization-memberships                         GET             /src/www                   /src/www                  
+/account/organizations/organizations                                    GET             /src/www                   /src/www                  
+/account/organizations/revoke-membership                                GET POST        /src/www                   /src/www                  
+/account/organizations/transfer-organization                            GET POST        /src/www                   /src/www                  
+/account/profile                                                        GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/profiles                                                       GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/register                                     GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/reset-account                                GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/reset-code                                                     GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/reset-codes                                                    GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/restore-account                              GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/session                                                        GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/sessions                                                       GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/set-default-profile                                            GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/signin                                       GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/account/signout                                      GUEST  FULLSCREEN GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/account/signout-complete                             GUEST  FULLSCREEN                 static-page                @layeredapps/dashboard    
+/account/verify                                       GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator                                                                          static-page                @layeredapps/dashboard    
+/administrator/account                                                  GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/account-profiles                                         GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/account-reset-codes                                      GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/account-sessions                                         GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/accounts                                                 GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/administrators                                           GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/assign-administrator                                     GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/create-reset-code                                        GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/delete-account                                           GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/delete-schedule                                          GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/organizations                                            GET             /src/www                   /src/www                  
+/administrator/organizations/invitation                                 GET             /src/www                   /src/www                  
+/administrator/organizations/invitations                                GET             /src/www                   /src/www                  
+/administrator/organizations/membership                                 GET             /src/www                   /src/www                  
+/administrator/organizations/memberships                                GET             /src/www                   /src/www                  
+/administrator/organizations/organization                               GET             /src/www                   /src/www                  
+/administrator/organizations/organization-invitations                   GET             /src/www                   /src/www                  
+/administrator/organizations/organization-memberships                   GET             /src/www                   /src/www                  
+/administrator/organizations/organizations                              GET             /src/www                   /src/www                  
+/administrator/profile                                                  GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/profiles                                                 GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/reset-code                                               GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/reset-codes                                              GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/reset-session-key                                        GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/revoke-administrator                                     GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/schedule-account-delete                                  GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/session                                                  GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/sessions                                                 GET             @layeredapps/dashboard     @layeredapps/dashboard    
+/administrator/transfer-ownership                                       GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
+/api/administrator/account                                              GET             @layeredapps/dashboard                               
+/api/administrator/accounts                                             GET             @layeredapps/dashboard                               
+/api/administrator/accounts-count                                       GET             @layeredapps/dashboard                               
+/api/administrator/administrator-accounts                               GET             @layeredapps/dashboard                               
+/api/administrator/administrator-accounts-count                         GET             @layeredapps/dashboard                               
+/api/administrator/create-reset-code                                    POST            @layeredapps/dashboard                               
+/api/administrator/delete-account                                       DELETE          @layeredapps/dashboard                               
+/api/administrator/deleted-accounts                                     GET             @layeredapps/dashboard                               
+/api/administrator/deleted-accounts-count                               GET             @layeredapps/dashboard                               
+/api/administrator/organizations/invitation                             GET             /src/www                                             
+/api/administrator/organizations/invitations                            GET             /src/www                                             
+/api/administrator/organizations/invitations-count                      GET             /src/www                                             
+/api/administrator/organizations/membership                             GET             /src/www                                             
+/api/administrator/organizations/memberships                            GET             /src/www                                             
+/api/administrator/organizations/memberships-count                      GET             /src/www                                             
+/api/administrator/organizations/organization                           GET             /src/www                                             
+/api/administrator/organizations/organizations                          GET             /src/www                                             
+/api/administrator/organizations/organizations-count                    GET             /src/www                                             
+/api/administrator/profile                                              GET             @layeredapps/dashboard                               
+/api/administrator/profiles                                             GET             @layeredapps/dashboard                               
+/api/administrator/profiles-count                                       GET             @layeredapps/dashboard                               
+/api/administrator/reset-account-administrator                          PATCH           @layeredapps/dashboard                               
+/api/administrator/reset-code                                           GET             @layeredapps/dashboard                               
+/api/administrator/reset-codes                                          GET             @layeredapps/dashboard                               
+/api/administrator/reset-codes-count                                    GET             @layeredapps/dashboard                               
+/api/administrator/reset-session-key                                    PATCH           @layeredapps/dashboard                               
+/api/administrator/session                                              GET             @layeredapps/dashboard                               
+/api/administrator/sessions                                             GET             @layeredapps/dashboard                               
+/api/administrator/sessions-count                                       GET             @layeredapps/dashboard                               
+/api/administrator/set-account-administrator                            PATCH           @layeredapps/dashboard                               
+/api/administrator/set-account-deleted                                  PATCH           @layeredapps/dashboard                               
+/api/administrator/set-owner-account                                    PATCH           @layeredapps/dashboard                               
+/api/user/account                                                       GET             @layeredapps/dashboard                               
+/api/user/create-account                              GUEST             POST            @layeredapps/dashboard                               
+/api/user/create-profile                                                POST            @layeredapps/dashboard                               
+/api/user/create-reset-code                                             POST            @layeredapps/dashboard                               
+/api/user/create-session                              GUEST             POST            @layeredapps/dashboard                               
+/api/user/delete-profile                                                DELETE          @layeredapps/dashboard                               
+/api/user/delete-reset-code                                             DELETE          @layeredapps/dashboard                               
+/api/user/organizations/create-invitation                               POST            /src/www                                             
+/api/user/organizations/create-membership                               POST            /src/www                                             
+/api/user/organizations/create-organization                             POST            /src/www                                             
+/api/user/organizations/delete-invitation                               DELETE          /src/www                                             
+/api/user/organizations/delete-membership                               DELETE          /src/www                                             
+/api/user/organizations/delete-organization                             DELETE          /src/www                                             
+/api/user/organizations/invitation                                      GET             /src/www                                             
+/api/user/organizations/invitations                                     GET             /src/www                                             
+/api/user/organizations/invitations-count                               GET             /src/www                                             
+/api/user/organizations/membership                                      GET             /src/www                                             
+/api/user/organizations/memberships                                     GET             /src/www                                             
+/api/user/organizations/memberships-count                               GET             /src/www                                             
+/api/user/organizations/open-invitation                                 GET             /src/www                                             
+/api/user/organizations/open-invitation-organization                    GET             /src/www                                             
+/api/user/organizations/organization                                    GET             /src/www                                             
+/api/user/organizations/organization-membership                         GET             /src/www                                             
+/api/user/organizations/organizations                                   GET             /src/www                                             
+/api/user/organizations/organizations-count                             GET             /src/www                                             
+/api/user/organizations/set-organization-owner                          PATCH           /src/www                                             
+/api/user/organizations/update-organization                             PATCH           /src/www                                             
+/api/user/profile                                                       GET             @layeredapps/dashboard                               
+/api/user/profiles                                                      GET             @layeredapps/dashboard                               
+/api/user/profiles-count                                                GET             @layeredapps/dashboard                               
+/api/user/reset-account-deleted                       GUEST             PATCH           @layeredapps/dashboard                               
+/api/user/reset-account-password                      GUEST             PATCH           @layeredapps/dashboard                               
+/api/user/reset-code                                                    GET             @layeredapps/dashboard                               
+/api/user/reset-codes                                                   GET             @layeredapps/dashboard                               
+/api/user/reset-codes-count                                             GET             @layeredapps/dashboard                               
+/api/user/reset-session-key                                             PATCH           @layeredapps/dashboard                               
+/api/user/session                                                       GET             @layeredapps/dashboard                               
+/api/user/sessions                                                      GET             @layeredapps/dashboard                               
+/api/user/sessions-count                                                GET             @layeredapps/dashboard                               
+/api/user/set-account-deleted                                           PATCH           @layeredapps/dashboard                               
+/api/user/set-account-password                                          PATCH           @layeredapps/dashboard                               
+/api/user/set-account-profile                                           PATCH           @layeredapps/dashboard                               
+/api/user/set-account-username                                          PATCH           @layeredapps/dashboard                               
+/api/user/set-session-ended                                             PATCH           @layeredapps/dashboard                               
+/api/user/set-session-verified                                          PATCH           @layeredapps/dashboard                               
+/api/user/update-profile                                                PATCH           @layeredapps/dashboard                               
+/home                                                                                   static-page                /src/www                  

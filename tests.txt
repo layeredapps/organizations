@@ -1,0 +1,643 @@
+
+
+  index
+    MINIMUM_ORGANIZATION_NAME_LENGTH
+      Shortest organization name length
+        ✔ default 1
+        ✔ Integer
+    MAXIMUM_ORGANIZATION_NAME_LENGTH
+      Longest organization name length
+        ✔ default 50
+        ✔ Integer
+    MINIMUM_INVITATION_CODE_LENGTH
+      Shortest invitation code length
+        ✔ default 6
+        ✔ Integer
+    MAXIMUM_INVITATION_CODE_LENGTH
+      Longest invitation code length
+        ✔ default 50
+        ✔ Integer
+    MEMBERSHIP_PROFILE_FIELDS
+      Personal information to share with members
+        ✔ default display-name,display-email
+        ✔ Profile property list
+
+  /account/organizations/accept-invitation
+    view
+      ✔ should present the form
+      ✔ should exclude invalid profiles
+    submit
+      ✔ should accept valid existing profile
+      ✔ should accept invitation and create profile (screenshots)
+    errors
+      ✔ invalid-account
+
+  /account/organizations/create-invitation
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should create invitation (screenshots)
+
+  /account/organizations/create-organization
+    view
+      ✔ should present the form
+    submit
+      ✔ should accept valid existing profile
+      ✔ should create organization (screenshots)
+    errors
+      ✔ invalid-organization-name
+      ✔ invalid-organization-name-length
+      ✔ invalid-organization-email
+
+  /account/organizations/delete-invitation
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data
+    view
+      ✔ should present the form
+    submit
+      ✔ should delete invitation (screenshots)
+
+  /account/organizations/delete-membership
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should delete membership (screenshots)
+
+  /account/organizations/delete-organization
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should delete organization (screenshots)
+
+  /account/organizations/edit-membership-profile
+    view
+      ✔ should present the form
+      ✔ should have elements for full-name
+      ✔ should have elements for display-name
+      ✔ should have elements for contact-email
+      ✔ should have elements for display-email
+      ✔ should have elements for dob
+      ✔ should have elements for phone
+      ✔ should have elements for occupation
+      ✔ should have elements for location
+      ✔ should have elements for company-name
+      ✔ should have elements for website
+    submit
+      ✔ should update profile (screenshots)
+      ✔ should update profile with full-name
+      ✔ should update profile with display name
+      ✔ should update profile with contact-email
+      ✔ should update profile with display-email
+      ✔ should update profile with dob in YYYY-MM-DD
+      ✔ should update profile with dob in MM-DD-YYYY
+      ✔ should update profile with phone
+      ✔ should update profile with occupation
+      ✔ should update profile with location
+      ✔ should update profile with company-name
+      ✔ should update profile with website
+    errors
+      ✔ invalid-first-name
+      ✔ invalid-first-name-length
+      ✔ invalid-last-name
+      ✔ invalid-last-name-length
+      ✔ invalid-contact-email
+      ✔ invalid-display-email
+      ✔ invalid-display-name
+      ✔ invalid-display-name-length
+      ✔ invalid-dob
+      ✔ invalid-phone
+      ✔ invalid-occupation
+      ✔ invalid-location
+      ✔ invalid-company-name
+      ✔ invalid-website
+
+  /account/organizations/edit-organization
+    exceptions
+      ✔ should require owner
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should apply organization update (screenshots)
+    errors
+      ✔ invalid-organization-name
+      ✔ invalid-organization-name-length
+      ✔ invalid-organization-email
+
+  /account/organizations/index
+    before
+      ✔ should bind data to req
+    view
+      ✔ should have row for each organization
+      ✔ should have row for each membership (screenshots)
+
+  /account/organizations/invitation
+    before
+      ✔ should require owner
+      ✔ should bind data to req
+    view
+      ✔ should have row for invitation (screenshots)
+
+  /account/organizations/membership
+    before
+      ✔ should reject non-member
+      ✔ should bind data to req
+    view
+      ✔ should have row for membership (screenshots)
+      ✔ should show profile fields if data exists
+
+  /account/organizations/memberships
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+      ✔ should show profile fields if data exists
+
+  /account/organizations/organization-invitations
+    before
+      ✔ should require owner
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /account/organizations/organization-memberships
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /account/organizations/organization
+    before
+      ✔ should reject non-member
+      ✔ should bind data to req
+    view
+      ✔ should have row for organization (screenshots)
+
+  /account/organizations/organizations
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /account/organizations/revoke-membership
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should delete membership (screenshots)
+
+  /account/organizations/transfer-organization
+    exceptions
+      ✔ invalid-account
+    before
+      ✔ should bind data to req
+    view
+      ✔ should present the form
+    submit
+      ✔ should transfer ownership (screenshots)
+
+  /administrator/organizations/index
+    before
+      ✔ should bind data to req
+    view
+      ✔ should have row for each organization (screenshots)
+      ✔ should have organization row for each membership
+
+  /administrator/organizations/invitation
+    before
+      ✔ should bind data to req
+    view
+      ✔ should have row for invitation (screenshots)
+
+  /administrator/organizations/invitations
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /administrator/organizations/membership
+    before
+      ✔ should bind data to req
+    view
+      ✔ should have row for membership (screenshots)
+
+  /administrator/organizations/memberships
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+      ✔ should show profile fields if data exists
+
+  /administrator/organizations/organization-invitations
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /administrator/organizations/organization-memberships
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /administrator/organizations/organization
+    before
+      ✔ should bind data to req
+    view
+      ✔ should have row for organization (screenshots)
+
+  /administrator/organizations/organizations
+    before
+      ✔ should bind data to req
+    view
+      ✔ should return one page (screenshots)
+      ✔ should change page size
+      ✔ should change offset
+
+  /api/administrator/organizations/invitation
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+    returns
+      ✔ object
+    redacts
+      ✔ secretCodeHash
+
+  /api/administrator/organizations/invitations-count
+    returns
+      ✔ integer
+
+  /api/administrator/organizations/invitations
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+      ✔ optional querystring accountid (string)
+      ✔ optional querystring organizationid (string)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/administrator/organizations/membership
+    exceptions
+      invalid-membershipid
+        ✔ missing querystring membershipid
+        ✔ invalid querystring membershipid
+    returns
+      ✔ object
+
+  /api/administrator/organizations/memberships-count
+    returns
+      ✔ integer
+
+  /api/administrator/organizations/memberships
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+      ✔ optional querystring accountid (string)
+      ✔ optional querystring organizationid (string)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/administrator/organizations/organization
+    exceptions
+      invalid-organizationid
+        ✔ unspecified querystring organizationid
+        ✔ invalid querystring organizationid
+    returns
+      ✔ object
+
+  /api/administrator/organizations/organizations-count
+    returns
+      ✔ integer
+
+  /api/administrator/organizations/organizations
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+      ✔ optional querystring accountid (string)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/user/organizations/create-invitation
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-secret-code
+        ✔ missing posted secret-code
+      invalid-secret-code-length
+        ✔ posted secret-code too short
+        ✔ posted secret-code too long
+      invalid-account
+        ✔ accessing account is not organization owner
+    receives
+      ✔ required posted secret-code
+    returns
+      ✔ object
+
+  /api/user/organizations/create-membership
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-invitation
+        ✔ querystring invitationid has been used
+        ✔ posted secret-code has been used
+      invalid-secret-code
+        ✔ missing posted secret-code
+        ✔ invalid posted secret-code
+      invalid-account
+        ✔ accessing account is organization owner
+        ✔ accessing account is organization member
+      invalid-profileid
+        ✔ missing posted profileid
+        ✔ invalid posted profileid
+      invalid-profile
+        ✔ ineligible posted profileid is missing fields
+      invalid-invitation
+        ✔ querystring invitationid is not open invitation
+    receives
+      ✔ required posted secret-code
+      ✔ required posted profileid
+    returns
+      ✔ object
+
+  /api/user/organizations/create-organization
+    exceptions
+      invalid-organization-name
+        ✔ missing posted name
+    invalid-organization-name-length
+      ✔ posted name too short
+      ✔ posted name too long
+    invalid-organization-email
+      ✔ missing posted email
+      ✔ invalid posted email
+    invalid-profile
+      ✔ missing posted profileid
+      ✔ invalid posted profileid
+      ✔ ineligible posted profileid missing fields
+    receives
+      ✔ required posted organization-email
+      ✔ required posted organization-name
+      ✔ required posted profileid
+    returns
+      ✔ object
+
+  /api/user/organizations/delete-invitation
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-invitation
+        ✔ querystring invitationid is used invitation
+      invalid-account
+        ✔ accessing account is not organization owner
+    returns
+      ✔ boolean
+
+  /api/user/organizations/delete-membership
+    exceptions
+      invalid-membershipid
+        ✔ missing querystring membershipid
+        ✔ invalid querystring membershipid
+      invalid-account
+        ✔ accessing account is not membership or organization owner
+    returns
+      ✔ boolean
+
+  /api/user/organizations/delete-organization
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-account
+        ✔ accessing account does not own organization
+    returns
+      ✔ boolean
+
+  /api/user/organizations/invitation
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-account
+        ✔ accessing account is not organization owner
+    returns
+      ✔ object
+    redacts
+      ✔ secretCodeHash
+
+  /api/user/organizations/invitations-count
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    returns
+      ✔ integer
+
+  /api/user/organizations/invitations
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+      ✔ optional querystring organizationid (string)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/user/organizations/membership
+    exceptions
+      invalid-membershipid
+        ✔ missing querystring membershipid
+        ✔ invalid querystring membershipid
+      invalid-account
+        ✔ accessing account must be organization member or owner
+    returns
+      ✔ object
+
+  /api/user/organizations/memberships-count
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    returns
+      ✔ integer
+
+  /api/user/organizations/memberships
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+      ✔ optional querystring organizationid (string)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/user/organizations/open-invitation-organization
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-invitation
+        ✔ querystring invitationid is used
+    returns
+      ✔ object
+
+  /api/user/organizations/open-invitation
+    exceptions
+      invalid-invitationid
+        ✔ missing querystring invitationid
+        ✔ invalid querystring invitationid
+      invalid-invitation
+        ✔ querystring invitationid is used
+    returns
+      ✔ object
+    redacts
+      ✔ secretCodeHash
+
+  /api/user/organizations/organization-membership
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-account
+        ✔ accessing account must be organization member
+    returns
+      ✔ object
+
+  /api/user/organizations/organization
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-account
+        ✔ accessing account must be organization member
+    returns
+      ✔ object
+
+  /api/user/organizations/organizations-count
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    returns
+      ✔ integer
+
+  /api/user/organizations/organizations
+    exceptions
+      invalid-accountid
+        ✔ missing querystring accountid
+        ✔ invalid querystring accountid
+      invalid-account
+        ✔ ineligible accessing account
+    receives
+      ✔ optional querystring offset (integer)
+      ✔ optional querystring limit (integer)
+      ✔ optional querystring all (boolean)
+    returns
+      ✔ array
+    configuration
+      ✔ environment PAGE_SIZE
+
+  /api/user/organizations/set-organization-owner
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-accountid
+        ✔ posted accountid is missing
+        ✔ posted accountid is invalid
+      invalid-account
+        ✔ accessing account is not organization owner
+        ✔ posted accountid is organization owner
+        ✔ posted accountid is not member
+    returns
+      ✔ object
+
+  /api/user/organizations/update-organization
+    exceptions
+      invalid-organizationid
+        ✔ missing querystring organizationid
+        ✔ invalid querystring organizationid
+      invalid-account
+        ✔ accessing account is not organization owner
+      invalid-organization-name
+        ✔ missing posted name
+      invalid-organization-name-length
+        ✔ posted name is too short
+        ✔ posted name is too long
+      invalid-organization-email
+        ✔ missing posted email
+        ✔ invalid posted email
+    receives
+      ✔ required posted name
+      ✔ required posted email
+    returns
+      ✔ object
+
+
+  314 passing (7m)
+

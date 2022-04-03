@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/organizations/navbar-membership.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">View membership</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">View membership</h1>
+      <table id="memberships-table" class="data-table">
+        <tbody id="${membership.membershipid}">
+          <tr>
+            <th>ID</th>
+            <td>${membership.membershipid}</td>
+          </tr>
+          <tr>
+            <th translate="yes">Email</th>
+            <td>${membership.email}</td>
+          </tr>
+          <tr>
+            <th translate="yes">Created</th>
+            <td>${membership.createdAtFormatted}</td>
+          </tr>
+          <tr>
+            <th translate="yes">Invitation</th>
+            <td><a href="/administrator/organizations/invitation?invitationid=${membership.invitationid}">${membership.invitationid}</a></td>
+          </tr>
+          <tr>
+            <th translate="yes">Organization</th>
+            <td><a href="/administrator/organizations/organization?organizationid=${membership.organizationid}">${membership.organizationid}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

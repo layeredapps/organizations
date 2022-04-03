@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/organizations/navbar.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Invitations</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Invitations</h1>
+      <p translate="yes">These are created by organization owners and allow users to join organizations.</p>
+      <div id="no-invitations">
+        <p translate="yes">There are no invitations for any organizations.</p>
+      </div>
+      <div class="list-table-wrapper">
+        <table id="invitations-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Membership</th>
+              <th translate="yes">Created</th>
+              <th translate="yes">Accepted</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <ul id="page-links" class="pagination"></ul>
+      <template id="page-link">
+        <li>
+          <a href="/administrator/organizations/organizations?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+        </li>
+      </template>
+      <template id="invitation-row">
+        <tr id="${invitation.invitationid}">
+          <td><a href="/administrator/organizations/invitation?invitationid=${invitation.invitationid}">${invitation.invitationid}</a></td>
+          <td id="membership-${invitation.invitationid}"><a href="/administrator/organizations/membership?membershipid=${invitation.membershipid}">${invitation.membershipid}</a></td>
+          <td id="no-membership-${invitation.invitationid}">-</td>
+          <td>${invitation.createdAtFormatted}</td>
+          <td id="accepted-${invitation.invitationid}">${invitation.acceptedAtFormatted}</td>
+          <td id="not-accepted-${invitation.invitationid}">-</td>
+        </tr>
+      </template>
+    </div>
+  </body>
+</html>

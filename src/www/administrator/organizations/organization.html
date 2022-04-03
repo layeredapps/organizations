@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/organizations/navbar-organization.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">View organization</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">View organization</h1>
+      <table id="organizations-table" class="data-table">
+        <tbody id="${organization.organizationid}">
+          <tr>
+            <th>ID</th>
+            <td>${organization.organizationid}</td>
+          </tr>
+          <tr>
+            <th translate="yes">Name</th>
+            <td>${organization.name}</td>
+          </tr>
+          <tr>
+            <th translate="yes">Email</th>
+            <td>
+              <a href="mailto:${organization.email}">${organization.email}</a>
+            </td>
+          </tr>
+          <tr>
+            <th translate="yes">Created</th>
+            <td>${organization.createdAtFormatted}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

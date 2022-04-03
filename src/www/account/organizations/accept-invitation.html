@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/organizations/navbar.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Accept invitation</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Accept invitation</h1>
+      <p translate="yes">You will become a member of the organization after entering the code.</p>
+      <div id="message-container"></div>
+      <form id="submit-form" class="input-form" action="/account/organizations/accept-invitation" name="submit-form">
+        <fieldset class="input-fields">
+          <label class="field-label" for="invitationid" translate="yes">Invitation ID</label>
+          <div class="field">
+            <input id="invitationid" name="invitationid" type="text" maxlength="100">
+          </div>
+        </fieldset>
+        <fieldset class="input-fields">
+          <label class="field-label" for="secret-code" translate="yes">Invitation code</label>
+          <div class="field"><input id="secret-code" name="secret-code" type="text" maxlength="100"></div>
+        </fieldset>
+        <h2 translate="yes">Membership information</h2>
+        <fieldset id="existing-profile-container" class="input-fields">
+          <label class="field-label" for="profileid" translate="yes">Use existing profile</label>
+          <div class="field">
+            <select id="profileid" name="profileid">
+              <option value="" translate="yes">
+                Select an existing profile
+              </option>
+            </select>
+          </div>
+        </fieldset>
+        <fieldset id="display-name-container" class="input-fields">
+          <label class="field-label" for="display-name" translate="yes">Display name</label>
+          <div class="field">
+            <input required="" id="display-name" name="display-name" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="display-email-container" class="input-fields">
+          <label class="field-label" for="display-email" translate="yes">Display email</label>
+          <div class="field">
+            <input required="" id="display-email" name="display-email" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="contact-email-container" class="input-fields">
+          <label class="field-label" for="contact-email" translate="yes">Contact email</label>
+          <div class="field">
+            <input required="" id="contact-email" name="contact-email" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <div id="full-name-container">
+          <fieldset class="input-fields">
+            <label class="field-label" for="first-name" translate="yes">First name</label>
+            <div class="field">
+              <input required="" id="first-name" name="first-name" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+          <fieldset class="input-fields">
+            <label class="field-label" for="last-name" translate="yes">Last name</label>
+            <div class="field">
+              <input required="" id="last-name" name="last-name" type="text" maxlength="1000">
+            </div>
+          </fieldset>
+        </div>
+        <div id="dob-container">
+          <fieldset class="input-fields">
+            <label class="field-label" for="dob" translate="yes">Date of birth</label>
+            <div class="field">
+              <input required="" id="dob" name="dob" type="text" maxlength="11">
+            </div>
+          </fieldset>
+        </div>
+        <fieldset id="phone-container" class="input-fields">
+          <label class="field-label" for="phone" translate="yes">Telephone</label>
+          <div class="field">
+            <input required="" id="phone" name="phone" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="occupation-container" class="input-fields">
+          <label class="field-label" for="occupation" translate="yes">Occupation</label>
+          <div class="field">
+            <input required="" id="occupation" name="occupation" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="location-container" class="input-fields">
+          <label class="field-label" for="location" translate="yes">Location</label>
+          <div class="field">
+            <input required="" id="location" name="location" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="company-name-container" class="input-fields">
+          <label class="field-label" for="company-name" translate="yes">Company name</label>
+          <div class="field">
+            <input required="" id="company-name" name="company-name" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <fieldset id="website-container" class="input-fields">
+          <label class="field-label" for="website" translate="yes">Website</label>
+          <div class="field">
+            <input required="" id="website" name="website" type="text" maxlength="1000">
+          </div>
+        </fieldset>
+        <div class="form-buttons">
+          <button type="submit" id="submit-button" class="button" translate="yes">Join organization</button>
+        </div>
+      </form>
+    </div>
+    <template id="success">
+      <div class="success message" translate="yes">
+        Success! You are now a member of the organization
+      </div>
+    </template>
+    <template id="invalid-invitation">
+      <div class="error message" translate="yes">
+        Error! The invitation is no longer available
+      </div>
+    </template>
+    <template id="invalid-secret-code">
+      <div class="error message" translate="yes">
+        Error! The invitation code is incorrect
+      </div>
+    </template>
+    <template id="invalid-invitationid">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid invitation was provided
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! You own or are a member of this organization
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="profile-option">
+      <option value="${profile.profileid}">
+        ${profile.displayName} / ${profile.displayEmail}
+      </option>
+    </template>
+    <template id="invalid-organization-name">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid organization name was provided
+      </div>
+    </template>
+    <template id="invalid-organization-name-length">
+      <div class="error message" translate="yes">
+        Error! Invalid organization name length
+      </div>
+    </template>
+    <template id="invalid-organization-email">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid organization email was provided
+      </div>
+    </template>
+    <template id="success">
+      <div class="success message" translate="yes">
+        Success! The organization has been created successfully
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An error occurred creating the organization
+      </div>
+    </template>
+    <template id="invalid-first-name">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid first name provided
+      </div>
+    </template>
+    <template id="invalid-first-name-length">
+      <div class="error message" translate="yes">
+        Error! An invalid first name was provided
+      </div>
+    </template>
+    <template id="invalid-last-name">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid last name was provided
+      </div>
+    </template>
+    <template id="invalid-last-name-length">
+      <div class="error message" translate="yes">
+        Error! An invalid last name was provided
+      </div>
+    </template>
+    <template id="invalid-contact-email">
+      <div class="error message" translate="yes">
+        Error! Invalid contact email address
+      </div>
+    </template>
+    <template id="invalid-display-email">
+      <div class="error message" translate="yes">
+        Error! Invalid display email address
+      </div>
+    </template>
+    <template id="invalid-display-name">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid display name was provided
+      </div>
+    </template>
+    <template id="invalid-dob">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid date of birth was provided
+      </div>
+    </template>
+    <template id="invalid-phone">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid phone was provided.
+      </div>
+    </template>
+    <template id="invalid-occupation">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid occupation was provided.
+      </div>
+    </template>
+    <template id="invalid-location">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid location was provided.
+      </div>
+    </template>
+    <template id="invalid-company-name">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid company name was provided.
+      </div>
+    </template>
+    <template id="invalid-website">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid website was provided.
+      </div>
+    </template>
+    <template id="invalid-display-name-length">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid display name was provided
+      </div>
+    </template>
+    <template id="invalid-profileid">
+      <div class="error message" translate="yes">
+        Error! A missing or invalid profile was selected.
+      </div>
+    </template>
+  </body>
+</html>

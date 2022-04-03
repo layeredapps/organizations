@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/organizations/navbar.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Organizations</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Organizations</h1>
+      <p><a href="/account/organizations/create-organization" class="button" translate="yes">Create organization</a></p>
+      <div id="no-data">
+        <p translate="yes">You have not created or joined any organizations yet.</p>
+      </div>
+      <div id="memberships-container">
+        <h2 translate="yes">My memberships</h2>
+        <div id="no-memberships">
+          <p translate="yes">You have not accepted any invitations to join organizations yet.</p>
+        </div>
+        <div class="list-table-wrapper">
+          <table id="memberships-table" class="list-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th translate="yes">Organization</th>
+                <th translate="yes">Name</th>
+                <th translate="yes">Email</th>
+                <th translate="yes">Joined</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div id="organizations-container">
+        <h2 translate="yes">My organizations</h2>
+        <div id="no-organizations">
+          <p translate="yes">You have not created any organizations yet.</p>
+        </div>
+        <div class="list-table-wrapper">
+          <table id="organizations-table" class="list-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th translate="yes">Name</th>
+                <th translate="yes">Email</th>
+                <th translate="yes">Created</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+    <template id="membership-row">
+      <tr id="${membership.membershipid}">
+        <td><a href="/account/organizations/membership?membershipid=${membership.membershipid}">${membership.membershipid}</a></td>
+        <td><a href="/account/organizations/organization?organizationid=${membership.organizationid}">${membership.organizationid}</a></td>
+        <td>${membership.organizationName}</td>
+        <td><a href="mailto:${membership.organizationEmail}">${membership.organizationEmail}</a></td>
+        <td>${membership.createdAtFormatted}</td>
+      </tr>
+    </template>
+    <template id="organization-row">
+      <tr id="${organization.organizationid}">
+        <td><a href="/account/organizations/organization?organizationid=${organization.organizationid}">${organization.organizationid}</a></td>
+        <td>${organization.name}</td>
+        <td><a href="mailto:${organization.email}">${organization.email}</a></td>
+        <td>${organization.createdAtFormatted}</td>
+      </tr>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/organizations/navbar-invitation.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Delete invitation</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Delete invitation</h1>
+      <p translate="yes">The invitation will be deleted immediately and cannot be recovered.</p>
+      <div id="message-container"></div>
+      <form id="submit-form" method="post" class="input-form" action="/account/organizations/delete-invitation?invitationid=${invitation.invitationid}" name="submit-form">
+        <div class="form-buttons">
+          <button type="submit" id="submit-button" class="button" translate="yes">Delete</button>
+        </div>
+      </form>
+    </div>
+    <template id="success">
+      <div class="success message" translate="yes">
+        Success! The invitation has been permanently deleted
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An error occurred deleting the invitation
+      </div>
+    </template>
+  </body>
+</html>

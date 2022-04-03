@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/organizations/navbar-organization.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Transfer ownership of organization</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Transfer ownership of organization</h1>
+      <p translate="yes">This will immediately change the owner of the organizaiton.</p>
+      <div id="message-container"></div>
+      <div class="list-table-wrapper">
+        <table id="organizations-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
+              <th translate="yes">Created</th>
+            </tr>
+          </thead>
+          <tr id="${organization.organizationid}">
+            <td>${organization.organizationid}</td>
+            <td>${organization.name}</td>
+            <td><a href="mailto:${organization.email}">${organization.email}</a></td>
+            <td>${organization.createdAtFormatted}</td>
+          </tr>
+        </table>
+      </div>
+      <form id="submit-form" class="input-form" action="/account/organizations/transfer-organization?organizationid=${organization.organizationid}" name="submit-form">
+        <div class="input-fields">
+          <label class="field-label" for="accountid" translate="yes">New organization owner</label>
+          <div class="field">
+            <select id="accountid" name="accountid">
+              <option value="" translate="yes">
+                Select new owner
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-buttons">
+          <button type="submit" id="submit-button" class="button" translate="yes">Transfer organization</button>
+        </div>
+      </form>
+    </div>
+    <template id="membership-option-template">
+      <option value="${membership.accountid}">
+        ${membership.email}
+      </option>
+    </template>
+    <template id="success">
+      <div class="success message" translate="yes">
+        Success! You have transferred the organization to the new owner
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An error occurred transferring the organization
+      </div>
+    </template>
+    <template id="invalid-accountid">
+      <div class="error message" translate="yes">
+        Error! An invalid recipient was selected or provided
+      </div>
+    </template>
+  </body>
+</html>

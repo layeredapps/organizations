@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/organizations/navbar.html">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title translate="yes">Organizations</title>
+    <link href="/public/content.css" rel="stylesheet">
+    <link href="/public/content-additional.css" rel="stylesheet">
+    <base target="_top" href="/">
+  </head>
+  <body>
+    <div class="container">
+      <h1 translate="yes">Organizations</h1>
+      <p><a href="/account/organizations/create-organization" class="button" translate="yes">Create organization</a></p>
+      <div id="no-organizations">
+        <p translate="yes">You have not created any organizations yet.</p>
+      </div>
+      <div class="list-table-wrapper">
+        <table id="organizations-table" class="list-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th translate="yes">Name</th>
+              <th translate="yes">Email</th>
+              <th translate="yes">Created</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <ul id="page-links" class="pagination"></ul>
+    </div>
+    <template id="page-link">
+      <li>
+        <a href="/account/organizations/organizations?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+      </li>
+    </template>
+    <template id="organization-row">
+      <tr id="${organization.organizationid}">
+        <td><a href="/account/organizations/organization?organizationid=${organization.organizationid}">${organization.organizationid}</a></td>
+        <td>${organization.name}</td>
+        <td><a href="mailto:${organization.email}">${organization.email}</a></td>
+        <td>${organization.createdAtFormatted}</td>
+      </tr>
+    </template>
+  </body>
+</html>

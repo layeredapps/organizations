@@ -1,0 +1,696 @@
+{
+  "/api/administrator/organizations/invitation": {
+    "url": "/api/administrator/organizations/invitation",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/invitations-count": {
+    "url": "/api/administrator/organizations/invitations-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/invitations": {
+    "url": "/api/administrator/organizations/invitations",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)",
+      "optional querystring organizationid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/organizations/membership": {
+    "url": "/api/administrator/organizations/membership",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-membershipid": [
+        "invalid-membershipid",
+        "missing querystring membershipid",
+        "invalid querystring membershipid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/memberships-count": {
+    "url": "/api/administrator/organizations/memberships-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/memberships": {
+    "url": "/api/administrator/organizations/memberships",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)",
+      "optional querystring organizationid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/administrator/organizations/organization": {
+    "url": "/api/administrator/organizations/organization",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "unspecified querystring organizationid",
+        "invalid querystring organizationid"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/organizations-count": {
+    "url": "/api/administrator/organizations/organizations-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/administrator/organizations/organizations": {
+    "url": "/api/administrator/organizations/organizations",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring accountid (string)"
+    ],
+    "exceptions": {},
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/organizations/create-invitation": {
+    "url": "/api/user/organizations/create-invitation",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "required posted secret-code"
+    ],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-secret-code": [
+        "invalid-secret-code",
+        "missing posted secret-code"
+      ],
+      "invalid-secret-code-length": [
+        "invalid-secret-code-length",
+        "posted secret-code too short",
+        "posted secret-code too long"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not organization owner"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/create-membership": {
+    "url": "/api/user/organizations/create-membership",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "required posted secret-code",
+      "required posted profileid"
+    ],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-invitation": [
+        "invalid-invitation",
+        "querystring invitationid has been used",
+        "posted secret-code has been used",
+        "invalid-invitation",
+        "querystring invitationid is not open invitation"
+      ],
+      "invalid-secret-code": [
+        "invalid-secret-code",
+        "missing posted secret-code",
+        "invalid posted secret-code"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is organization owner",
+        "accessing account is organization member"
+      ],
+      "invalid-profileid": [
+        "invalid-profileid",
+        "missing posted profileid",
+        "invalid posted profileid"
+      ],
+      "invalid-profile": [
+        "invalid-profile",
+        "ineligible posted profileid is missing fields"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/create-organization": {
+    "url": "/api/user/organizations/create-organization",
+    "verb": "post",
+    "auth": false,
+    "receives": [
+      "required posted organization-email",
+      "required posted organization-name",
+      "required posted profileid"
+    ],
+    "exceptions": {
+      "invalid-organization-name": [
+        "invalid-organization-name",
+        "missing posted name"
+      ],
+      "invalid-organization-name-length": [
+        "invalid-organization-name-length",
+        "posted name too short",
+        "posted name too long"
+      ],
+      "invalid-organization-email": [
+        "invalid-organization-email",
+        "missing posted email",
+        "invalid posted email"
+      ],
+      "invalid-profile": [
+        "invalid-profile",
+        "missing posted profileid",
+        "invalid posted profileid",
+        "ineligible posted profileid missing fields"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/delete-invitation": {
+    "url": "/api/user/organizations/delete-invitation",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-invitation": [
+        "invalid-invitation",
+        "querystring invitationid is used invitation"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not organization owner"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/delete-membership": {
+    "url": "/api/user/organizations/delete-membership",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-membershipid": [
+        "invalid-membershipid",
+        "missing querystring membershipid",
+        "invalid querystring membershipid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not membership or organization owner"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/delete-organization": {
+    "url": "/api/user/organizations/delete-organization",
+    "verb": "delete",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account does not own organization"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "boolean"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/invitation": {
+    "url": "/api/user/organizations/invitation",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not organization owner"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/invitations-count": {
+    "url": "/api/user/organizations/invitations-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/invitations": {
+    "url": "/api/user/organizations/invitations",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring organizationid (string)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/organizations/membership": {
+    "url": "/api/user/organizations/membership",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-membershipid": [
+        "invalid-membershipid",
+        "missing querystring membershipid",
+        "invalid querystring membershipid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account must be organization member or owner"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/memberships-count": {
+    "url": "/api/user/organizations/memberships-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/memberships": {
+    "url": "/api/user/organizations/memberships",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)",
+      "optional querystring organizationid (string)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/organizations/open-invitation-organization": {
+    "url": "/api/user/organizations/open-invitation-organization",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-invitation": [
+        "invalid-invitation",
+        "querystring invitationid is used"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/open-invitation": {
+    "url": "/api/user/organizations/open-invitation",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "invalid-invitationid",
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-invitation": [
+        "invalid-invitation",
+        "querystring invitationid is used"
+      ]
+    },
+    "redacts": [
+      "secretCodeHash"
+    ],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/organization-membership": {
+    "url": "/api/user/organizations/organization-membership",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account must be organization member"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/organization": {
+    "url": "/api/user/organizations/organization",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account must be organization member"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/organizations-count": {
+    "url": "/api/user/organizations/organizations-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/organizations": {
+    "url": "/api/user/organizations/organizations",
+    "verb": "get",
+    "auth": false,
+    "receives": [
+      "optional querystring offset (integer)",
+      "optional querystring limit (integer)",
+      "optional querystring all (boolean)"
+    ],
+    "exceptions": {
+      "invalid-accountid": [
+        "invalid-accountid",
+        "missing querystring accountid",
+        "invalid querystring accountid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
+  "/api/user/organizations/set-organization-owner": {
+    "url": "/api/user/organizations/set-organization-owner",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-accountid": [
+        "invalid-accountid",
+        "posted accountid is missing",
+        "posted accountid is invalid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not organization owner",
+        "posted accountid is organization owner",
+        "posted accountid is not member"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/update-organization": {
+    "url": "/api/user/organizations/update-organization",
+    "verb": "patch",
+    "auth": false,
+    "receives": [
+      "required posted name",
+      "required posted email"
+    ],
+    "exceptions": {
+      "invalid-organizationid": [
+        "invalid-organizationid",
+        "missing querystring organizationid",
+        "invalid querystring organizationid"
+      ],
+      "invalid-account": [
+        "invalid-account",
+        "accessing account is not organization owner"
+      ],
+      "invalid-organization-name": [
+        "invalid-organization-name",
+        "missing posted name"
+      ],
+      "invalid-organization-name-length": [
+        "invalid-organization-name-length",
+        "posted name is too short",
+        "posted name is too long"
+      ],
+      "invalid-organization-email": [
+        "invalid-organization-email",
+        "missing posted email",
+        "invalid posted email"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  }
+}

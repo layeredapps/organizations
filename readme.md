@@ -3,7 +3,6 @@
 #### Index
 
 - [Introduction](#organizations-module)
-- [Module contents](#module-contents)
 - [Import this module](#import-this-module)
 - [Storage engine](#storage-engine)
 - [Customizing membership profiles](#customizing-membership-profiles)
@@ -16,20 +15,6 @@
 Dashboard bundles everything a web app needs, all the "boilerplate" like signing in and changing passwords, into a parallel server so you can write a much smaller web app.
 
 The Organizations module allows users to create organizations and invitations other users can accept to join.  Users must share the invitations themselves with the recipients.  Your application server can use the Organizations module's API to fetch what organizations a user is in and use that data to allow shared access or assign ownership or whatever other purpose.  A complete UI is provided for users to create and manage their organizations and memberships, and a basic administrator UI is provided for oversight.
-
-# Module contents 
-
-Dashboard modules can add pages and API routes.  For more details check the `sitemap.txt` and `api.txt` or `env.txt` also contained in the online documentation.
-
-| Content type             |     |
-|--------------------------|-----|
-| Proxy scripts            |     |
-| Server scripts           |     |
-| Content scripts          |     |
-| User pages               | Yes |
-| User API routes          | Yes | 
-| Administrator pages      | Yes |
-| Administrator API routes | Yes | 
 
 ## Import this module
 
@@ -47,10 +32,10 @@ Edit your `package.json` to activate the module:
 
 ## Storage engine
 
-By default this module will share whatever storage you use for Dashboard.  You can specify an alternate storage module to use instead, or the same module with a separate database.
+By default this module will share whatever storage you use for Dashboard.  You can specify nothing, specify an alternate storage backend, or specify the same type with a separate database.
 
-    ORGANIZATIONS_STORAGE=@layeredapps/storage-mongodb
-    ORGANIZATIONS_MONGODB_URL=mongo://localhost:27017/organizations
+    ORGANIZATIONS_STORAGE=postgresql
+    ORGANIZATIONS_POSTGRESQL_DATABASE_URL=postgres://localhost:5432/organizations
 
 # Customizing membership profiles
 

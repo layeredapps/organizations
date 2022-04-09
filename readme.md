@@ -2,7 +2,7 @@
 
 #### Index
 
-- [Introduction](#organizations-module)
+- [Introduction](#introduction)
 - [Import this module](#import-this-module)
 - [Storage engine](#storage-engine)
 - [Customizing membership profiles](#customizing-membership-profiles)

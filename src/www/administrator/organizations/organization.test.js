@@ -60,6 +60,7 @@ describe('/administrator/organizations/organization', () => {
       req.screenshots = [
         { hover: '#administrator-menu-container' },
         { click: '/administrator/organizations' },
+        { click: '/administrator/organizations/organizations' },
         { click: `/administrator/organizations/organization?organizationid=${owner.organization.organizationid}` }
       ]
       const result = await req.get()

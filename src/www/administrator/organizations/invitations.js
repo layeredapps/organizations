@@ -17,7 +17,22 @@ async function beforeRequest (req) {
     }
   }
   const offset = req.query ? req.query.offset || 0 : 0
-  req.data = { invitations, total, offset }
+  let createdChartDays, createdChartHighlights, createdChartValues
+  if (offset === 0) {
+    req.query.keys = dashboard.Metrics.metricKeys('invitations-created', 90).join(',')
+    const createdChart = await global.api.administrator.MetricKeys.get(req)
+    const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
+    createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)
+    createdChartHighlights = dashboard.Metrics.highlights(createdChart, createdChartDays)
+    createdChartValues = [
+      { object: 'object', value: createdChartMaximum },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.75) },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.5) },
+      { object: 'object', value: Math.floor(createdChartMaximum * 0.25) },
+      { object: 'object', value: 0 }
+    ]
+  }
+  req.data = { invitations, total, offset, createdChartDays, createdChartHighlights, createdChartValues }
 }
 
 async function renderPage (req, res) {
@@ -51,6 +66,14 @@ async function renderPage (req, res) {
   } else {
     const invitationsTable = doc.getElementById('invitations-table')
     invitationsTable.parentNode.removeChild(invitationsTable)
+  }
+  if (req.data.createdChartDays && req.data.createdChartDays.length) {
+    dashboard.HTML.renderList(doc, req.data.createdChartDays, 'chart-column', 'created-chart')
+    dashboard.HTML.renderList(doc, req.data.createdChartValues, 'chart-value', 'created-values')
+    dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
+  } else {
+    const createdChart = doc.getElementById('created-chart-container')
+    createdChart.parentNode.removeChild(createdChart)
   }
   return dashboard.Response.end(req, res, doc)
 }

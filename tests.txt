@@ -226,8 +226,9 @@
     before
       ✔ should bind data to req
     view
-      ✔ should have row for each organization (screenshots)
-      ✔ should have organization row for each membership
+      ✔ should show organizations created chart (screenshots)
+      ✔ should show membership chart
+      ✔ should show invitations chart
 
   /administrator/organizations/invitation
     before
@@ -639,5 +640,5 @@
       ✔ object
 
 
-  314 passing (6m)
+  315 passing (8m)
 

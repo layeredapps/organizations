@@ -11,33 +11,101 @@
   <body>
     <div class="container">
       <h1 translate="yes">Organizations administration</h1>
-      <div class="list-table-wrapper">
-        <table id="organizations-table" class="list-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th translate="yes">Organization</th>
-              <th translate="yes">Contact</th>
-              <th translate="yes">Created</th>
-            </tr>
-          </thead>
-        </table>
+      <div id="no-organizations">
+        <p translate="yes">There are no organizations yet.</p>
       </div>
-      <h1 translate="yes">Memberships</h1>
-      <div class="list-table-wrapper">
-        <table id="memberships-table" class="list-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th translate="yes">Email</th>
-              <th translate="yes">Invitation</th>
-              <th translate="yes">Organization</th>
-              <th translate="yes">Created</th>
-            </tr>
-          </thead>
-        </table>
+      <div class="charts" id="organizations-chart-container">
+        <div class="chart">
+          <h2>Organizations created in last 90 days</h2>
+          <div className="metrics" id="organizations-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="organizations-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="organizations-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="charts" id="memberships-chart-container">
+        <div class="chart">
+          <h2>Memberships created in last 90 days</h2>
+          <div className="metrics" id="memberships-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="memberships-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="memberships-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="charts" id="invitations-chart-container">
+        <div class="chart">
+          <h2>Invitations created in last 90 days</h2>
+          <div className="metrics" id="invitations-highlights">
+          </div>
+          <div class="graph">
+            <div class="values" id="invitations-values"></div>
+            <div class="columns">
+              <div class="padder">
+                <ol id="invitations-chart"></ol>
+              </div>
+              <legend>
+                <span>Today</span>
+                <span>90 days ago</span>
+              </legend>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+    <template id="chart-value">
+      <h3>${object.value}</h3>
+    </template>
+    <template id="chart-column">
+      <li><span title="${metric.value} on ${metric.dateKey}" style="height: ${metric.normalized}%; top: ${metric.top}%"></span></li>
+    </template>
+    <template id="metric-highlights">
+      <ul>
+        <li>
+          ${highlight.today}
+          <span>today</span>
+        </li>
+        <li>
+          ${highlight.yesterday}
+          <span>yesterday</span>
+        </li>
+        <li>
+          ${highlight.last7Days}
+          <span>last 7 days</span>
+        </li>
+        <li>
+          ${highlight.last30Days}
+          <span>last 30 days</span>
+        </li>
+        <li>
+          ${highlight.last90Days}
+          <span>last 90 days</span>
+        </li>
+        <li>
+          ${highlight.total}
+          <span>all time</span>
+        </li>
+      </ul>
+    </template>
     <template id="organization-row">
       <tr id="${organization.organizationid}">
         <td><a href="/administrator/organizations/organization?organizationid=${organization.organizationid}">${organization.organizationid}</a></td>

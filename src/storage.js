@@ -1,3 +1,5 @@
+const metrics = require('@layeredapps/dashboard/src/metrics.js')
+
 module.exports = async () => {
   let storage
   const prefixedStorage = process.env.ORGANIZATIONS_STORAGE || process.env.STORAGE
@@ -24,5 +26,20 @@ module.exports = async () => {
       break
   }
   const container = await storage()
+  container.Organization.afterCreate(organizationsCreated)
+  container.Membership.afterCreate(membershipsCreated)
+  container.Invitation.afterCreate(invitationsCreated)
   return container
+}
+
+async function organizationsCreated () {
+  await metrics.aggregate('organizations-created', new Date())
+}
+
+async function membershipsCreated () {
+  await metrics.aggregate('memberships-created', new Date())
+}
+
+async function invitationsCreated () {
+  await metrics.aggregate('invitations-created', new Date())
 }

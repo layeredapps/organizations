@@ -22,6 +22,7 @@ module.exports = {
     }
     const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], req.alternativesha512, req.alternativeDashboardEncryptionKey)
     const invitationInfo = {
+      appid: req.appid || global.appid,
       accountid: req.account.accountid,
       organizationid: req.query.organizationid,
       secretCodeHash

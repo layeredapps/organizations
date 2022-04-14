@@ -82,6 +82,7 @@ module.exports = {
     })
     await dashboard.StorageCache.remove(req.query.invitationid)
     const membershipInfo = {
+      appid: req.appid || global.appid,
       organizationid: invitation.organizationid,
       accountid: req.account.accountid,
       invitationid: req.query.invitationid,

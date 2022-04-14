@@ -47,6 +47,7 @@ module.exports = {
     }
     const organization = await organizations.Storage.Organization.create(organizationInfo)
     const membershipInfo = {
+      appid: req.appid || global.appid,
       organizationid: organization.dataValues.organizationid,
       accountid: req.query.accountid,
       profileid: req.body.profileid

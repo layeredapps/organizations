@@ -48,7 +48,6 @@ async function renderPage (req, res) {
       dashboard.HTML.renderList(doc, req.data.createdChartDays, 'chart-column', 'created-chart')
       dashboard.HTML.renderList(doc, req.data.createdChartValues, 'chart-value', 'created-values')
       dashboard.HTML.renderTemplate(doc, req.data.createdChartHighlights, 'metric-highlights', 'created-highlights')
-      hasChart = true
     } else {
       const createdChart = doc.getElementById('created-chart-container')
       createdChart.parentNode.removeChild(createdChart)

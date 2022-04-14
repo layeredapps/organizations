@@ -7,7 +7,7 @@ module.exports = async () => {
   const prefixedHost = process.env.ORGANIZATIONS_DB2_HOST || process.env.DB2_HOST
   const prefixedPort = process.env.ORGANIZATIONS_DB2_PORT || process.env.DB2_PORT
   const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
-    logging: true,
+    logging: false,
     dialect: 'db2',
     host: prefixedHost,
     port: prefixedPort,

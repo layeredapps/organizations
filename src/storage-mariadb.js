@@ -7,7 +7,7 @@ module.exports = async () => {
   const prefixedHost = process.env.ORGANIZATIONS_MARIADB_HOST || process.env.MARIADB_HOST
   const prefixedPort = process.env.ORGANIZATIONS_MARIADB_PORT || process.env.MARIADB_PORT
   const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
-    logging: true,
+    logging: false,
     dialect: 'mysql',
     host: prefixedHost,
     port: prefixedPort,

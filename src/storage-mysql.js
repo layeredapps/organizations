@@ -7,7 +7,7 @@ module.exports = async () => {
   const prefixedHost = process.env.ORGANIZATIONS_MYSQL_HOST || process.env.MYSQL_HOST
   const prefixedPort = process.env.ORGANIZATIONS_MYSQL_PORT || process.env.MYSQL_PORT
   const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
-    logging: true,
+    logging: false,
     dialect: 'mysql',
     host: prefixedHost,
     port: prefixedPort,

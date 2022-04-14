@@ -7,7 +7,7 @@ module.exports = async () => {
   const prefixedHost = process.env.ORGANIZATIONS_MSSQL_HOST || process.env.MSSQL_HOST
   const prefixedPort = process.env.ORGANIZATIONS_MSSQL_PORT || process.env.MSSQL_PORT
   const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
-    logging: true,
+    logging: false,
     dialect: 'mssql',
     dialectOptions: {
       driver: 'SQL Server Native Client 11.0'

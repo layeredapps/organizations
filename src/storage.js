@@ -143,14 +143,14 @@ module.exports = async () => {
     modelName: 'organization'
   })
   await sequelize.sync({ alter: true, force: true })
-  Organization.afterCreate(async () => {
-    await metrics.aggregate('organizations-created', new Date())
+  Organization.afterCreate(async (object) => {
+    await metrics.aggregate(object.dataValues.appid, 'organizations-created', new Date())
   })
-  Membership.afterCreate(async () => {
-    await metrics.aggregate('memberships-created', new Date())
+  Membership.afterCreate(async (object) => {
+    await metrics.aggregate(object.dataValues.appid, 'memberships-created', new Date())
   })
-  Invitation.afterCreate(async () => {
-    await metrics.aggregate('invitations-created', new Date())
+  Invitation.afterCreate(async (object) => {
+    await metrics.aggregate(object.dataValues.appid, 'invitations-created', new Date())
   })
   return {
     sequelize,

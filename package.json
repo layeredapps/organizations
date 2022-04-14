@@ -9,9 +9,15 @@
   "devDependencies": {
     "@layeredapps/dashboard": "latest",
     "@faker-js/faker": "latest",
+    "ibm_db": "latest",
     "mocha": "latest",
+    "mysql2": "latest",
+    "pg": "latest",
+    "pg-hstore": "latest",
     "puppeteer": "latest",
-    "standard": "latest"
+    "sqlite3": "latest",
+    "standard": "latest",
+    "tedious": "latest"
   },
   "peerDependenciesMeta": {
     "pg": {

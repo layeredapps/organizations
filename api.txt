@@ -1,11 +1,10 @@
-@layeredapps/dashboard 0.0.13
+@layeredapps/dashboard 0.0.22
 http://localhost:8000
 
 |--------------------------------------------------------------------------------------------------------|
 | /api/administrator/organizations/invitation                                                            |
 | RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS---------------------------|
 | required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                 |
-|                                    |          |                 |  * invalid-invitationid              |
 |                                    |          |                 |  * missing querystring invitationid  |
 |                                    |          |                 |  * invalid querystring invitationid  |
 |------------------------------------|----------|-----------------|--------------------------------------|
@@ -30,7 +29,6 @@ http://localhost:8000
 | /api/administrator/organizations/membership                                          |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring membershipid  | object   | invalid-membershipid                 |
-|                                    |          |  * invalid-membershipid              |
 |                                    |          |  * missing querystring membershipid  |
 |                                    |          |  * invalid querystring membershipid  |
 |------------------------------------|----------|--------------------------------------|
@@ -55,7 +53,6 @@ http://localhost:8000
 | /api/administrator/organizations/organization         |
 | RETURNS--| EXCEPTIONS---------------------------------|
 | object   | invalid-organizationid                     |
-|          |  * invalid-organizationid                  |
 |          |  * unspecified querystring organizationid  |
 |          |  * invalid querystring organizationid      |
 |----------|--------------------------------------------|
@@ -79,18 +76,14 @@ http://localhost:8000
 | /api/user/organizations/create-invitation                                                         |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required posted secret-code          | object   | invalid-organizationid                          |
-| required querystring organizationid  |          |  * invalid-organizationid                       |
-| required posted secret-code          |          |  * missing querystring organizationid           |
-|                                      |          |  * invalid querystring organizationid           |
+| required querystring organizationid  |          |  * missing querystring organizationid           |
+| required posted secret-code          |          |  * invalid querystring organizationid           |
 |                                      |          | invalid-secret-code                             |
-|                                      |          |  * invalid-secret-code                          |
 |                                      |          |  * missing posted secret-code                   |
 |                                      |          | invalid-secret-code-length                      |
-|                                      |          |  * invalid-secret-code-length                   |
 |                                      |          |  * posted secret-code too short                 |
 |                                      |          |  * posted secret-code too long                  |
 |                                      |          | invalid-account                                 |
-|                                      |          |  * invalid-account                              |
 |                                      |          |  * accessing account is not organization owner  |
 |--------------------------------------|----------|-------------------------------------------------|
 
@@ -98,29 +91,22 @@ http://localhost:8000
 | /api/user/organizations/create-membership                                                           |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS------------------------------------------|
 | required posted profileid          | object   | invalid-invitationid                                |
-| required posted secret-code        |          |  * invalid-invitationid                             |
-| required querystring invitationid  |          |  * missing querystring invitationid                 |
-| required posted secret-code        |          |  * invalid querystring invitationid                 |
-| required posted profileid          |          | invalid-invitation                                  |
-|                                    |          |  * invalid-invitation                               |
-|                                    |          |  * querystring invitationid has been used           |
+| required posted secret-code        |          |  * missing querystring invitationid                 |
+| required querystring invitationid  |          |  * invalid querystring invitationid                 |
+| required posted secret-code        |          | invalid-invitation                                  |
+| required posted profileid          |          |  * querystring invitationid has been used           |
 |                                    |          |  * posted secret-code has been used                 |
-|                                    |          |  * invalid-invitation                               |
 |                                    |          |  * querystring invitationid is not open invitation  |
 |                                    |          | invalid-secret-code                                 |
-|                                    |          |  * invalid-secret-code                              |
 |                                    |          |  * missing posted secret-code                       |
 |                                    |          |  * invalid posted secret-code                       |
 |                                    |          | invalid-account                                     |
-|                                    |          |  * invalid-account                                  |
 |                                    |          |  * accessing account is organization owner          |
 |                                    |          |  * accessing account is organization member         |
 |                                    |          | invalid-profileid                                   |
-|                                    |          |  * invalid-profileid                                |
 |                                    |          |  * missing posted profileid                         |
 |                                    |          |  * invalid posted profileid                         |
 |                                    |          | invalid-profile                                     |
-|                                    |          |  * invalid-profile                                  |
 |                                    |          |  * ineligible posted profileid is missing fields    |
 |------------------------------------|----------|-----------------------------------------------------|
 
@@ -128,18 +114,14 @@ http://localhost:8000
 | /api/user/organizations/create-organization                                                     |
 | RECEIVES----------------------------| RETURNS--| EXCEPTIONS-------------------------------------|
 | required posted profileid           | object   | invalid-organization-name                      |
-| required posted email               |          |  * invalid-organization-name                   |
-| required posted name                |          |  * missing posted name                         |
-| required posted organization-email  |          | invalid-organization-name-length               |
-| required posted organization-name   |          |  * invalid-organization-name-length            |
-| required posted profileid           |          |  * posted name too short                       |
-|                                     |          |  * posted name too long                        |
-|                                     |          | invalid-organization-email                     |
-|                                     |          |  * invalid-organization-email                  |
+| required posted email               |          |  * missing posted name                         |
+| required posted name                |          | invalid-organization-name-length               |
+| required posted organization-email  |          |  * posted name too short                       |
+| required posted organization-name   |          |  * posted name too long                        |
+| required posted profileid           |          | invalid-organization-email                     |
 |                                     |          |  * missing posted email                        |
 |                                     |          |  * invalid posted email                        |
 |                                     |          | invalid-profile                                |
-|                                     |          |  * invalid-profile                             |
 |                                     |          |  * missing posted profileid                    |
 |                                     |          |  * invalid posted profileid                    |
 |                                     |          |  * ineligible posted profileid missing fields  |
@@ -149,14 +131,11 @@ http://localhost:8000
 | /api/user/organizations/delete-invitation                                                       |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required querystring invitationid  | boolean  | invalid-invitationid                            |
-|                                    |          |  * invalid-invitationid                         |
 |                                    |          |  * missing querystring invitationid             |
 |                                    |          |  * invalid querystring invitationid             |
 |                                    |          | invalid-invitation                              |
-|                                    |          |  * invalid-invitation                           |
 |                                    |          |  * querystring invitationid is used invitation  |
 |                                    |          | invalid-account                                 |
-|                                    |          |  * invalid-account                              |
 |                                    |          |  * accessing account is not organization owner  |
 |------------------------------------|----------|-------------------------------------------------|
 
@@ -164,11 +143,9 @@ http://localhost:8000
 | /api/user/organizations/delete-membership                                                                     |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS----------------------------------------------------|
 | required querystring membershipid  | boolean  | invalid-membershipid                                          |
-|                                    |          |  * invalid-membershipid                                       |
 |                                    |          |  * missing querystring membershipid                           |
 |                                    |          |  * invalid querystring membershipid                           |
 |                                    |          | invalid-account                                               |
-|                                    |          |  * invalid-account                                            |
 |                                    |          |  * accessing account is not membership or organization owner  |
 |------------------------------------|----------|---------------------------------------------------------------|
 
@@ -176,11 +153,9 @@ http://localhost:8000
 | /api/user/organizations/delete-organization                                                       |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required querystring organizationid  | boolean  | invalid-organizationid                          |
-|                                      |          |  * invalid-organizationid                       |
 |                                      |          |  * missing querystring organizationid           |
 |                                      |          |  * invalid querystring organizationid           |
 |                                      |          | invalid-account                                 |
-|                                      |          |  * invalid-account                              |
 |                                      |          |  * accessing account does not own organization  |
 |--------------------------------------|----------|-------------------------------------------------|
 
@@ -188,11 +163,9 @@ http://localhost:8000
 | /api/user/organizations/invitation                                                                                |
 | RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS--------------------------------------|
 | required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                            |
-|                                    |          |                 |  * invalid-invitationid                         |
 |                                    |          |                 |  * missing querystring invitationid             |
 |                                    |          |                 |  * invalid querystring invitationid             |
 |                                    |          |                 | invalid-account                                 |
-|                                    |          |                 |  * invalid-account                              |
 |                                    |          |                 |  * accessing account is not organization owner  |
 |------------------------------------|----------|-----------------|-------------------------------------------------|
 
@@ -200,23 +173,19 @@ http://localhost:8000
 | /api/user/organizations/invitations                                                                                   |
 | RECEIVES--------------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
 | required querystring accountid                | array    | invalid-accountid                 | environment PAGE_SIZE  |
-| optional querystring offset (integer)         |          |  * invalid-accountid              |                        |
-| optional querystring limit (integer)          |          |  * missing querystring accountid  |                        |
-| optional querystring all (boolean)            |          |  * invalid querystring accountid  |                        |
-| optional querystring organizationid (string)  |          | invalid-account                   |                        |
-|                                               |          |  * invalid-account                |                        |
-|                                               |          |  * ineligible accessing account   |                        |
+| optional querystring offset (integer)         |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)          |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)            |          | invalid-account                   |                        |
+| optional querystring organizationid (string)  |          |  * ineligible accessing account   |                        |
 |-----------------------------------------------|----------|-----------------------------------|------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/user/organizations/invitations-count                                      |
 | RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
 | required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * invalid-accountid              |
 |                                 |          |  * missing querystring accountid  |
 |                                 |          |  * invalid querystring accountid  |
 |                                 |          | invalid-account                   |
-|                                 |          |  * invalid-account                |
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
 
@@ -224,11 +193,9 @@ http://localhost:8000
 | /api/user/organizations/membership                                                                         |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS-------------------------------------------------|
 | required querystring membershipid  | object   | invalid-membershipid                                       |
-|                                    |          |  * invalid-membershipid                                    |
 |                                    |          |  * missing querystring membershipid                        |
 |                                    |          |  * invalid querystring membershipid                        |
 |                                    |          | invalid-account                                            |
-|                                    |          |  * invalid-account                                         |
 |                                    |          |  * accessing account must be organization member or owner  |
 |------------------------------------|----------|------------------------------------------------------------|
 
@@ -236,23 +203,19 @@ http://localhost:8000
 | /api/user/organizations/memberships                                                                                   |
 | RECEIVES--------------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
 | required querystring accountid                | array    | invalid-accountid                 | environment PAGE_SIZE  |
-| optional querystring offset (integer)         |          |  * invalid-accountid              |                        |
-| optional querystring limit (integer)          |          |  * missing querystring accountid  |                        |
-| optional querystring all (boolean)            |          |  * invalid querystring accountid  |                        |
-| optional querystring organizationid (string)  |          | invalid-account                   |                        |
-|                                               |          |  * invalid-account                |                        |
-|                                               |          |  * ineligible accessing account   |                        |
+| optional querystring offset (integer)         |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)          |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)            |          | invalid-account                   |                        |
+| optional querystring organizationid (string)  |          |  * ineligible accessing account   |                        |
 |-----------------------------------------------|----------|-----------------------------------|------------------------|
 
 |--------------------------------------------------------------------------------|
 | /api/user/organizations/memberships-count                                      |
 | RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
 | required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * invalid-accountid              |
 |                                 |          |  * missing querystring accountid  |
 |                                 |          |  * invalid querystring accountid  |
 |                                 |          | invalid-account                   |
-|                                 |          |  * invalid-account                |
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
 
@@ -260,11 +223,9 @@ http://localhost:8000
 | /api/user/organizations/open-invitation                                                                |
 | RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS---------------------------|
 | required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                 |
-|                                    |          |                 |  * invalid-invitationid              |
 |                                    |          |                 |  * missing querystring invitationid  |
 |                                    |          |                 |  * invalid querystring invitationid  |
 |                                    |          |                 | invalid-invitation                   |
-|                                    |          |                 |  * invalid-invitation                |
 |                                    |          |                 |  * querystring invitationid is used  |
 |------------------------------------|----------|-----------------|--------------------------------------|
 
@@ -272,11 +233,9 @@ http://localhost:8000
 | /api/user/organizations/open-invitation-organization                                 |
 | RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
 | required querystring invitationid  | object   | invalid-invitationid                 |
-|                                    |          |  * invalid-invitationid              |
 |                                    |          |  * missing querystring invitationid  |
 |                                    |          |  * invalid querystring invitationid  |
 |                                    |          | invalid-invitation                   |
-|                                    |          |  * invalid-invitation                |
 |                                    |          |  * querystring invitationid is used  |
 |------------------------------------|----------|--------------------------------------|
 
@@ -284,11 +243,9 @@ http://localhost:8000
 | /api/user/organizations/organization                                                                |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS----------------------------------------|
 | required querystring organizationid  | object   | invalid-organizationid                            |
-|                                      |          |  * invalid-organizationid                         |
 |                                      |          |  * missing querystring organizationid             |
 |                                      |          |  * invalid querystring organizationid             |
 |                                      |          | invalid-account                                   |
-|                                      |          |  * invalid-account                                |
 |                                      |          |  * accessing account must be organization member  |
 |--------------------------------------|----------|---------------------------------------------------|
 
@@ -296,11 +253,9 @@ http://localhost:8000
 | /api/user/organizations/organization-membership                                                     |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS----------------------------------------|
 | required querystring organizationid  | object   | invalid-organizationid                            |
-|                                      |          |  * invalid-organizationid                         |
 |                                      |          |  * missing querystring organizationid             |
 |                                      |          |  * invalid querystring organizationid             |
 |                                      |          | invalid-account                                   |
-|                                      |          |  * invalid-account                                |
 |                                      |          |  * accessing account must be organization member  |
 |--------------------------------------|----------|---------------------------------------------------|
 
@@ -308,11 +263,9 @@ http://localhost:8000
 | /api/user/organizations/organizations                                                                          |
 | RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------| CONFIGURATION----------|
 | required querystring accountid         | array    | invalid-accountid                 | environment PAGE_SIZE  |
-| optional querystring offset (integer)  |          |  * invalid-accountid              |                        |
-| optional querystring limit (integer)   |          |  * missing querystring accountid  |                        |
-| optional querystring all (boolean)     |          |  * invalid querystring accountid  |                        |
-|                                        |          | invalid-account                   |                        |
-|                                        |          |  * invalid-account                |                        |
+| optional querystring offset (integer)  |          |  * missing querystring accountid  |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid  |                        |
+| optional querystring all (boolean)     |          | invalid-account                   |                        |
 |                                        |          |  * ineligible accessing account   |                        |
 |----------------------------------------|----------|-----------------------------------|------------------------|
 
@@ -320,11 +273,9 @@ http://localhost:8000
 | /api/user/organizations/organizations-count                                    |
 | RECEIVES------------------------| RETURNS--| EXCEPTIONS------------------------|
 | required querystring accountid  | integer  | invalid-accountid                 |
-|                                 |          |  * invalid-accountid              |
 |                                 |          |  * missing querystring accountid  |
 |                                 |          |  * invalid querystring accountid  |
 |                                 |          | invalid-account                   |
-|                                 |          |  * invalid-account                |
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
 
@@ -332,15 +283,12 @@ http://localhost:8000
 | /api/user/organizations/set-organization-owner                                                    |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required querystring organizationid  | object   | invalid-organizationid                          |
-|                                      |          |  * invalid-organizationid                       |
 |                                      |          |  * missing querystring organizationid           |
 |                                      |          |  * invalid querystring organizationid           |
 |                                      |          | invalid-accountid                               |
-|                                      |          |  * invalid-accountid                            |
 |                                      |          |  * posted accountid is missing                  |
 |                                      |          |  * posted accountid is invalid                  |
 |                                      |          | invalid-account                                 |
-|                                      |          |  * invalid-account                              |
 |                                      |          |  * accessing account is not organization owner  |
 |                                      |          |  * posted accountid is organization owner       |
 |                                      |          |  * posted accountid is not member               |
@@ -350,21 +298,16 @@ http://localhost:8000
 | /api/user/organizations/update-organization                                                       |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required posted email                | object   | invalid-organizationid                          |
-| required posted name                 |          |  * invalid-organizationid                       |
-| required querystring organizationid  |          |  * missing querystring organizationid           |
-| required posted name                 |          |  * invalid querystring organizationid           |
-| required posted email                |          | invalid-account                                 |
-|                                      |          |  * invalid-account                              |
-|                                      |          |  * accessing account is not organization owner  |
+| required posted name                 |          |  * missing querystring organizationid           |
+| required querystring organizationid  |          |  * invalid querystring organizationid           |
+| required posted name                 |          | invalid-account                                 |
+| required posted email                |          |  * accessing account is not organization owner  |
 |                                      |          | invalid-organization-name                       |
-|                                      |          |  * invalid-organization-name                    |
 |                                      |          |  * missing posted name                          |
 |                                      |          | invalid-organization-name-length                |
-|                                      |          |  * invalid-organization-name-length             |
 |                                      |          |  * posted name is too short                     |
 |                                      |          |  * posted name is too long                      |
 |                                      |          | invalid-organization-email                      |
-|                                      |          |  * invalid-organization-email                   |
 |                                      |          |  * missing posted email                         |
 |                                      |          |  * invalid posted email                         |
 |--------------------------------------|----------|-------------------------------------------------|

@@ -1,6 +1,5 @@
 const dashboard = require('@layeredapps/dashboard')
 const organizations = require('../../../../../index.js')
-const sequelize = require('sequelize')
 
 module.exports = {
   post: async (req) => {
@@ -75,7 +74,7 @@ module.exports = {
       throw new Error('invalid-account')
     }
     await organizations.Storage.Invitation.update({
-      acceptedAt: sequelize.literal('CURRENT_TIMESTAMP')
+      acceptedAt: new Date()
     }, {
       where: {
         invitationid: req.query.invitationid

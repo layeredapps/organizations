@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
+const ScreenshotData = require('../../../../screenshot-data.js')
 
 describe('/administrator/organizations/index', () => {
   describe('before', () => {
@@ -31,7 +32,7 @@ describe('/administrator/organizations/index', () => {
         'display-name': user2.profile.firstName,
         'display-email': user2.profile.contactEmail
       })
-      await await TestHelper.createInvitation(owner)
+      await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user2, owner)
       const req = TestHelper.createRequest('/administrator/organizations')
       req.account = administrator.account
@@ -64,6 +65,8 @@ describe('/administrator/organizations/index', () => {
         { hover: '#administrator-menu-container' },
         { click: '/administrator/organizations' }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const container = doc.getElementById('organizations-chart-container')

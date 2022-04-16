@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
+const ScreenshotData = require('../../../../screenshot-data.js')
 
 describe('/administrator/organizations/membership', () => {
   describe('before', () => {
@@ -63,6 +64,9 @@ describe('/administrator/organizations/membership', () => {
         { click: '/administrator/organizations/memberships' },
         { click: `/administrator/organizations/membership?membershipid=${user.membership.membershipid}` }
       ]
+      global.pageSize = 50
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorIndex)
+      global.packageJSON.dashboard.server.push(ScreenshotData.administratorMemberships)
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const tbody = doc.getElementById(user.membership.membershipid)

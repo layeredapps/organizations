@@ -17,14 +17,14 @@
       </div>
       <div class="charts" id="created-chart-container">
         <div class="chart">
-          <h2>Organizations created in last 365 days</h2>
-          <div className="metrics" id="created-highlights">
+          <h2>Created in last 365 days</h2>
+          <div class="metrics" id="created-highlights">
           </div>
           <div class="graph">
             <div class="values" id="created-values"></div>
             <div class="columns">
               <div class="padder">
-                <ol id="created-chart"></ol>
+                <ol id="created-chart" class="threesixfive"></ol>
               </div>
               <legend>
                 <span>Today</span>
@@ -57,27 +57,27 @@
     <template id="metric-highlights">
       <ul>
         <li>
-          ${highlight.today}
+          ${highlight.todayFormatted}
           <span>today</span>
         </li>
         <li>
-          ${highlight.yesterday}
+          ${highlight.yesterdayFormatted}
           <span>yesterday</span>
         </li>
         <li>
-          ${highlight.last7Days}
+          ${highlight.last7DaysFormatted}
           <span>last 7 days</span>
         </li>
         <li>
-          ${highlight.last30Days}
+          ${highlight.last30DaysFormatted}
           <span>last 30 days</span>
         </li>
         <li>
-          ${highlight.last90Days}
+          ${highlight.last90DaysFormatted}
           <span>last 90 days</span>
         </li>
         <li>
-          ${highlight.total}
+          ${highlight.totalFormatted}
           <span>all time</span>
         </li>
       </ul>

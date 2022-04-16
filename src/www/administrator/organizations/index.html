@@ -17,13 +17,13 @@
       <div class="charts" id="organizations-chart-container">
         <div class="chart">
           <h2>Organizations created in last 90 days</h2>
-          <div className="metrics" id="organizations-highlights">
+          <div class="metrics" id="organizations-highlights">
           </div>
           <div class="graph">
             <div class="values" id="organizations-values"></div>
             <div class="columns">
               <div class="padder">
-                <ol id="organizations-chart"></ol>
+                <ol id="organizations-chart" class="ninety"></ol>
               </div>
               <legend>
                 <span>Today</span>
@@ -36,13 +36,13 @@
       <div class="charts" id="memberships-chart-container">
         <div class="chart">
           <h2>Memberships created in last 90 days</h2>
-          <div className="metrics" id="memberships-highlights">
+          <div class="metrics" id="memberships-highlights">
           </div>
           <div class="graph">
             <div class="values" id="memberships-values"></div>
             <div class="columns">
               <div class="padder">
-                <ol id="memberships-chart"></ol>
+                <ol id="memberships-chart" class="ninety"></ol>
               </div>
               <legend>
                 <span>Today</span>
@@ -55,13 +55,13 @@
       <div class="charts" id="invitations-chart-container">
         <div class="chart">
           <h2>Invitations created in last 90 days</h2>
-          <div className="metrics" id="invitations-highlights">
+          <div class="metrics" id="invitations-highlights">
           </div>
           <div class="graph">
             <div class="values" id="invitations-values"></div>
             <div class="columns">
               <div class="padder">
-                <ol id="invitations-chart"></ol>
+                <ol id="invitations-chart" class="ninety"></ol>
               </div>
               <legend>
                 <span>Today</span>
@@ -81,27 +81,27 @@
     <template id="metric-highlights">
       <ul>
         <li>
-          ${highlight.today}
+          ${highlight.todayFormatted}
           <span>today</span>
         </li>
         <li>
-          ${highlight.yesterday}
+          ${highlight.yesterdayFormatted}
           <span>yesterday</span>
         </li>
         <li>
-          ${highlight.last7Days}
+          ${highlight.last7DaysFormatted}
           <span>last 7 days</span>
         </li>
         <li>
-          ${highlight.last30Days}
+          ${highlight.last30DaysFormatted}
           <span>last 30 days</span>
         </li>
         <li>
-          ${highlight.last90Days}
+          ${highlight.last90DaysFormatted}
           <span>last 90 days</span>
         </li>
         <li>
-          ${highlight.total}
+          ${highlight.totalFormatted}
           <span>all time</span>
         </li>
       </ul>

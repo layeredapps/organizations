@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.13
+@layeredapps/dashboard 0.0.22
 http://localhost:8000
 
 Administrator menu:
@@ -60,7 +60,7 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /account/signout                                      GUEST  FULLSCREEN GET             @layeredapps/dashboard     @layeredapps/dashboard    
 /account/signout-complete                             GUEST  FULLSCREEN                 static-page                @layeredapps/dashboard    
 /account/verify                                       GUEST  FULLSCREEN GET POST        @layeredapps/dashboard     @layeredapps/dashboard    
-/administrator                                                                          static-page                @layeredapps/dashboard    
+/administrator                                                          GET             @layeredapps/dashboard     @layeredapps/dashboard    
 /administrator/account                                                  GET             @layeredapps/dashboard     @layeredapps/dashboard    
 /administrator/account-profiles                                         GET             @layeredapps/dashboard     @layeredapps/dashboard    
 /administrator/account-reset-codes                                      GET             @layeredapps/dashboard     @layeredapps/dashboard    
@@ -99,6 +99,7 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/administrator/delete-account                                       DELETE          @layeredapps/dashboard                               
 /api/administrator/deleted-accounts                                     GET             @layeredapps/dashboard                               
 /api/administrator/deleted-accounts-count                               GET             @layeredapps/dashboard                               
+/api/administrator/metric-keys                                          GET             @layeredapps/dashboard                               
 /api/administrator/organizations/invitation                             GET             /src/www                                             
 /api/administrator/organizations/invitations                            GET             /src/www                                             
 /api/administrator/organizations/invitations-count                      GET             /src/www                                             

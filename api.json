@@ -6,7 +6,6 @@
     "receives": [],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ]
@@ -58,7 +57,6 @@
     "receives": [],
     "exceptions": {
       "invalid-membershipid": [
-        "invalid-membershipid",
         "missing querystring membershipid",
         "invalid querystring membershipid"
       ]
@@ -108,7 +106,6 @@
     "receives": [],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "unspecified querystring organizationid",
         "invalid querystring organizationid"
       ]
@@ -159,21 +156,17 @@
     ],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-secret-code": [
-        "invalid-secret-code",
         "missing posted secret-code"
       ],
       "invalid-secret-code-length": [
-        "invalid-secret-code-length",
         "posted secret-code too short",
         "posted secret-code too long"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not organization owner"
       ]
     },
@@ -193,34 +186,27 @@
     ],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ],
       "invalid-invitation": [
-        "invalid-invitation",
         "querystring invitationid has been used",
         "posted secret-code has been used",
-        "invalid-invitation",
         "querystring invitationid is not open invitation"
       ],
       "invalid-secret-code": [
-        "invalid-secret-code",
         "missing posted secret-code",
         "invalid posted secret-code"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is organization owner",
         "accessing account is organization member"
       ],
       "invalid-profileid": [
-        "invalid-profileid",
         "missing posted profileid",
         "invalid posted profileid"
       ],
       "invalid-profile": [
-        "invalid-profile",
         "ineligible posted profileid is missing fields"
       ]
     },
@@ -241,21 +227,17 @@
     ],
     "exceptions": {
       "invalid-organization-name": [
-        "invalid-organization-name",
         "missing posted name"
       ],
       "invalid-organization-name-length": [
-        "invalid-organization-name-length",
         "posted name too short",
         "posted name too long"
       ],
       "invalid-organization-email": [
-        "invalid-organization-email",
         "missing posted email",
         "invalid posted email"
       ],
       "invalid-profile": [
-        "invalid-profile",
         "missing posted profileid",
         "invalid posted profileid",
         "ineligible posted profileid missing fields"
@@ -274,16 +256,13 @@
     "receives": [],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ],
       "invalid-invitation": [
-        "invalid-invitation",
         "querystring invitationid is used invitation"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not organization owner"
       ]
     },
@@ -300,12 +279,10 @@
     "receives": [],
     "exceptions": {
       "invalid-membershipid": [
-        "invalid-membershipid",
         "missing querystring membershipid",
         "invalid querystring membershipid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not membership or organization owner"
       ]
     },
@@ -322,12 +299,10 @@
     "receives": [],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account does not own organization"
       ]
     },
@@ -344,12 +319,10 @@
     "receives": [],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not organization owner"
       ]
     },
@@ -368,12 +341,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -395,12 +366,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -419,12 +388,10 @@
     "receives": [],
     "exceptions": {
       "invalid-membershipid": [
-        "invalid-membershipid",
         "missing querystring membershipid",
         "invalid querystring membershipid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account must be organization member or owner"
       ]
     },
@@ -441,12 +408,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -468,12 +433,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -492,12 +455,10 @@
     "receives": [],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ],
       "invalid-invitation": [
-        "invalid-invitation",
         "querystring invitationid is used"
       ]
     },
@@ -514,12 +475,10 @@
     "receives": [],
     "exceptions": {
       "invalid-invitationid": [
-        "invalid-invitationid",
         "missing querystring invitationid",
         "invalid querystring invitationid"
       ],
       "invalid-invitation": [
-        "invalid-invitation",
         "querystring invitationid is used"
       ]
     },
@@ -538,12 +497,10 @@
     "receives": [],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account must be organization member"
       ]
     },
@@ -560,12 +517,10 @@
     "receives": [],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account must be organization member"
       ]
     },
@@ -582,12 +537,10 @@
     "receives": [],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -608,12 +561,10 @@
     ],
     "exceptions": {
       "invalid-accountid": [
-        "invalid-accountid",
         "missing querystring accountid",
         "invalid querystring accountid"
       ],
       "invalid-account": [
-        "invalid-account",
         "ineligible accessing account"
       ]
     },
@@ -632,17 +583,14 @@
     "receives": [],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-accountid": [
-        "invalid-accountid",
         "posted accountid is missing",
         "posted accountid is invalid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not organization owner",
         "posted accountid is organization owner",
         "posted accountid is not member"
@@ -664,25 +612,20 @@
     ],
     "exceptions": {
       "invalid-organizationid": [
-        "invalid-organizationid",
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
       "invalid-account": [
-        "invalid-account",
         "accessing account is not organization owner"
       ],
       "invalid-organization-name": [
-        "invalid-organization-name",
         "missing posted name"
       ],
       "invalid-organization-name-length": [
-        "invalid-organization-name-length",
         "posted name is too short",
         "posted name is too long"
       ],
       "invalid-organization-email": [
-        "invalid-organization-email",
         "missing posted email",
         "invalid posted email"
       ]

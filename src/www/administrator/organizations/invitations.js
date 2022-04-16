@@ -19,7 +19,7 @@ async function beforeRequest (req) {
   const offset = req.query ? req.query.offset || 0 : 0
   let createdChartDays, createdChartHighlights, createdChartValues
   if (offset === 0) {
-    req.query.keys = dashboard.Metrics.metricKeys('invitations-created', 90).join(',')
+    req.query.keys = dashboard.Metrics.metricKeys('invitations-created', 365).join(',')
     const createdChart = await global.api.administrator.MetricKeys.get(req)
     const createdChartMaximum = dashboard.Metrics.maximumDay(createdChart)
     createdChartDays = dashboard.Metrics.days(createdChart, createdChartMaximum)

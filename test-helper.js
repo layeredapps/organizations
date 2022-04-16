@@ -1,4 +1,6 @@
 /* eslint-env mocha */
+global.appid = global.appid || 'tests'
+global.language = global.language || 'en'
 global.applicationPath = global.applicationPath || __dirname
 global.testConfiguration = global.testConfiguration || {}
 global.testConfiguration.userProfileFields = ['full-name', 'contact-email']

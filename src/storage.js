@@ -144,13 +144,31 @@ module.exports = async () => {
   })
   await sequelize.sync({ alter: true, force: true })
   Organization.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'organizations-created', new Date())
+    if (global.disableMetrics) {
+      return
+    }
+    await metrics.aggregate(object.dataValues.appid, 'organizations-created', object.dataValues.createdAt)
   })
   Membership.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'memberships-created', new Date())
+    if (global.disableMetrics) {
+      return
+    }
+    await metrics.aggregate(object.dataValues.appid, 'memberships-created', object.dataValues.createdAt)
   })
   Invitation.afterCreate(async (object) => {
-    await metrics.aggregate(object.dataValues.appid, 'invitations-created', new Date())
+    if (global.disableMetrics) {
+      return
+    }
+    await metrics.aggregate(object.dataValues.appid, 'invitations-created', object.dataValues.createdAt)
+  })
+  Invitation.afterBulkUpdate(async (object) => {
+    if (global.disableMetrics) {
+      return
+    }
+    if (object.attributes.acceptedAt) {
+      const invitation = await Invitation.findOne({ where: object.where, attributes: ['appid'] })
+      await metrics.aggregate(invitation.dataValues.appid, 'invitations-accepted', object.attributes.acceptedAt)
+    }
   })
   return {
     sequelize,

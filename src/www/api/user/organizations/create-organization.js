@@ -41,6 +41,7 @@ module.exports = {
       throw new Error('invalid-organization-email')
     }
     const organizationInfo = {
+      appid: req.appid || global.appid,
       ownerid: req.query.accountid,
       name: req.body.name,
       email: req.body.email

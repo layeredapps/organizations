@@ -27,7 +27,7 @@ async function beforeRequest (req) {
     }
     return
   }
-  const membership = await await global.api.administrator.organizations.Membership.get(req)
+  const membership = await global.api.administrator.organizations.Membership.get(req)
   if (!membership) {
     throw new Error('invalid-membershipid')
   }

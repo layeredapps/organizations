@@ -24,7 +24,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
         'display-name': user1.profile.firstName,
         'display-email': user1.profile.contactEmail
       })
-      await await TestHelper.createInvitation(owner)
+      await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user1, owner)
       global.userProfileFields = ['full-name', 'contact-email']
       const owner2 = await TestHelper.createUser()
@@ -45,7 +45,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
         'display-name': user2.profile.firstName,
         'display-email': user2.profile.contactEmail
       })
-      await await TestHelper.createInvitation(owner2)
+      await TestHelper.createInvitation(owner2)
       await TestHelper.acceptInvitation(user2, owner2)
       global.userProfileFields = ['contact-email', 'full-name']
       const user3 = await TestHelper.createUser()
@@ -54,7 +54,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
         'display-name': user3.profile.firstName,
         'display-email': user3.profile.contactEmail
       })
-      await await TestHelper.createInvitation(owner2)
+      await TestHelper.createInvitation(owner2)
       await TestHelper.acceptInvitation(user3, owner2)
       const req = TestHelper.createRequest('/api/administrator/organizations/memberships-count')
       req.account = administrator.account

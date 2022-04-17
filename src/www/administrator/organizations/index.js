@@ -12,39 +12,21 @@ async function beforeRequest (req) {
   const organizationsChartMaximum = dashboard.Metrics.maximumDay(organizationsChart)
   const organizationsChartDays = dashboard.Metrics.days(organizationsChart, organizationsChartMaximum)
   const organizationsChartHighlights = dashboard.Metrics.highlights(organizationsChart, organizationsChartDays)
-  const organizationsChartValues = [
-    { object: 'object', value: organizationsChartMaximum },
-    { object: 'object', value: Math.floor(organizationsChartMaximum * 0.75) },
-    { object: 'object', value: Math.floor(organizationsChartMaximum * 0.5) },
-    { object: 'object', value: Math.floor(organizationsChartMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const organizationsChartValues = dashboard.Metrics.chartValues(organizationsChartMaximum)
   // memberships-created chart
   req.query.keys = dashboard.Metrics.metricKeys('memberships-created', 90).join(',')
   const membershipsChart = await global.api.administrator.MetricKeys.get(req)
   const membershipsChartMaximum = dashboard.Metrics.maximumDay(membershipsChart)
   const membershipsChartDays = dashboard.Metrics.days(membershipsChart, membershipsChartMaximum)
   const membershipsChartHighlights = dashboard.Metrics.highlights(membershipsChart, membershipsChartDays)
-  const membershipsChartValues = [
-    { object: 'object', value: membershipsChartMaximum },
-    { object: 'object', value: Math.floor(membershipsChartMaximum * 0.75) },
-    { object: 'object', value: Math.floor(membershipsChartMaximum * 0.5) },
-    { object: 'object', value: Math.floor(membershipsChartMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const membershipsChartValues = dashboard.Metrics.chartValues(membershipsChartMaximum)
   // invitations-created chart
   req.query.keys = dashboard.Metrics.metricKeys('invitations-created', 90).join(',')
   const invitationsChart = await global.api.administrator.MetricKeys.get(req)
   const invitationsChartMaximum = dashboard.Metrics.maximumDay(invitationsChart)
   const invitationsChartDays = dashboard.Metrics.days(invitationsChart, invitationsChartMaximum)
   const invitationsChartHighlights = dashboard.Metrics.highlights(invitationsChart, invitationsChartDays)
-  const invitationsChartValues = [
-    { object: 'object', value: invitationsChartMaximum },
-    { object: 'object', value: Math.floor(invitationsChartMaximum * 0.75) },
-    { object: 'object', value: Math.floor(invitationsChartMaximum * 0.5) },
-    { object: 'object', value: Math.floor(invitationsChartMaximum * 0.25) },
-    { object: 'object', value: 0 }
-  ]
+  const invitationsChartValues = dashboard.Metrics.chartValues(invitationsChartMaximum)
   req.data = { organizationsChartDays, organizationsChartHighlights, organizationsChartValues, membershipsChartDays, membershipsChartHighlights, membershipsChartValues, invitationsChartDays, invitationsChartHighlights, invitationsChartValues }
 }
 

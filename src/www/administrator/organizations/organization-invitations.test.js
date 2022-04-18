@@ -46,7 +46,6 @@ describe('/administrator/organizations/organization-invitations', function () {
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
     delete (req1.screenshots)
-    delete (req1.filename)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest(`/administrator/organizations/organization-invitations?organizationid=${user.organization.organizationid}&offset=1`)
     req2.account = administrator.account

@@ -52,7 +52,6 @@ describe('/administrator/organizations/memberships', function () {
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
     delete (req1.screenshots)
-    delete (req1.filename)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest('/administrator/organizations/memberships?offset=1')
     req2.account = administrator.account

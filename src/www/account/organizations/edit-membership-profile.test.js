@@ -374,6 +374,7 @@ describe('/account/organizations/edit-membership-profile', () => {
         { click: `/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

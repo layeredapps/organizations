@@ -81,6 +81,7 @@ describe('/account/organizations/index', () => {
         { hover: '#account-menu-container' },
         { click: '/account/organizations' }
       ]
+      global.pageSize = 50
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const row = doc.getElementById(user.membership.organizationid)

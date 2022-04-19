@@ -103,6 +103,7 @@ describe('/account/organizations/edit-organization', () => {
         { click: `/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

@@ -56,6 +56,7 @@ describe('/account/organizations/create-organization', () => {
         { click: '/account/organizations/create-organization' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]

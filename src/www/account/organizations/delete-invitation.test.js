@@ -104,6 +104,7 @@ describe('/account/organizations/delete-invitation', () => {
         { click: `/account/organizations/delete-invitation?invitationid=${owner.invitation.invitationid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post(req)
       const doc = TestHelper.extractDoc(result.html)
       const message = doc.getElementById('message-container').child[0]

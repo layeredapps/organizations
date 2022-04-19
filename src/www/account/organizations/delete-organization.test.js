@@ -105,6 +105,7 @@ describe('/account/organizations/delete-organization', () => {
         { click: `/account/organizations/delete-organization?organizationid=${owner.organization.organizationid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       await req.post()
       const req2 = TestHelper.createRequest(`/api/user/organizations/organization?organizationid=${owner.organization.organizationid}`)
       req2.account = owner.account

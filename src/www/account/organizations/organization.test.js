@@ -86,6 +86,7 @@ describe('/account/organizations/organization', () => {
         { click: '/account/organizations/organizations' },
         { click: `/account/organizations/organization?organizationid=${owner.organization.organizationid}` }
       ]
+      global.pageSize = 50
       const result = await req.get()
       const doc = TestHelper.extractDoc(result.html)
       const tbody = doc.getElementById(owner.organization.organizationid)

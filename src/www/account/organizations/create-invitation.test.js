@@ -108,6 +108,7 @@ describe('/account/organizations/create-invitation', () => {
         { click: `/account/organizations/create-invitation?organizationid=${owner.organization.organizationid}` },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')

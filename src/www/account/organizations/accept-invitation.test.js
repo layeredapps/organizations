@@ -103,6 +103,7 @@ describe('/account/organizations/accept-invitation', () => {
         { click: '/account/organizations/accept-invitation' },
         { fill: '#submit-form' }
       ]
+      global.pageSize = 50
       global.membershipProfileFields = ['display-name', 'display-email']
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

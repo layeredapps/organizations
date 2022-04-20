@@ -31,7 +31,7 @@ describe('/api/user/organizations/create-membership', () => {
           'display-name': user2.profile.firstName,
           'display-email': user2.profile.contactEmail
         })
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user2.account
         req.session = user2.session
         req.body = {
@@ -69,7 +69,7 @@ describe('/api/user/organizations/create-membership', () => {
           'display-name': user.profile.firstName,
           'display-email': user.profile.contactEmail
         })
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -102,7 +102,7 @@ describe('/api/user/organizations/create-membership', () => {
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -133,7 +133,7 @@ describe('/api/user/organizations/create-membership', () => {
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -165,7 +165,7 @@ describe('/api/user/organizations/create-membership', () => {
           profileid: owner.profile.profileid
         })
         await TestHelper.createInvitation(owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = owner.account
         req.session = owner.session
         req.body = {
@@ -203,7 +203,7 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
         await TestHelper.createInvitation(owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -235,7 +235,7 @@ describe('/api/user/organizations/create-membership', () => {
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -267,7 +267,7 @@ describe('/api/user/organizations/create-membership', () => {
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -306,7 +306,7 @@ describe('/api/user/organizations/create-membership', () => {
           'display-email': user.profile.contactEmail
         })
         global.userProfileFields = global.membershipProfileFields = ['display-name', 'display-email']
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -352,7 +352,7 @@ describe('/api/user/organizations/create-membership', () => {
           lifespan: 'single'
         })
         await TestHelper.acceptInvitation(user2, owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = user.account
         req.session = user.session
         req.body = {
@@ -389,7 +389,7 @@ describe('/api/user/organizations/create-membership', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+      const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -418,7 +418,7 @@ describe('/api/user/organizations/create-membership', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+      const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {
@@ -449,7 +449,7 @@ describe('/api/user/organizations/create-membership', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/api/user/organizations/create-membership`)
+      const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {

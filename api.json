@@ -10,9 +10,7 @@
         "invalid querystring invitationid"
       ]
     },
-    "redacts": [
-      "secretCodeHash"
-    ],
+    "redacts": [],
     "returns": [
       "object"
     ],
@@ -159,6 +157,10 @@
         "missing querystring organizationid",
         "invalid querystring organizationid"
       ],
+      "invalid-lifespan": [
+        "missing posted lifespan",
+        "invalid posted lifespan"
+      ],
       "invalid-secret-code": [
         "missing posted secret-code"
       ],
@@ -185,13 +187,9 @@
       "required posted profileid"
     ],
     "exceptions": {
-      "invalid-invitationid": [
-        "missing querystring invitationid",
-        "invalid querystring invitationid"
-      ],
       "invalid-invitation": [
-        "querystring invitationid has been used",
-        "posted secret-code has been used",
+        "invitation has been used",
+        "invitation has been terminated",
         "querystring invitationid is not open invitation"
       ],
       "invalid-secret-code": [
@@ -312,6 +310,48 @@
     ],
     "configuration": []
   },
+  "/api/user/organizations/invitation-memberships-count": {
+    "url": "/api/user/organizations/invitation-memberships-count",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-account": [
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "integer"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/invitation-memberships": {
+    "url": "/api/user/organizations/invitation-memberships",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-account": [
+        "ineligible accessing account"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "array"
+    ],
+    "configuration": [
+      "environment PAGE_SIZE"
+    ]
+  },
   "/api/user/organizations/invitation": {
     "url": "/api/user/organizations/invitation",
     "verb": "get",
@@ -326,9 +366,7 @@
         "accessing account is not organization owner"
       ]
     },
-    "redacts": [
-      "secretCodeHash"
-    ],
+    "redacts": [],
     "returns": [
       "object"
     ],
@@ -482,9 +520,7 @@
         "querystring invitationid is used"
       ]
     },
-    "redacts": [
-      "secretCodeHash"
-    ],
+    "redacts": [],
     "returns": [
       "object"
     ],
@@ -575,6 +611,50 @@
     "configuration": [
       "environment PAGE_SIZE"
     ]
+  },
+  "/api/user/organizations/secret-invitation": {
+    "url": "/api/user/organizations/secret-invitation",
+    "verb": "get",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-secret-code": [
+        "missing querystring secret-code",
+        "invalid querystring secret-code"
+      ],
+      "invalid-invitation": [
+        "querystring invitationid is used"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
+  },
+  "/api/user/organizations/set-invitation-terminated": {
+    "url": "/api/user/organizations/set-invitation-terminated",
+    "verb": "patch",
+    "auth": false,
+    "receives": [],
+    "exceptions": {
+      "invalid-invitationid": [
+        "missing querystring invitationid",
+        "invalid querystring invitationid"
+      ],
+      "invalid-account": [
+        "accessing account is not organization owner"
+      ],
+      "invalid-invitation": [
+        "invitation is not multi-use",
+        "invitation is already terminated"
+      ]
+    },
+    "redacts": [],
+    "returns": [
+      "object"
+    ],
+    "configuration": []
   },
   "/api/user/organizations/set-organization-owner": {
     "url": "/api/user/organizations/set-organization-owner",

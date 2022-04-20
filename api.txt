@@ -1,13 +1,13 @@
-@layeredapps/dashboard 0.0.41
+@layeredapps/dashboard 0.0.44
 http://localhost:8000
 
-|--------------------------------------------------------------------------------------------------------|
-| /api/administrator/organizations/invitation                                                            |
-| RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS---------------------------|
-| required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                 |
-|                                    |          |                 |  * missing querystring invitationid  |
-|                                    |          |                 |  * invalid querystring invitationid  |
-|------------------------------------|----------|-----------------|--------------------------------------|
+|--------------------------------------------------------------------------------------|
+| /api/administrator/organizations/invitation                                          |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|------------------------------------|----------|--------------------------------------|
 
 |-----------------------------------------------------------------------------------|
 | /api/administrator/organizations/invitations                                      |
@@ -76,8 +76,11 @@ http://localhost:8000
 | /api/user/organizations/create-invitation                                                         |
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required posted secret-code          | object   | invalid-organizationid                          |
-| required querystring organizationid  |          |  * missing querystring organizationid           |
-| required posted secret-code          |          |  * invalid querystring organizationid           |
+| required posted lifespan             |          |  * missing querystring organizationid           |
+| required querystring organizationid  |          |  * invalid querystring organizationid           |
+| required posted secret-code          |          | invalid-lifespan                                |
+|                                      |          |  * missing posted lifespan                      |
+|                                      |          |  * invalid posted lifespan                      |
 |                                      |          | invalid-secret-code                             |
 |                                      |          |  * missing posted secret-code                   |
 |                                      |          | invalid-secret-code-length                      |
@@ -87,28 +90,25 @@ http://localhost:8000
 |                                      |          |  * accessing account is not organization owner  |
 |--------------------------------------|----------|-------------------------------------------------|
 
-|-----------------------------------------------------------------------------------------------------|
-| /api/user/organizations/create-membership                                                           |
-| RECEIVES---------------------------| RETURNS--| EXCEPTIONS------------------------------------------|
-| required posted profileid          | object   | invalid-invitationid                                |
-| required posted secret-code        |          |  * missing querystring invitationid                 |
-| required querystring invitationid  |          |  * invalid querystring invitationid                 |
-| required posted secret-code        |          | invalid-invitation                                  |
-| required posted profileid          |          |  * querystring invitationid has been used           |
-|                                    |          |  * posted secret-code has been used                 |
-|                                    |          |  * querystring invitationid is not open invitation  |
-|                                    |          | invalid-secret-code                                 |
-|                                    |          |  * missing posted secret-code                       |
-|                                    |          |  * invalid posted secret-code                       |
-|                                    |          | invalid-account                                     |
-|                                    |          |  * accessing account is organization owner          |
-|                                    |          |  * accessing account is organization member         |
-|                                    |          | invalid-profileid                                   |
-|                                    |          |  * missing posted profileid                         |
-|                                    |          |  * invalid posted profileid                         |
-|                                    |          | invalid-profile                                     |
-|                                    |          |  * ineligible posted profileid is missing fields    |
-|------------------------------------|----------|-----------------------------------------------------|
+|-----------------------------------------------------------------------------------------------|
+| /api/user/organizations/create-membership                                                     |
+| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------------------------|
+| required posted profileid    | object   | invalid-invitation                                  |
+| required posted secret-code  |          |  * invitation has been used                         |
+| required posted secret-code  |          |  * invitation has been terminated                   |
+| required posted profileid    |          |  * querystring invitationid is not open invitation  |
+|                              |          | invalid-secret-code                                 |
+|                              |          |  * missing posted secret-code                       |
+|                              |          |  * invalid posted secret-code                       |
+|                              |          | invalid-account                                     |
+|                              |          |  * accessing account is organization owner          |
+|                              |          |  * accessing account is organization member         |
+|                              |          | invalid-profileid                                   |
+|                              |          |  * missing posted profileid                         |
+|                              |          |  * invalid posted profileid                         |
+|                              |          | invalid-profile                                     |
+|                              |          |  * ineligible posted profileid is missing fields    |
+|------------------------------|----------|-----------------------------------------------------|
 
 |-------------------------------------------------------------------------------------------------|
 | /api/user/organizations/create-organization                                                     |
@@ -159,15 +159,35 @@ http://localhost:8000
 |                                      |          |  * accessing account does not own organization  |
 |--------------------------------------|----------|-------------------------------------------------|
 
-|-------------------------------------------------------------------------------------------------------------------|
-| /api/user/organizations/invitation                                                                                |
-| RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS--------------------------------------|
-| required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                            |
-|                                    |          |                 |  * missing querystring invitationid             |
-|                                    |          |                 |  * invalid querystring invitationid             |
-|                                    |          |                 | invalid-account                                 |
-|                                    |          |                 |  * accessing account is not organization owner  |
-|------------------------------------|----------|-----------------|-------------------------------------------------|
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation                                                              |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                            |
+|                                    |          |  * missing querystring invitationid             |
+|                                    |          |  * invalid querystring invitationid             |
+|                                    |          | invalid-account                                 |
+|                                    |          |  * accessing account is not organization owner  |
+|------------------------------------|----------|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation-memberships                                                                |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------| CONFIGURATION----------|
+| required querystring invitationid  | array    | invalid-invitationid                 | environment PAGE_SIZE  |
+|                                    |          |  * missing querystring invitationid  |                        |
+|                                    |          |  * invalid querystring invitationid  |                        |
+|                                    |          | invalid-account                      |                        |
+|                                    |          |  * ineligible accessing account      |                        |
+|------------------------------------|----------|--------------------------------------|------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/user/organizations/invitation-memberships-count                                 |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | integer  | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|                                    |          | invalid-account                      |
+|                                    |          |  * ineligible accessing account      |
+|------------------------------------|----------|--------------------------------------|
 
 |-----------------------------------------------------------------------------------------------------------------------|
 | /api/user/organizations/invitations                                                                                   |
@@ -219,15 +239,15 @@ http://localhost:8000
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
 
-|--------------------------------------------------------------------------------------------------------|
-| /api/user/organizations/open-invitation                                                                |
-| RECEIVES---------------------------| RETURNS--| REDACTS---------| EXCEPTIONS---------------------------|
-| required querystring invitationid  | object   | secretCodeHash  | invalid-invitationid                 |
-|                                    |          |                 |  * missing querystring invitationid  |
-|                                    |          |                 |  * invalid querystring invitationid  |
-|                                    |          |                 | invalid-invitation                   |
-|                                    |          |                 |  * querystring invitationid is used  |
-|------------------------------------|----------|-----------------|--------------------------------------|
+|--------------------------------------------------------------------------------------|
+| /api/user/organizations/open-invitation                                              |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                 |
+|                                    |          |  * missing querystring invitationid  |
+|                                    |          |  * invalid querystring invitationid  |
+|                                    |          | invalid-invitation                   |
+|                                    |          |  * querystring invitationid is used  |
+|------------------------------------|----------|--------------------------------------|
 
 |--------------------------------------------------------------------------------------|
 | /api/user/organizations/open-invitation-organization                                 |
@@ -278,6 +298,29 @@ http://localhost:8000
 |                                 |          | invalid-account                   |
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
+
+|-------------------------------------------------------------------------------------|
+| /api/user/organizations/secret-invitation                                           |
+| RECEIVES--------------------------| RETURNS--| EXCEPTIONS---------------------------|
+| required querystring secret-code  | object   | invalid-secret-code                  |
+|                                   |          |  * missing querystring secret-code   |
+|                                   |          |  * invalid querystring secret-code   |
+|                                   |          | invalid-invitation                   |
+|                                   |          |  * querystring invitationid is used  |
+|-----------------------------------|----------|--------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/organizations/set-invitation-terminated                                               |
+| RECEIVES---------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
+| required querystring invitationid  | object   | invalid-invitationid                            |
+|                                    |          |  * missing querystring invitationid             |
+|                                    |          |  * invalid querystring invitationid             |
+|                                    |          | invalid-account                                 |
+|                                    |          |  * accessing account is not organization owner  |
+|                                    |          | invalid-invitation                              |
+|                                    |          |  * invitation is not multi-use                  |
+|                                    |          |  * invitation is already terminated             |
+|------------------------------------|----------|-------------------------------------------------|
 
 |---------------------------------------------------------------------------------------------------|
 | /api/user/organizations/set-organization-owner                                                    |

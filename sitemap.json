@@ -931,6 +931,18 @@
       "verbs": "DELETE",
       "authDescription": ""
     },
+    "/api/user/organizations/invitation-memberships-count": {
+      "jsFilePath": "/src/www/api/user/organizations/invitation-memberships-count.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/invitation-memberships": {
+      "jsFilePath": "/src/www/api/user/organizations/invitation-memberships.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
     "/api/user/organizations/invitation": {
       "jsFilePath": "/src/www/api/user/organizations/invitation.js",
       "templateDescription": "",
@@ -1001,6 +1013,18 @@
       "jsFilePath": "/src/www/api/user/organizations/organizations.js",
       "templateDescription": "",
       "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/secret-invitation": {
+      "jsFilePath": "/src/www/api/user/organizations/secret-invitation.js",
+      "templateDescription": "",
+      "verbs": "GET",
+      "authDescription": ""
+    },
+    "/api/user/organizations/set-invitation-terminated": {
+      "jsFilePath": "/src/www/api/user/organizations/set-invitation-terminated.js",
+      "templateDescription": "",
+      "verbs": "PATCH",
       "authDescription": ""
     },
     "/api/user/organizations/set-organization-owner": {

@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.41
+@layeredapps/dashboard 0.0.44
 http://localhost:8000
 
 Administrator menu:
@@ -137,6 +137,8 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/organizations/delete-membership                               DELETE          /src/www                                             
 /api/user/organizations/delete-organization                             DELETE          /src/www                                             
 /api/user/organizations/invitation                                      GET             /src/www                                             
+/api/user/organizations/invitation-memberships                          GET             /src/www                                             
+/api/user/organizations/invitation-memberships-count                    GET             /src/www                                             
 /api/user/organizations/invitations                                     GET             /src/www                                             
 /api/user/organizations/invitations-count                               GET             /src/www                                             
 /api/user/organizations/membership                                      GET             /src/www                                             
@@ -148,6 +150,8 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/organizations/organization-membership                         GET             /src/www                                             
 /api/user/organizations/organizations                                   GET             /src/www                                             
 /api/user/organizations/organizations-count                             GET             /src/www                                             
+/api/user/organizations/secret-invitation                               GET             /src/www                                             
+/api/user/organizations/set-invitation-terminated                       PATCH           /src/www                                             
 /api/user/organizations/set-organization-owner                          PATCH           /src/www                                             
 /api/user/organizations/update-organization                             PATCH           /src/www                                             
 /api/user/profile                                                       GET             @layeredapps/dashboard                               

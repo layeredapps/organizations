@@ -55,8 +55,13 @@ module.exports = async () => {
       type: DataTypes.STRING,
       defaultValue: global.appid
     },
-    secretCodeHash: DataTypes.STRING,
+    secretCode: DataTypes.STRING,
+    multi: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     acceptedAt: dateType,
+    terminatedAt: dateType,
     // 'createdAt' is specified for each model because mysql/mariadb truncate
     // the ms and this makes the return order unpredictable and throws off the
     // test suites expecting the write order to match the return order

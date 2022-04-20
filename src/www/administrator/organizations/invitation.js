@@ -27,19 +27,25 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invitation, 'invitation')
-  if (req.data.invitation.acceptedAt) {
-    const notAccepted = doc.getElementById('not-accepted')
-    notAccepted.parentNode.removeChild(notAccepted)
+  const removeElements = []
+  if (req.data.invitation.multi) {
+    removeElements.push('single-use', 'accepted-row')
+    if (req.data.invitation.terminatedAt) {
+      removeElements.push('not-terminated')
+    } else {
+      removeElements.push('terminated')
+    }
   } else {
-    const accepted = doc.getElementById('accepted')
-    accepted.parentNode.removeChild(accepted)
+    removeElements.push('multi-use', 'terminated-row')
+    if (req.data.invitation.acceptedAt) {
+      removeElements.push('not-accepted')
+    } else {
+      removeElements.push('accepted')
+    }
   }
-  if (req.data.invitation.membershipid) {
-    const noMembership = doc.getElementById('no-membership')
-    noMembership.parentNode.removeChild(noMembership)
-  } else {
-    const membership = doc.getElementById('membership')
-    membership.parentNode.removeChild(membership)
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

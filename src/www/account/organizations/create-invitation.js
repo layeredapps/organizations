@@ -28,7 +28,6 @@ async function beforeRequest (req) {
 async function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.organization, 'organization')
-  doc.getElementById('organization-name').setAttribute('value', req.data.organization.name)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, req.data.organization, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
@@ -37,7 +36,7 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  doc.getElementById('secret-code').setAttribute('value', req.body ? (req.body['secret-code'] || '').split("'").join('&quot;') : dashboard.UUID.random(10))
+  doc.getElementById('secret-code').setAttribute('value', dashboard.UUID.random(16))
   return dashboard.Response.end(req, res, doc)
 }
 

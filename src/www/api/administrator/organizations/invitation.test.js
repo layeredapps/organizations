@@ -59,27 +59,4 @@ describe('/api/administrator/organizations/invitation', () => {
       assert.strictEqual(invitation.object, 'invitation')
     })
   })
-
-  describe('redacts', () => {
-    it('secretCodeHash', async () => {
-      const administrator = await TestHelper.createOwner()
-      const owner = await TestHelper.createUser()
-      global.userProfileFields = ['display-name', 'display-email']
-      await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
-        'display-email': owner.profile.contactEmail
-      })
-      await TestHelper.createOrganization(owner, {
-        email: owner.profile.displayEmail,
-        name: 'My organization',
-        profileid: owner.profile.profileid
-      })
-      await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/api/administrator/organizations/invitation?invitationid=${owner.invitation.invitationid}`)
-      req.account = administrator.account
-      req.session = administrator.session
-      const invitation = await req.get()
-      assert.strictEqual(invitation.secretCodeHash, undefined)
-    })
-  })
 })

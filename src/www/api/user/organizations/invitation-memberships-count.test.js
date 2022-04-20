@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/organizations/invitation', () => {
+describe('/api/user/organizations/invitation-memberships-count', () => {
   describe('exceptions', () => {
     describe('invalid-invitationid', () => {
       it('missing querystring invitationid', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/invitation')
+        const req = TestHelper.createRequest('/api/user/organizations/invitation-memberships-count')
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/user/organizations/invitation', () => {
 
       it('invalid querystring invitationid', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/invitation?invitationid=invalid')
+        const req = TestHelper.createRequest('/api/user/organizations/invitation-memberships-count?invitationid=invalid')
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -35,7 +35,7 @@ describe('/api/user/organizations/invitation', () => {
     })
 
     describe('invalid-account', () => {
-      it('accessing account is not organization owner', async () => {
+      it('ineligible accessing account', async () => {
         const owner = await TestHelper.createUser()
         const user = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
@@ -53,9 +53,8 @@ describe('/api/user/organizations/invitation', () => {
           profileid: owner.profile.profileid
         })
         await TestHelper.createInvitation(owner)
-        await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/invitation?invitationid=${owner.invitation.invitationid}`)
+        const req = TestHelper.createRequest(`/api/user/organizations/invitation-memberships-count?invitationid=${owner.invitation.invitationid}`)
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -70,7 +69,7 @@ describe('/api/user/organizations/invitation', () => {
   })
 
   describe('returns', () => {
-    it('object', async () => {
+    it('integer', async () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
@@ -83,11 +82,21 @@ describe('/api/user/organizations/invitation', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/api/user/organizations/invitation?invitationid=${owner.invitation.invitationid}`)
+      for (let i = 0, len = global.pageSize + 1; i < len; i++) {
+        const user = await TestHelper.createUser()
+        await TestHelper.createProfile(user, {
+          'display-name': user.profile.firstName,
+          'display-email': user.profile.contactEmail
+        })
+        await TestHelper.acceptInvitation(user, owner)
+      }
+      const req = TestHelper.createRequest(`/api/user/organizations/invitation-memberships-count?invitationid=${owner.invitation.invitationid}`)
       req.account = owner.account
       req.session = owner.session
-      const invitation = await req.get()
-      assert.strictEqual(invitation.object, 'invitation')
+      req.filename = __filename
+      req.saveResponse = true
+      const result = await req.get()
+      assert.strictEqual(result, global.pageSize + 1)
     })
   })
 })

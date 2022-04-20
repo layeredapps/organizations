@@ -70,8 +70,6 @@ async function renderPage (req, res, messageTemplate) {
     element.parentNode.removeChild(element)
   }
   if (req.body) {
-    const idField = doc.getElementById('invitationid')
-    idField.setAttribute('value', (req.body.invitationid || '').split("'").join('&quot;'))
     const codeField = doc.getElementById('secret-code')
     codeField.setAttribute('value', (req.body['secret-code'] || '').split("'").join('&quot;'))
     if (req.body.profileid) {
@@ -85,9 +83,6 @@ async function renderPage (req, res, messageTemplate) {
         }
       }
     }
-  } else if (req.query && req.query.invitationid) {
-    const idField = doc.getElementById('invitationid')
-    idField.setAttribute('value', req.query.invitationid)
   }
   return dashboard.Response.end(req, res, doc)
 }
@@ -99,17 +94,15 @@ async function submitForm (req, res) {
   if (req.query && req.query.message === 'success') {
     return renderPage(req, res)
   }
-  if (!req.body.invitationid || !req.body.invitationid.length) {
-    return renderPage(req, res, 'invalid-invitationid')
-  }
   req.query = req.query || {}
-  req.query.invitationid = req.body.invitationid
   try {
-    const invitation = await global.api.user.organizations.OpenInvitation.get(req)
-    if (invitation.acceptedAt) {
+    req.query['secret-code'] = req.body['secret-code']
+    const invitation = await global.api.user.organizations.SecretInvitation.get(req)
+    if (invitation.acceptedAt || invitation.terminatedAt) {
       return renderPage(req, res, 'invalid-invitation')
     }
     req.query.organizationid = invitation.organizationid
+    req.query.invitationid = invitation.invitationid
     const organization = await global.api.user.organizations.OpenInvitationOrganization.get(req)
     if (req.account.accountid === organization.ownerid) {
       return renderPage(req, res, 'invalid-account')

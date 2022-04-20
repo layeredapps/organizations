@@ -3,40 +3,33 @@ const organizations = require('../../../../../index.js')
 
 module.exports = {
   post: async (req) => {
-    if (!req.query || !req.query.invitationid) {
-      throw new Error('invalid-invitationid')
-    }
     if (!req.body) {
       throw new Error('invalid-secret-code')
     }
-    req.body['secret-code'] = req.body['secret-code'].trim ? req.body['secret-code'].trim() : req.body['secret-code']
     if (!req.body['secret-code'] || !req.body['secret-code'].length) {
       throw new Error('invalid-secret-code')
     }
-    let invitation = await dashboard.StorageCache.get(req.query.invitationid)
+    let invitation = await dashboard.StorageCache.get(req.body['secret-code'])
     if (!invitation) {
       const invitationInfo = await organizations.Storage.Invitation.findOne({
         where: {
-          invitationid: req.query.invitationid
+          secretCode: req.body['secret-code']
         }
       })
       if (!invitationInfo) {
-        throw new Error('invalid-invitationid')
+        throw new Error('invalid-secret-code')
       }
       invitation = {}
       for (const field of invitationInfo._options.attributes) {
         invitation[field] = invitationInfo.get(field)
       }
-      await dashboard.StorageCache.set(req.query.invitationid, invitation)
+      await dashboard.StorageCache.set(req.body['secret-code'], invitation)
     }
-    if (invitation.acceptedAt) {
+    if (invitation.acceptedAt || invitation.terminatedAt) {
       throw new Error('invalid-invitation')
     }
-    const secretCodeHash = await dashboard.Hash.sha512Hash(req.body['secret-code'], req.alternativesha512, req.alternativeDashboardEncryptionKey)
-    if (invitation.secretCodeHash !== secretCodeHash) {
-      throw new Error('invalid-secret-code')
-    }
-    req.query.organizationid = invitation.organizationid
+    req.query = req.query || {}
+    req.query.invitationid = invitation.invitationid
     const organization = await global.api.user.organizations.OpenInvitationOrganization.get(req)
     if (!organization) {
       throw new Error('invalid-organizationid')
@@ -65,6 +58,7 @@ module.exports = {
         throw new Error('invalid-profile')
       }
     }
+    req.query.organizationid = organization.organizationid
     let membership
     try {
       membership = await global.api.user.organizations.OrganizationMembership.get(req)
@@ -73,13 +67,15 @@ module.exports = {
     if (membership) {
       throw new Error('invalid-account')
     }
-    await organizations.Storage.Invitation.update({
-      acceptedAt: new Date()
-    }, {
-      where: {
-        invitationid: req.query.invitationid
-      }
-    })
+    if (!invitation.multi) {
+      await organizations.Storage.Invitation.update({
+        acceptedAt: new Date()
+      }, {
+        where: {
+          invitationid: req.query.invitationid
+        }
+      })
+    }
     await dashboard.StorageCache.remove(req.query.invitationid)
     const membershipInfo = {
       appid: req.appid || global.appid,

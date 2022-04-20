@@ -30,35 +30,38 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.organization, 'organization')
+  const removeElements = []
   if (req.data.invitations && req.data.invitations.length) {
     dashboard.HTML.renderTable(doc, req.data.invitations, 'invitation-row', 'invitations-table')
     for (const invitation of req.data.invitations) {
-      if (invitation.acceptedAt) {
-        const notAccepted = doc.getElementById(`not-accepted-${invitation.invitationid}`)
-        notAccepted.parentNode.removeChild(notAccepted)
+      if (invitation.multi) {
+        removeElements.push(`single-${invitation.invitationid}`, `accepted-${invitation.invitationid}`)
+        if (invitation.terminated) {
+          removeElements.push(`open-${invitation.invitationid}`)
+        } else {
+          removeElements.push(`terminated-${invitation.invitationid}`)
+        }
       } else {
-        const acceptedElement = doc.getElementById(`accepted-${invitation.invitationid}`)
-        acceptedElement.parentNode.removeChild(acceptedElement)
-      }
-      if (invitation.membershipid) {
-        const noMembership = doc.getElementById(`no-membership-${invitation.invitationid}`)
-        noMembership.parentNode.removeChild(noMembership)
-      } else {
-        const membership = doc.getElementById(`membership-${invitation.invitationid}`)
-        membership.parentNode.removeChild(membership)
+        removeElements.push(`multi-${invitation.invitationid}`, `terminated-${invitation.invitationid}`)
+        if (invitation.acceptedAt) {
+          removeElements.push(`open-${invitation.invitationid}`)
+        } else {
+          removeElements.push(`accepted-${invitation.invitationid}`)
+        }
       }
     }
     if (req.data.total <= global.pageSize) {
-      const pageLinks = doc.getElementById('page-links')
-      pageLinks.parentNode.removeChild(pageLinks)
+      removeElements.push('page-links')
     } else {
       dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
     }
-    const noInvitations = doc.getElementById('no-invitations')
-    noInvitations.parentNode.removeChild(noInvitations)
+    removeElements.push('no-invitations')
   } else {
-    const invitationsTable = doc.getElementById('invitations-table')
-    invitationsTable.parentNode.removeChild(invitationsTable)
+    removeElements.push('invitations-table')
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

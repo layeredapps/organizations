@@ -12,9 +12,7 @@ describe('/api/user/organizations/create-invitation', () => {
         req.session = user.session
         req.body = {
           'secret-code': 'a code',
-          profileid: user.profile.profileid,
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          lifespan: 'multi'
         }
         let errorMessage
         try {
@@ -32,9 +30,7 @@ describe('/api/user/organizations/create-invitation', () => {
         req.session = user.session
         req.body = {
           'secret-code': 'a code',
-          profileid: user.profile.profileid,
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          lifespan: 'multi'
         }
         let errorMessage
         try {
@@ -43,6 +39,63 @@ describe('/api/user/organizations/create-invitation', () => {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-organizationid')
+      })
+    })
+
+    describe('invalid-lifespan', () => {
+      it('missing posted lifespan', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          'secret-code': 'oijoijoijoijoij',
+          lifespan: ''
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-lifespan')
+      })
+      it('invalid posted lifespan', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          'secret-code': 'oijoijoijoijoij',
+          lifespan: 'invalid'
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-lifespan')
       })
     })
 
@@ -63,7 +116,8 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = owner.account
         req.session = owner.session
         req.body = {
-          'secret-code': ''
+          'secret-code': '',
+          lifespan: 'multi'
         }
         let errorMessage
         try {
@@ -92,7 +146,8 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = owner.account
         req.session = owner.session
         req.body = {
-          'secret-code': '1'
+          'secret-code': '1',
+          lifespan: 'multi'
         }
         global.minimumInvitationCodeLength = 100
         let errorMessage
@@ -120,7 +175,8 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = owner.account
         req.session = owner.session
         req.body = {
-          'secret-code': '123456'
+          'secret-code': '123456',
+          lifespan: 'multi'
         }
         global.maximumInvitationCodeLength = 1
         let errorMessage
@@ -151,7 +207,8 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
-          'secret-code': 'a code'
+          'secret-code': 'a code',
+          lifespan: 'multi'
         }
         let errorMessage
         try {
@@ -181,7 +238,8 @@ describe('/api/user/organizations/create-invitation', () => {
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': '1234567890'
+        'secret-code': '1234567890',
+        lifespan: 'multi'
       }
       const invitation = await req.post()
       assert.strictEqual(invitation.object, 'invitation')
@@ -205,7 +263,8 @@ describe('/api/user/organizations/create-invitation', () => {
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': 'this-is-the-code'
+        'secret-code': 'this-is-the-code',
+        lifespan: 'multi'
       }
       req.filename = __filename
       req.saveResponse = true

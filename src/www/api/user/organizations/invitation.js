@@ -30,7 +30,6 @@ module.exports = {
     if (organization.ownerid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
-    delete (invitation.secretCodeHash)
     return invitation
   }
 }

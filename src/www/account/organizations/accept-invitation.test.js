@@ -30,7 +30,7 @@ describe('/account/organizations/accept-invitation', () => {
       })
       await TestHelper.createInvitation(owner)
       global.membershipProfileFields = ['full-name', 'contact-email']
-      const req = TestHelper.createRequest(`/account/organizations/accept-invitation?invitationid=${owner.invitation.invitationid}`)
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = user.account
       req.session = user.session
       const result = await req.get()
@@ -58,12 +58,11 @@ describe('/account/organizations/accept-invitation', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/account/organizations/accept-invitation?invitationid=${owner.invitation.invitationid}`)
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = user.account
       req.session = user.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
-        invitationid: owner.invitation.invitationid,
         profileid: user.profile.profileid
       }
       const result = await req.post()
@@ -87,12 +86,11 @@ describe('/account/organizations/accept-invitation', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/account/organizations/accept-invitation?invitationid=${owner.invitation.invitationid}`)
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = user.account
       req.session = user.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
-        invitationid: owner.invitation.invitationid,
         'display-name': user.profile.firstName,
         'display-email': user.profile.contactEmail
       }
@@ -127,12 +125,11 @@ describe('/account/organizations/accept-invitation', () => {
         profileid: owner.profile.profileid
       })
       await TestHelper.createInvitation(owner)
-      const req = TestHelper.createRequest(`/account/organizations/accept-invitation?invitationid=${owner.invitation.invitationid}`)
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': owner.invitation.secretCode,
-        invitationid: owner.invitation.invitationid
+        'secret-code': owner.invitation.secretCode
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -151,7 +148,6 @@ describe('/account/organizations/accept-invitation', () => {
       req.session = member.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
-        invitationid: owner.invitation.invitationid,
         profileid: member.profile.profileid
       }
       const result2 = await req.post()

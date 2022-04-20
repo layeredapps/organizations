@@ -51,6 +51,6 @@ module.exports = {
     })
     organization.ownerid = req.body.accountid
     await dashboard.StorageCache.remove(req.query.organizationid)
-    return organization
+    return global.api.user.organizations.Organization.get(req)
   }
 }

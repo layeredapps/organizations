@@ -7,7 +7,7 @@ describe('/api/user/organizations/organizations-count', () => {
     describe('invalid-accountid', () => {
       it('missing querystring accountid', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/organizations')
+        const req = TestHelper.createRequest('/api/user/organizations/organizations-count')
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -21,7 +21,7 @@ describe('/api/user/organizations/organizations-count', () => {
 
       it('invalid querystring accountid', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/organizations?accountid=invalid')
+        const req = TestHelper.createRequest('/api/user/organizations/organizations-count?accountid=invalid')
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -55,7 +55,7 @@ describe('/api/user/organizations/organizations-count', () => {
         await TestHelper.createInvitation(owner)
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/organizations?accountid=${owner.account.accountid}`)
+        const req = TestHelper.createRequest(`/api/user/organizations/organizations-count?accountid=${owner.account.accountid}`)
         req.account = user.account
         req.session = user.session
         let errorMessage

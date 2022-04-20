@@ -22,14 +22,19 @@
             <td>${invitation.createdAtFormatted}</td>
           </tr>
           <tr>
+            <th translate="yes">Type</th>
+            <td id="multi-use" translate="yes">Multi-use</td>
+            <td id="single-use" translate="yes">Single-use</td>
+          </tr>
+          <tr id="accepted-row">
             <th translate="yes">Accepted</th>
-            <td id="accepted" translate="yes">Yes</td>
+            <td id="accepted" translate="yes">${invitation.acceptedAtFormatted}</td>
             <td id="not-accepted" translate="yes">No</td>
           </tr>
-          <tr>
-            <th translate="yes">Membership</th>
-            <td id="membership"><a href="/account/organizations/membership?membershipid=${invitation.membershipid}">${invitation.membershipid}</a></td>
-            <td id="no-membership" translate="yes">Nobody</td>
+          <tr id="terminated-row">
+            <th translate="yes">Terminated</th>
+            <td id="terminated" translate="yes">${invitation.terminatedAtFormatted}</td>
+            <td id="not-terminated" translate="yes">No</td>
           </tr>
         </tbody>
       </table>

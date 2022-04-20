@@ -18,7 +18,8 @@ let organizations
 module.exports = {
   acceptInvitation,
   createInvitation,
-  createOrganization
+  createOrganization,
+  terminateInvitation
 }
 
 for (const x in TestHelper) {
@@ -58,13 +59,17 @@ async function createOrganization (user, properties) {
   return user.organization
 }
 
-async function createInvitation (owner) {
+async function createInvitation (owner, properties) {
   const code = 'invitation-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
   const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`, 'POST')
   req.account = owner.account
   req.session = owner.session
   req.body = {
-    'secret-code': code
+    'secret-code': code,
+    lifespan: 'multi'
+  }
+  for (const property in properties) {
+    req.body[property] = properties[property]
   }
   owner.invitation = await req.post()
   owner.invitation.secretCode = code
@@ -72,7 +77,7 @@ async function createInvitation (owner) {
 }
 
 async function acceptInvitation (user, owner) {
-  const req = TestHelper.createRequest(`/api/user/organizations/create-membership?invitationid=${owner.invitation.invitationid}`, 'POST')
+  const req = TestHelper.createRequest('/api/user/organizations/create-membership', 'POST')
   req.account = user.account
   req.session = user.session
   req.body = {
@@ -81,6 +86,14 @@ async function acceptInvitation (user, owner) {
   }
   user.membership = await req.post()
   return user.membership
+}
+
+async function terminateInvitation (owner) {
+  const req = TestHelper.createRequest(`/api/user/organizations/set-invitation-terminated?invitationid=${owner.invitation.invitationid}`, 'PATCH')
+  req.account = owner.account
+  req.session = owner.session
+  owner.invitation = await req.patch()
+  return owner.invitation
 }
 
 async function createProfile (user, properties) {

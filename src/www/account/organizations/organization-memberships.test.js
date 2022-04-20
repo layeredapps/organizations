@@ -48,6 +48,7 @@ describe('/account/organizations/organization-memberships', function () {
     global.pageSize = 50
     cachedResponses.returns = await req1.get()
     global.pageSize = 3
+    delete (req1.screenshots)
     cachedResponses.pageSize = await req1.get()
     const req2 = TestHelper.createRequest(`/account/organizations/organization-memberships?organizationid=${user.organization.organizationid}&offset=1`)
     req2.account = user.account

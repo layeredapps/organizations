@@ -52,8 +52,9 @@ describe('/api/user/organizations/open-invitation', () => {
           name: 'My organization',
           profileid: owner.profile.profileid
         })
-        await TestHelper.createInvitation(owner)
-        await TestHelper.createInvitation(owner)
+        await TestHelper.createInvitation(owner, {
+          lifespan: 'single'
+        })
         await TestHelper.acceptInvitation(user, owner)
         const req = TestHelper.createRequest(`/api/user/organizations/open-invitation?invitationid=${owner.invitation.invitationid}`)
         req.account = user.account
@@ -91,29 +92,6 @@ describe('/api/user/organizations/open-invitation', () => {
       req.saveResponse = true
       const invitation = await req.get()
       assert.strictEqual(invitation.object, 'invitation')
-    })
-  })
-
-  describe('redacts', () => {
-    it('secretCodeHash', async () => {
-      const owner = await TestHelper.createUser()
-      global.userProfileFields = ['display-name', 'display-email']
-      await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
-        'display-email': owner.profile.contactEmail
-      })
-      await TestHelper.createOrganization(owner, {
-        email: owner.profile.displayEmail,
-        name: 'My organization',
-        profileid: owner.profile.profileid
-      })
-      await TestHelper.createInvitation(owner)
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/organizations/open-invitation?invitationid=${owner.invitation.invitationid}`)
-      req.account = user.account
-      req.session = user.session
-      const invitation = await req.get()
-      assert.strictEqual(invitation.secretCodeHash, undefined)
     })
   })
 })

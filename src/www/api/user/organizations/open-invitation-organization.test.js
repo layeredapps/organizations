@@ -52,8 +52,9 @@ describe('/api/user/organizations/open-invitation-organization', () => {
           name: 'My organization',
           profileid: owner.profile.profileid
         })
-        await TestHelper.createInvitation(owner)
-        await TestHelper.createInvitation(owner)
+        await TestHelper.createInvitation(owner, {
+          lifespan: 'single'
+        })
         await TestHelper.acceptInvitation(user, owner)
         const req = TestHelper.createRequest(`/api/user/organizations/open-invitation-organization?invitationid=${owner.invitation.invitationid}`)
         req.account = user.account

@@ -1,5 +1,13 @@
 # Documentation for Organizations
 
+#### Shortcuts
+
+- [Documentation website](https://layeredapps.github.io)
+- [Module documentation](https://layeredapps.github.io/organizations-module)
+- [UI screenshots](https://layeredapps.github.io/organizations-ui)
+- [API documentation](https://layeredapps.github.io/organizations-api)
+- [Environment configuration](https://layeredapps.github.io/organizations-configuration)
+
 #### Index
 
 - [Introduction](#introduction)

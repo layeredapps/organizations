@@ -59,8 +59,9 @@ async function createOrganization (user, properties) {
   return user.organization
 }
 
+let invitationNumber = 0
 async function createInvitation (owner, properties) {
-  const code = 'invitation-' + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000)
+  const code = 'secret' + invitationNumber++
   const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`, 'POST')
   req.account = owner.account
   req.session = owner.session

@@ -11,7 +11,7 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
-          'secret-code': 'a code',
+          'secret-code': 'secret0001',
           lifespan: 'multi'
         }
         let errorMessage
@@ -29,7 +29,7 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
-          'secret-code': 'a code',
+          'secret-code': 'secret0002',
           lifespan: 'multi'
         }
         let errorMessage
@@ -207,7 +207,7 @@ describe('/api/user/organizations/create-invitation', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
-          'secret-code': 'a code',
+          'secret-code': 'secret0000',
           lifespan: 'multi'
         }
         let errorMessage
@@ -263,7 +263,7 @@ describe('/api/user/organizations/create-invitation', () => {
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': 'this-is-the-code',
+        'secret-code': 'secret0012',
         lifespan: 'multi'
       }
       req.filename = __filename

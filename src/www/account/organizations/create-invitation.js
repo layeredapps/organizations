@@ -50,6 +50,9 @@ async function submitForm (req, res) {
   if (!req.body['secret-code']) {
     return renderPage(req, res, 'invalid-secret-code')
   }
+  if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
+    return renderPage(req, res, 'invalid-secret-code')
+  }
   let invitation
   try {
     invitation = await global.api.user.organizations.CreateInvitation.post(req)

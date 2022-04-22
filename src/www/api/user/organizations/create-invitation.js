@@ -8,6 +8,9 @@ module.exports = {
     if (!req.body || !req.body['secret-code']) {
       throw new Error('invalid-secret-code')
     }
+    if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
+      throw new Error('invalid-secret-code')
+    }
     if (global.minimumInvitationCodeLength > req.body['secret-code'].length ||
       global.maximumInvitationCodeLength < req.body['secret-code'].length) {
       throw new Error('invalid-secret-code-length')

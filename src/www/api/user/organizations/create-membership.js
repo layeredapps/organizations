@@ -75,8 +75,9 @@ module.exports = {
           invitationid: req.query.invitationid
         }
       })
+      await dashboard.StorageCache.remove(`invitation_by_secret_${invitation.secretCode}`)
+      await dashboard.StorageCache.remove(req.query.invitationid)
     }
-    await dashboard.StorageCache.remove(req.query.invitationid)
     const membershipInfo = {
       appid: req.appid || global.appid,
       organizationid: invitation.organizationid,

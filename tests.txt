@@ -9,6 +9,14 @@
       Longest organization name length
         ✔ default 50
         ✔ Integer
+    MINIMUM_ORGANIZATION_PIN_LENGTH
+      Shortest organization PIN length
+        ✔ default 4
+        ✔ Integer
+    MAXIMUM_ORGANIZATION_PIN_LENGTH
+      Longest organization PIN length
+        ✔ default 6
+        ✔ Integer
     MINIMUM_INVITATION_CODE_LENGTH
       Shortest invitation code length
         ✔ default 6
@@ -49,6 +57,8 @@
       ✔ should accept valid existing profile
       ✔ should create organization (screenshots)
     errors
+      ✔ invalid-pin
+      ✔ duplicate-pin
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
@@ -135,6 +145,8 @@
     submit
       ✔ should apply organization update (screenshots)
     errors
+      ✔ invalid-pin
+      ✔ duplicate-pin
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
@@ -385,6 +397,9 @@
       invalid-invitation
         ✔ invitation has been used
         ✔ invitation has been terminated
+      invalid-organization-pin
+        ✔ missing posted organization-pin
+        ✔ invalid posted organization-pin
       invalid-secret-code
         ✔ missing posted secret-code
         ✔ invalid posted secret-code
@@ -624,6 +639,9 @@
       invalid-secret-code
         ✔ missing querystring secret-code
         ✔ invalid querystring secret-code
+      invalid-organization-pin
+        ✔ missing querystring organization-pin
+        ✔ invalid querystring organization-pin
       invalid-invitation
         ✔ querystring invitationid is used
     returns
@@ -664,6 +682,14 @@
         ✔ invalid querystring organizationid
       invalid-account
         ✔ accessing account is not organization owner
+      invalid-pin
+        ✔ missing posted pin
+        ✔ invalid posted pin is not alphanumeric
+      duplicate-pin
+        ✔ duplicate posted pin
+      invalid-pin-length
+        ✔ posted pin is too short
+        ✔ posted pin is too long
       invalid-organization-name
         ✔ missing posted name
       invalid-organization-name-length
@@ -675,9 +701,10 @@
     receives
       ✔ required posted name
       ✔ required posted email
+      ✔ required posted pin
     returns
       ✔ object
 
 
-  331 passing (11m)
+  349 passing (12m)
 

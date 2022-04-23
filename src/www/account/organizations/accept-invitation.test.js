@@ -136,7 +136,7 @@ describe('/account/organizations/accept-invitation', () => {
       req.session = owner.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
-        'organization-pin': '1230',
+        'organization-pin': '1230'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)

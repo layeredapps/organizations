@@ -91,7 +91,6 @@ describe('/api/user/organizations/create-membership', () => {
       })
     })
 
-
     describe('invalid-organization-pin', () => {
       it('missing posted organization-pin', async () => {
         const owner = await TestHelper.createUser()
@@ -159,7 +158,7 @@ describe('/api/user/organizations/create-membership', () => {
         assert.strictEqual(errorMessage, 'invalid-organization-pin')
       })
     })
-    
+
     describe('invalid-secret-code', () => {
       it('missing posted secret-code', async () => {
         const owner = await TestHelper.createUser()

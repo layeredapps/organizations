@@ -146,7 +146,7 @@ describe('/account/organizations/create-organization', () => {
 
     it('invalid-organization-name-length', async () => {
       const user = await TestHelper.createUser()
-      
+
       const req = TestHelper.createRequest('/account/organizations/create-organization')
       req.account = user.account
       req.session = user.session

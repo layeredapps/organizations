@@ -61,6 +61,5 @@ module.exports = {
     }
     await dashboard.StorageCache.remove(req.query.organizationid)
     return global.api.user.organizations.Organization.get(req)
-    
   }
 }

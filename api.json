@@ -192,6 +192,10 @@
         "invitation has been terminated",
         "querystring invitationid is not open invitation"
       ],
+      "invalid-organization-pin": [
+        "missing posted organization-pin",
+        "invalid posted organization-pin"
+      ],
       "invalid-secret-code": [
         "missing posted secret-code",
         "invalid posted secret-code"
@@ -622,6 +626,10 @@
         "missing querystring secret-code",
         "invalid querystring secret-code"
       ],
+      "invalid-organization-pin": [
+        "missing querystring organization-pin",
+        "invalid querystring organization-pin"
+      ],
       "invalid-invitation": [
         "querystring invitationid is used"
       ]
@@ -688,7 +696,8 @@
     "auth": false,
     "receives": [
       "required posted name",
-      "required posted email"
+      "required posted email",
+      "required posted pin"
     ],
     "exceptions": {
       "invalid-organizationid": [
@@ -697,6 +706,17 @@
       ],
       "invalid-account": [
         "accessing account is not organization owner"
+      ],
+      "invalid-pin": [
+        "missing posted pin",
+        "invalid posted pin is not alphanumeric"
+      ],
+      "duplicate-pin": [
+        "duplicate posted pin"
+      ],
+      "invalid-pin-length": [
+        "posted pin is too short",
+        "posted pin is too long"
       ],
       "invalid-organization-name": [
         "missing posted name"

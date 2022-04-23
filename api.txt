@@ -1,4 +1,4 @@
-@layeredapps/dashboard 0.0.53
+@layeredapps/dashboard 0.0.54
 http://localhost:8000
 
 |--------------------------------------------------------------------------------------|
@@ -90,25 +90,28 @@ http://localhost:8000
 |                                      |          |  * accessing account is not organization owner  |
 |--------------------------------------|----------|-------------------------------------------------|
 
-|-----------------------------------------------------------------------------------------------|
-| /api/user/organizations/create-membership                                                     |
-| RECEIVES---------------------| RETURNS--| EXCEPTIONS------------------------------------------|
-| required posted profileid    | object   | invalid-invitation                                  |
-| required posted secret-code  |          |  * invitation has been used                         |
-| required posted secret-code  |          |  * invitation has been terminated                   |
-| required posted profileid    |          |  * querystring invitationid is not open invitation  |
-|                              |          | invalid-secret-code                                 |
-|                              |          |  * missing posted secret-code                       |
-|                              |          |  * invalid posted secret-code                       |
-|                              |          | invalid-account                                     |
-|                              |          |  * accessing account is organization owner          |
-|                              |          |  * accessing account is organization member         |
-|                              |          | invalid-profileid                                   |
-|                              |          |  * missing posted profileid                         |
-|                              |          |  * invalid posted profileid                         |
-|                              |          | invalid-profile                                     |
-|                              |          |  * ineligible posted profileid is missing fields    |
-|------------------------------|----------|-----------------------------------------------------|
+|----------------------------------------------------------------------------------------------------|
+| /api/user/organizations/create-membership                                                          |
+| RECEIVES--------------------------| RETURNS--| EXCEPTIONS------------------------------------------|
+| required posted profileid         | object   | invalid-invitation                                  |
+| required posted secret-code       |          |  * invitation has been used                         |
+| required posted organization-pin  |          |  * invitation has been terminated                   |
+| required posted secret-code       |          |  * querystring invitationid is not open invitation  |
+| required posted profileid         |          | invalid-organization-pin                            |
+|                                   |          |  * missing posted organization-pin                  |
+|                                   |          |  * invalid posted organization-pin                  |
+|                                   |          | invalid-secret-code                                 |
+|                                   |          |  * missing posted secret-code                       |
+|                                   |          |  * invalid posted secret-code                       |
+|                                   |          | invalid-account                                     |
+|                                   |          |  * accessing account is organization owner          |
+|                                   |          |  * accessing account is organization member         |
+|                                   |          | invalid-profileid                                   |
+|                                   |          |  * missing posted profileid                         |
+|                                   |          |  * invalid posted profileid                         |
+|                                   |          | invalid-profile                                     |
+|                                   |          |  * ineligible posted profileid is missing fields    |
+|-----------------------------------|----------|-----------------------------------------------------|
 
 |-------------------------------------------------------------------------------------------------|
 | /api/user/organizations/create-organization                                                     |
@@ -299,15 +302,18 @@ http://localhost:8000
 |                                 |          |  * ineligible accessing account   |
 |---------------------------------|----------|-----------------------------------|
 
-|-------------------------------------------------------------------------------------|
-| /api/user/organizations/secret-invitation                                           |
-| RECEIVES--------------------------| RETURNS--| EXCEPTIONS---------------------------|
-| required querystring secret-code  | object   | invalid-secret-code                  |
-|                                   |          |  * missing querystring secret-code   |
-|                                   |          |  * invalid querystring secret-code   |
-|                                   |          | invalid-invitation                   |
-|                                   |          |  * querystring invitationid is used  |
-|-----------------------------------|----------|--------------------------------------|
+|----------------------------------------------------------------------------------------------|
+| /api/user/organizations/secret-invitation                                                    |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS-------------------------------|
+| required querystring organization-pin  | object   | invalid-secret-code                      |
+| required querystring secret-code       |          |  * missing querystring secret-code       |
+|                                        |          |  * invalid querystring secret-code       |
+|                                        |          | invalid-organization-pin                 |
+|                                        |          |  * missing querystring organization-pin  |
+|                                        |          |  * invalid querystring organization-pin  |
+|                                        |          | invalid-invitation                       |
+|                                        |          |  * querystring invitationid is used      |
+|----------------------------------------|----------|------------------------------------------|
 
 |-------------------------------------------------------------------------------------------------|
 | /api/user/organizations/set-invitation-terminated                                               |
@@ -342,9 +348,17 @@ http://localhost:8000
 | RECEIVES-----------------------------| RETURNS--| EXCEPTIONS--------------------------------------|
 | required posted email                | object   | invalid-organizationid                          |
 | required posted name                 |          |  * missing querystring organizationid           |
-| required querystring organizationid  |          |  * invalid querystring organizationid           |
-| required posted name                 |          | invalid-account                                 |
-| required posted email                |          |  * accessing account is not organization owner  |
+| required posted pin                  |          |  * invalid querystring organizationid           |
+| required querystring organizationid  |          | invalid-account                                 |
+| required posted name                 |          |  * accessing account is not organization owner  |
+| required posted email                |          | invalid-pin                                     |
+| required posted pin                  |          |  * missing posted pin                           |
+|                                      |          |  * invalid posted pin is not alphanumeric       |
+|                                      |          | duplicate-pin                                   |
+|                                      |          |  * duplicate posted pin                         |
+|                                      |          | invalid-pin-length                              |
+|                                      |          |  * posted pin is too short                      |
+|                                      |          |  * posted pin is too long                       |
 |                                      |          | invalid-organization-name                       |
 |                                      |          |  * missing posted name                          |
 |                                      |          | invalid-organization-name-length                |
@@ -356,4 +370,4 @@ http://localhost:8000
 |--------------------------------------|----------|-------------------------------------------------|
 
 
-2022-04-22T11:24:53.226Z
+2022-04-23T02:26:39.742Z

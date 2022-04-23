@@ -31,6 +31,13 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
+
+  const note = {
+    object: 'note',
+    min: global.minimumOrganizationPINLength,
+    max: global.maximumOrganizationPINLength
+  }
+  dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   const nameField = doc.getElementById('name')
   const emailField = doc.getElementById('email')
   const pinField = doc.getElementById('pin')

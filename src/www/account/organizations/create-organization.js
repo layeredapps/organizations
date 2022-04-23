@@ -61,6 +61,12 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
+  const note = {
+    object: 'note',
+    min: global.minimumOrganizationPINLength,
+    max: global.maximumOrganizationPINLength
+  }
+  dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   const profileFields = req.userProfileFields || global.membershipProfileFields
   const removeFields = [].concat(global.profileFields)
   if (req.data && req.data.profiles && req.data.profiles.length) {

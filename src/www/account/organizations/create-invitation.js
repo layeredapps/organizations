@@ -36,6 +36,12 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
+  const note = {
+    object: 'note',
+    min: global.minimumInvitationCodeLength,
+    max: global.maximumInvitationCodeLength
+  }
+  dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   doc.getElementById('organization-pin').setAttribute('value', req.data.organization.pin)
   doc.getElementById('secret-code').setAttribute('value', dashboard.UUID.random(global.minimumInvitationCodeLength))
   return dashboard.Response.end(req, res, doc)
@@ -53,6 +59,9 @@ async function submitForm (req, res) {
   }
   if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
     return renderPage(req, res, 'invalid-secret-code')
+  }
+  if (global.minimumInvitationCodeLength > req.body['secret-code'].length || global.maximumInvitationCodeLength < req.body['secret-code'].length) {
+    return renderPage(req, res, 'invalid-secret-code-length')
   }
   let invitation
   try {

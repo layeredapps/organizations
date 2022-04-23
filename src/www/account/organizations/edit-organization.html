@@ -25,7 +25,7 @@
           <div class="field">
             <div class="tiny-field">
               <input id="pin" name="pin" type="text"/>
-              <span class="field-note">Letters and numbers only</span>
+              <span id="note-container"></span>
             </div>
           </div>
         </div>
@@ -40,6 +40,11 @@
         </div>
       </form>
     </div>
+    <template id="alphanumeric-note">
+      <span class="field-note">
+        ${note.min} - ${note.max} characters using letters and numbers only
+      </span>
+    </template>
     <template id="success">
       <div class="success message" translate="yes">
         Success! Your organization information has been updated

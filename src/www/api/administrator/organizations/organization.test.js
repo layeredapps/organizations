@@ -47,7 +47,8 @@ describe('/api/administrator/organizations/organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       const req = TestHelper.createRequest(`/api/administrator/organizations/organization?organizationid=${owner.organization.organizationid}`)
       req.account = administrator.account

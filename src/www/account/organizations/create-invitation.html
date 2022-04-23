@@ -12,7 +12,7 @@
   <body>
     <div class="container">
       <h1 translate="yes">Create invitation for organization</h1>
-      <p translate="yes">Invitation codes allow people to join your organization.</p>
+      <p translate="yes">Users require the organization PIN and the invite code to accept invitations.  If you change the PIN</p>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/account/organizations/create-invitation?organizationid=${organization.organizationid}" name="submit-form">
         <div class="input-fields">
@@ -20,6 +20,13 @@
           <div class="checkbox-fields">
             <label class="field-label"><input id="single" name="lifespan" value="single" type="radio"> <span translate="yes">Single-use invitation</span></label>
             <label class="field-label"><input id="multi" name="lifespan" value="multi" type="radio"> <span translate="yes">Multi-use invitation</span></label>
+          </div>
+        </div>
+        <div class="input-fields">
+          <label class="field-label" for="secret-code" translate="yes">Organization PIN</label>
+          <div class="field">
+            <input id="organization-pin" name="organization-pin" type="text" readonly />
+            <span class="field-note">Edit the organization to change this</span>
           </div>
         </div>
         <div class="input-fields">
@@ -37,6 +44,11 @@
     <template id="unknown-error">
       <div class="error message" translate="yes">
         Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="duplicate-secret-code">
+      <div class="error message" translate="yes">
+        Error! The secret code has already been used
       </div>
     </template>
     <template id="invalid-secret-code">

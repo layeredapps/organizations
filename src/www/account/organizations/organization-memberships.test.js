@@ -18,7 +18,8 @@ describe('/account/organizations/organization-memberships', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '12345'
     })
     cachedMemberships.unshift(user.membership.membershipid)
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {

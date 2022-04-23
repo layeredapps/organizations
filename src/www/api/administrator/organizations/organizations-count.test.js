@@ -16,7 +16,8 @@ describe('/api/administrator/organizations/organizations-count', () => {
         await TestHelper.createOrganization(user, {
           email: user.profile.displayEmail,
           name: 'My organization',
-          profileid: user.profile.profileid
+          profileid: user.profile.profileid,
+          pin: `1234${i}`
         })
       }
       const req = TestHelper.createRequest('/api/administrator/organizations/organizations-count')

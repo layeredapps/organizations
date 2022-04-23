@@ -19,7 +19,8 @@ describe('/account/organizations/membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)
@@ -52,7 +53,8 @@ describe('/account/organizations/membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)
@@ -80,7 +82,8 @@ describe('/account/organizations/membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)
@@ -116,12 +119,14 @@ describe('/account/organizations/membership', () => {
         website: 'https://website.com'
       }
       const user = await TestHelper.createUser()
+      let pin = 0
       for (const field in fields) {
         global.userProfileFields = global.membershipProfileFields = ['display-name', 'display-email']
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: `1234${pin++}`
         })
         await TestHelper.createInvitation(owner)
         global.userProfileFields = global.membershipProfileFields = [field]

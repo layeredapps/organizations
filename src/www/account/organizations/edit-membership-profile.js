@@ -62,7 +62,7 @@ async function renderPage (req, res, messageTemplate) {
       if (!element) {
         continue
       }
-      element.attr.value = req.data.membership[field]
+      element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership[field]))
     }
   }
   return dashboard.Response.end(req, res, doc)

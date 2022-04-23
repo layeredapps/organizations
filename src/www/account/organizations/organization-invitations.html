@@ -23,7 +23,8 @@
               <th translate="yes">Created</th>
               <th translate="yes">Type</th>
               <th translate="yes">Status</th>
-              <th translate="yes">Code</th>
+              <th translate="yes">Organization PIN</th>
+              <th translate="yes">Secret code</th>
             </tr>
           </thead>
         </table>
@@ -44,6 +45,7 @@
         <td id="accepted-${invitation.invitationid}">Accepted</td>
         <td id="terminated-${invitation.invitationid}">Terminated</td>
         <td id="open-${invitation.invitationid}">Open</td>
+        <td>${invitation.organizationPIN}</td>
         <td>${invitation.secretCode}</td>
       </tr>
     </template>

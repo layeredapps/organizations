@@ -18,7 +18,8 @@ describe('/account/organizations/organizations', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '12345'
     })
     cachedOrganizations.unshift(user.membership.membershipid)
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -31,7 +32,8 @@ describe('/account/organizations/organizations', function () {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: `1234${i}`
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)

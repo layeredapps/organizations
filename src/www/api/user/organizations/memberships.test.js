@@ -27,7 +27,8 @@ describe('/api/user/organizations/memberships', function () {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: `12345${i}`
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)
@@ -36,7 +37,8 @@ describe('/api/user/organizations/memberships', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '12345'
     })
     cachedMemberships.unshift(user.membership.membershipid)
     organizationMemberships.unshift(user.membership.membershipid)
@@ -124,7 +126,8 @@ describe('/api/user/organizations/memberships', function () {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.createInvitation(owner)

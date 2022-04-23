@@ -15,7 +15,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'Owner\'s organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = user.account
@@ -41,7 +42,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -62,7 +64,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -85,7 +88,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -113,6 +117,71 @@ describe('/account/organizations/edit-organization', () => {
   })
 
   describe('errors', () => {
+    it('invalid-pin', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1234'
+      })
+      const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        name: 'My organization',
+        email: owner.profile.displayEmail,
+        pin: ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'invalid-pin')
+    })
+
+    it('duplicate-pin', async () => {
+      const other = await TestHelper.createUser()
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(other, {
+        'display-name': 'Person',
+        'display-email': 'person@email.com'
+      })
+      await TestHelper.createOrganization(other, {
+        email: other.profile.displayEmail,
+        name: 'My organization',
+        profileid: other.profile.profileid,
+        pin: 'abcde'
+      })
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1234'
+      })
+      const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        name: 'My organization',
+        email: owner.profile.displayEmail,
+        pin: 'abcde'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'duplicate-pin')
+    })
+
     it('invalid-organization-name', async () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
@@ -123,7 +192,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -148,7 +218,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -186,7 +257,8 @@ describe('/account/organizations/edit-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1234'
       })
       const req = TestHelper.createRequest(`/account/organizations/edit-organization?organizationid=${owner.organization.organizationid}`)
       req.session = owner.session

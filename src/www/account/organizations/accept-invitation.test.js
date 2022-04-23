@@ -26,7 +26,8 @@ describe('/account/organizations/accept-invitation', () => {
       await TestHelper.createOrganization(owner, {
         name: 'org-name',
         email: 'test@test.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1230'
       })
       await TestHelper.createInvitation(owner)
       global.membershipProfileFields = ['full-name', 'contact-email']
@@ -55,7 +56,8 @@ describe('/account/organizations/accept-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1230'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/account/organizations/accept-invitation')
@@ -63,6 +65,7 @@ describe('/account/organizations/accept-invitation', () => {
       req.session = user.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
+        'organization-pin': '1230',
         profileid: user.profile.profileid
       }
       const result = await req.post()
@@ -83,7 +86,8 @@ describe('/account/organizations/accept-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1230'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/account/organizations/accept-invitation')
@@ -91,6 +95,7 @@ describe('/account/organizations/accept-invitation', () => {
       req.session = user.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
+        'organization-pin': '1230',
         'display-name': user.profile.firstName,
         'display-email': user.profile.contactEmail
       }
@@ -122,14 +127,16 @@ describe('/account/organizations/accept-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '1230'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': owner.invitation.secretCode
+        'secret-code': owner.invitation.secretCode,
+        'organization-pin': '1230',
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -148,6 +155,7 @@ describe('/account/organizations/accept-invitation', () => {
       req.session = member.session
       req.body = {
         'secret-code': owner.invitation.secretCode,
+        'organization-pin': '1230',
         profileid: member.profile.profileid
       }
       const result2 = await req.post()

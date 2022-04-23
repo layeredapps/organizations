@@ -53,7 +53,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -80,7 +81,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -110,7 +112,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -140,7 +143,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -169,7 +173,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -200,7 +205,8 @@ describe('/api/user/organizations/create-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '4321'
         })
         const user = await TestHelper.createUser()
         const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
@@ -232,7 +238,8 @@ describe('/api/user/organizations/create-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '4321'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -257,7 +264,8 @@ describe('/api/user/organizations/create-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '4321'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account

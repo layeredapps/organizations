@@ -20,7 +20,8 @@ describe('/administrator/organizations/organization-invitations', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '12345'
     })
     global.pageSize = 2
     for (let i = 0, len = global.pageSize + 2; i < len; i++) {

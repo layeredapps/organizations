@@ -16,7 +16,8 @@ describe('/api/administrator/organizations/invitations-count', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: `1234${i}`
         })
         await TestHelper.createInvitation(owner)
       }

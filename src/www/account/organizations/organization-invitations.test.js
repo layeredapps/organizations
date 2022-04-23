@@ -18,7 +18,8 @@ describe('/account/organizations/organization-invitations', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '12345'
     })
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
       await TestHelper.createInvitation(user)
@@ -58,7 +59,8 @@ describe('/account/organizations/organization-invitations', function () {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()

@@ -71,15 +71,15 @@ async function renderPage (req, res, messageTemplate) {
   }
   if (req.body) {
     const codeField = doc.getElementById('secret-code')
-    codeField.setAttribute('value', (req.body['secret-code'] || '').split("'").join('&quot;'))
+    codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code'] || ''))
     if (req.body.profileid) {
-      dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', (req.body.profileid || '').split("'").join('&quot;'))
+      dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', dashboard.Format.replaceQuotes(req.body.profileid || ''))
     } else {
       const profileFields = req.userProfileFields || global.membershipProfileFields
       for (const field of profileFields) {
         if (req.body[field]) {
           const element = doc.getElementById(field)
-          element.setAttribute('value', (req.body[field] || '').split("'").join('&quot;'))
+          element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field] || ''))
         }
       }
     }
@@ -94,9 +94,19 @@ async function submitForm (req, res) {
   if (req.query && req.query.message === 'success') {
     return renderPage(req, res)
   }
+  req.body['organization-pin'] = req.body['organization-pin'].trim ? req.body['organization-pin'].trim() : req.body['organization-pin']
+  if (req.body['organization-pin'].match(/^[a-z0-9]+$/i) === null) {
+    return renderPage(req, res, 'invalid-organization-pin')
+  }
+
+  req.body['secret-code'] = req.body['secret-code'].trim ? req.body['secret-code'].trim() : req.body['secret-code']
+  if (req.body['secret-code'].match(/^[a-z0-9]+$/i) === null) {
+    return renderPage(req, res, 'invalid-secret-code')
+  }
   req.query = req.query || {}
+  req.query['organization-pin'] = req.body['organization-pin']
+  req.query['secret-code'] = req.body['secret-code']
   try {
-    req.query['secret-code'] = req.body['secret-code']
     const invitation = await global.api.user.organizations.SecretInvitation.get(req)
     if (invitation.acceptedAt || invitation.terminatedAt) {
       return renderPage(req, res, 'invalid-invitation')
@@ -119,6 +129,7 @@ async function submitForm (req, res) {
   } catch (error) {
     return renderPage(req, res, error.message)
   }
+
   if (req.body.profileid) {
     if (!req.data || !req.data.profiles || !req.data.profiles.length) {
       return renderPage(req, res, 'invalid-profileid')

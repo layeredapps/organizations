@@ -20,7 +20,8 @@ describe('/api/user/organizations/invitations', function () {
       await TestHelper.createOrganization(user, {
         email: user.profile.displayEmail,
         name: 'My organization',
-        profileid: user.profile.profileid
+        profileid: user.profile.profileid,
+        pin: `12345${i}`
       })
       await TestHelper.createInvitation(user)
       cachedInvitations.unshift(user.invitation.invitationid)
@@ -28,7 +29,8 @@ describe('/api/user/organizations/invitations', function () {
     await TestHelper.createOrganization(user, {
       email: user.profile.displayEmail,
       name: 'My organization',
-      profileid: user.profile.profileid
+      profileid: user.profile.profileid,
+      pin: '9976'
     })
     for (let i = 0, len = 3; i < len; i++) {
       await TestHelper.createInvitation(user)
@@ -107,7 +109,8 @@ describe('/api/user/organizations/invitations', function () {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.createInvitation(owner)

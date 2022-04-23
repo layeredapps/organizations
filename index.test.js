@@ -3,6 +3,8 @@ const assert = require('assert')
 const properties = [
   { camelCase: 'minimumOrganizationNameLength', raw: 'MINIMUM_ORGANIZATION_NAME_LENGTH', description: 'Shortest organization name length', value: '1', default: '1', valueDescription: 'Integer' },
   { camelCase: 'maximumOrganizationNameLength', raw: 'MAXIMUM_ORGANIZATION_NAME_LENGTH', description: 'Longest organization name length', value: '1000', default: '50', valueDescription: 'Integer' },
+  { camelCase: 'minimumOrganizationPINLength', raw: 'MINIMUM_ORGANIZATION_PIN_LENGTH', description: 'Shortest organization PIN length', value: '1', default: '4', valueDescription: 'Integer' },
+  { camelCase: 'maximumOrganizationPINLength', raw: 'MAXIMUM_ORGANIZATION_PIN_LENGTH', description: 'Longest organization PIN length', value: '1000', default: '6', valueDescription: 'Integer' },
   { camelCase: 'minimumInvitationCodeLength', raw: 'MINIMUM_INVITATION_CODE_LENGTH', description: 'Shortest invitation code length', value: '1', default: '6', valueDescription: 'Integer' },
   { camelCase: 'maximumInvitationCodeLength', raw: 'MAXIMUM_INVITATION_CODE_LENGTH', description: 'Longest invitation code length', value: '1000', default: '50', valueDescription: 'Integer' },
   { camelCase: 'membershipProfileFields', raw: 'MEMBERSHIP_PROFILE_FIELDS', description: 'Personal information to share with members', value: 'full-name,contact-email,display-name,display-email,dob,location,phone,company-name,website,occupation', default: 'display-name,display-email', valueDescription: 'Profile property list' }

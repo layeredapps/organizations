@@ -80,16 +80,16 @@ async function renderPage (req, res, messageTemplate) {
   }
   if (req.body) {
     const nameField = doc.getElementById('name')
-    nameField.setAttribute('value', (req.body.name || '').split("'").join('&quot;'))
+    nameField.setAttribute('value', dashboard.Format.replaceQuotes(req.body.name || ''))
     const emailField = doc.getElementById('email')
-    emailField.setAttribute('value', (req.body.email || '').split("'").join('&quot;'))
+    emailField.setAttribute('value', dashboard.Format.replaceQuotes(req.body.email || ''))
     if (req.body.profileid) {
-      dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', (req.body.profileid || '').split("'").join('&quot;'))
+      dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', req.body.profileid || '')
     }
     for (const field of profileFields) {
       if (req.body[field]) {
         const element = doc.getElementById(field)
-        element.setAttribute('value', (req.body[field]).split("'").join('&quot;'))
+        element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field]))
       }
     }
   }
@@ -110,6 +110,14 @@ async function submitForm (req, res) {
   if (global.minimumOrganizationNameLength > req.body.name.length ||
     global.maximumOrganizationNameLength < req.body.name.length) {
     return renderPage(req, res, 'invalid-organization-name-length')
+  }
+  req.body.pin = req.body.pin.trim ? req.body.pin.trim() : req.body.pin
+  if (req.body.pin.match(/^[a-z0-9]+$/i) === null) {
+    return renderPage(req, res, 'invalid-pin')
+  }
+  if (global.minimumOrganizationPINLength > req.body.pin.length ||
+    global.maximumOrganizationPINLength < req.body.pin.length) {
+    return renderPage(req, res, 'invalid-pin-length')
   }
   req.body.email = req.body.email && req.body.email.trim ? req.body.email.trim() : req.body.email
   if (!req.body.email || !req.body.email.length) {
@@ -149,7 +157,7 @@ async function submitForm (req, res) {
   try {
     organization = await global.api.user.organizations.CreateOrganization.post(req)
   } catch (error) {
-    return renderPage(req, res, req.error)
+    return renderPage(req, res, error.message)
   }
   if (req.query['return-url']) {
     return dashboard.Response.redirect(req, res, req.query['return-url'])

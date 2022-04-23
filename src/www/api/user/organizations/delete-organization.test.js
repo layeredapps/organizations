@@ -45,7 +45,8 @@ describe('/api/user/organizations/delete-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         global.userProfileFields = ['full-name', 'contact-email']
         const other = await TestHelper.createUser()
@@ -57,7 +58,8 @@ describe('/api/user/organizations/delete-organization', () => {
         await TestHelper.createOrganization(other, {
           email: other.profile.displayEmail,
           name: 'My organization',
-          profileid: other.profile.profileid
+          profileid: other.profile.profileid,
+          pin: '88798'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/delete-organization?organizationid=${other.organization.organizationid}`)
         req.account = owner.account
@@ -84,7 +86,8 @@ describe('/api/user/organizations/delete-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/delete-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account

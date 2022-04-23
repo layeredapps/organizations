@@ -15,7 +15,8 @@ describe('/api/administrator/organizations/memberships-count', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       global.userProfileFields = ['full-name', 'contact-email']
       const user1 = await TestHelper.createUser()
@@ -36,7 +37,8 @@ describe('/api/administrator/organizations/memberships-count', () => {
       await TestHelper.createOrganization(owner2, {
         email: owner2.profile.displayEmail,
         name: 'My organization',
-        profileid: owner2.profile.profileid
+        profileid: owner2.profile.profileid,
+        pin: '77789'
       })
       global.userProfileFields = ['contact-email', 'full-name']
       const user2 = await TestHelper.createUser()

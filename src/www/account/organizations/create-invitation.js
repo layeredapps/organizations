@@ -36,7 +36,8 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  doc.getElementById('secret-code').setAttribute('value', dashboard.UUID.random(16))
+  doc.getElementById('organization-pin').setAttribute('value', req.data.organization.pin)
+  doc.getElementById('secret-code').setAttribute('value', dashboard.UUID.random(global.minimumInvitationCodeLength))
   return dashboard.Response.end(req, res, doc)
 }
 

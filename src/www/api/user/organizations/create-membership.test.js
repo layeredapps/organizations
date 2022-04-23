@@ -15,7 +15,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner, {
           lifespan: 'single'
@@ -35,6 +36,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user2.account
         req.session = user2.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           email: user2.profile.contactEmail,
           name: user2.profile.firstName
@@ -58,7 +60,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner, {
           lifespan: 'multi'
@@ -73,6 +76,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           email: user.profile.contactEmail,
           name: user.profile.firstName
@@ -87,6 +91,75 @@ describe('/api/user/organizations/create-membership', () => {
       })
     })
 
+
+    describe('invalid-organization-pin', () => {
+      it('missing posted organization-pin', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        await TestHelper.createInvitation(owner)
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'organization-pin': '',
+          'secret-code': owner.invitation.secretCode,
+          email: user.profile.displayEmail,
+          name: user.profile.firstName
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-organization-pin')
+      })
+
+      it('invalid posted organization-pin', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        await TestHelper.createInvitation(owner)
+        const user = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/organizations/create-membership')
+        req.account = user.account
+        req.session = user.session
+        req.body = {
+          'organization-pin': 'invalid',
+          'secret-code': owner.invitation.secretCode,
+          email: user.profile.displayEmail,
+          name: user.profile.firstName
+        }
+        let errorMessage
+        try {
+          await req.post()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-organization-pin')
+      })
+    })
+    
     describe('invalid-secret-code', () => {
       it('missing posted secret-code', async () => {
         const owner = await TestHelper.createUser()
@@ -98,7 +171,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -106,6 +180,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': '',
           email: user.profile.displayEmail,
           name: user.profile.firstName
@@ -129,7 +204,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -137,6 +213,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': 'invalid',
           email: user.profile.displayEmail,
           name: user.profile.firstName
@@ -162,13 +239,15 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const req = TestHelper.createRequest('/api/user/organizations/create-membership')
         req.account = owner.account
         req.session = owner.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           email: owner.profile.contactEmail,
           name: owner.profile.firstName
@@ -198,7 +277,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
@@ -207,6 +287,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           profileid: user.profile.profileid
         }
@@ -231,7 +312,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -239,6 +321,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           profileid: '',
           email: user.profile.displayEmail,
@@ -263,7 +346,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -271,6 +355,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           profileid: 'invalid',
           email: user.profile.displayEmail,
@@ -297,7 +382,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -310,6 +396,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           profileid: user.profile.profileid,
           email: user.profile.displayEmail,
@@ -346,7 +433,8 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner, {
           lifespan: 'single'
@@ -356,6 +444,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.account = user.account
         req.session = user.session
         req.body = {
+          'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
           profileid: user.profile.profileid
         }
@@ -386,13 +475,15 @@ describe('/api/user/organizations/create-membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {
+        'organization-pin': '12345',
         'secret-code': owner.invitation.secretCode,
         profileid: user.profile.profileid
       }
@@ -415,13 +506,15 @@ describe('/api/user/organizations/create-membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {
+        'organization-pin': '12345',
         'secret-code': owner.invitation.secretCode,
         profileid: user.profile.profileid
       }
@@ -446,13 +539,15 @@ describe('/api/user/organizations/create-membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest('/api/user/organizations/create-membership')
       req.account = user.account
       req.session = user.session
       req.body = {
+        'organization-pin': '12345',
         'secret-code': owner.invitation.secretCode,
         profileid: user.profile.profileid
       }

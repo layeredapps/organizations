@@ -9,26 +9,13 @@ module.exports = {
     if (!req.body['secret-code'] || !req.body['secret-code'].length) {
       throw new Error('invalid-secret-code')
     }
-    let invitation = await dashboard.StorageCache.get(req.body['secret-code'])
-    if (!invitation) {
-      const invitationInfo = await organizations.Storage.Invitation.findOne({
-        where: {
-          secretCode: req.body['secret-code']
-        }
-      })
-      if (!invitationInfo) {
-        throw new Error('invalid-secret-code')
-      }
-      invitation = {}
-      for (const field of invitationInfo._options.attributes) {
-        invitation[field] = invitationInfo.get(field)
-      }
-      await dashboard.StorageCache.set(req.body['secret-code'], invitation)
-    }
-    if (invitation.acceptedAt || invitation.terminatedAt) {
-      throw new Error('invalid-invitation')
+    if (!req.body['organization-pin'] || !req.body['organization-pin'].length) {
+      throw new Error('invalid-organization-pin')
     }
     req.query = req.query || {}
+    req.query['secret-code'] = req.body['secret-code']
+    req.query['organization-pin'] = req.body['organization-pin']
+    const invitation = await global.api.user.organizations.SecretInvitation.get(req)
     req.query.invitationid = invitation.invitationid
     const organization = await global.api.user.organizations.OpenInvitationOrganization.get(req)
     if (!organization) {

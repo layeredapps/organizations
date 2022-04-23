@@ -33,6 +33,15 @@ module.exports = {
       secretCode,
       multi: req.body.lifespan === 'multi'
     }
+    const existing = await organizations.Storage.Invitation.findOne({
+      where: {
+        secretCode,
+        organizationid: req.query.organizationid
+      }
+    })
+    if (existing && existing.dataValues && existing.dataValues.invitationid) {
+      throw new Error('duplicate-secret-code')
+    }
     const invitation = await organizations.Storage.Invitation.create(invitationInfo)
     req.query.invitationid = invitation.dataValues.invitationid
     return global.api.user.organizations.Invitation.get(req)

@@ -7,6 +7,8 @@ global.testConfiguration.userProfileFields = ['full-name', 'contact-email']
 global.testConfiguration.membershipProfileFields = ['display-name', 'display-email']
 global.testConfiguration.minimumOrganizationNameLength = 1
 global.testConfiguration.maximumOrganizationNameLength = 100
+global.testConfiguration.minimumOrganizationPINLength = 1
+global.testConfiguration.maximumOrganizationPINLength = 100
 global.testConfiguration.minimumMembershipNameLength = 1
 global.testConfiguration.maximumMembershipNameLength = 100
 global.testConfiguration.minimumInvitationCodeLength = 1
@@ -82,6 +84,7 @@ async function acceptInvitation (user, owner) {
   req.account = user.account
   req.session = user.session
   req.body = {
+    'organization-pin': owner.organization.pin,
     'secret-code': owner.invitation.secretCode,
     profileid: user.profile.profileid
   }

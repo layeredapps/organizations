@@ -33,11 +33,14 @@ async function renderPage (req, res, messageTemplate) {
   }
   const nameField = doc.getElementById('name')
   const emailField = doc.getElementById('email')
+  const pinField = doc.getElementById('pin')
   if (req.method === 'POST') {
-    nameField.setAttribute('value', (req.body.name || '').split("'").join('&quot;'))
-    emailField.setAttribute('value', (req.body.email || '').split("'").join('&quot;'))
+    nameField.setAttribute('value', dashboard.Format.replaceQuotes(req.body.name || ''))
+    emailField.setAttribute('value', dashboard.Format.replaceQuotes(req.body.email || ''))
+    pinField.setAttribute('value', req.data.pin || '')
   } else {
     nameField.setAttribute('value', req.data.organization.name)
+    pinField.setAttribute('value', req.data.organization.pin)
     emailField.setAttribute('value', req.data.organization.email)
   }
   return dashboard.Response.end(req, res, doc)
@@ -57,6 +60,14 @@ async function submitForm (req, res) {
   if (global.minimumOrganizationNameLength > req.body.name.length ||
     global.maximumOrganizationNameLength < req.body.name.length) {
     return renderPage(req, res, 'invalid-organization-name-length')
+  }
+  req.body.pin = req.body.pin.trim ? req.body.pin.trim() : req.body.pin
+  if (req.body.pin.match(/^[a-z0-9]+$/i) === null) {
+    return renderPage(req, res, 'invalid-pin')
+  }
+  if (global.minimumOrganizationPINLength > req.body.pin.length ||
+    global.maximumOrganizationPINLength < req.body.pin.length) {
+    return renderPage(req, res, 'invalid-pin-length')
   }
   req.body.email = req.body.email && req.body.email.trim ? req.body.email.trim() : req.body.email
   if (!req.body.email || !req.body.email.length) {

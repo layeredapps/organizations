@@ -50,7 +50,8 @@ describe('/api/user/organizations/delete-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner, {
           lifespan: 'multi'
@@ -80,7 +81,8 @@ describe('/api/user/organizations/delete-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         const user = await TestHelper.createUser()
@@ -109,7 +111,8 @@ describe('/api/user/organizations/delete-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const req = TestHelper.createRequest(`/api/user/organizations/delete-invitation?invitationid=${owner.invitation.invitationid}`)

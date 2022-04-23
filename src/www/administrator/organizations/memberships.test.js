@@ -22,7 +22,8 @@ describe('/administrator/organizations/memberships', function () {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: `1234${i}`
       })
       cachedMemberships.unshift(owner.membership.membershipid)
       await TestHelper.createInvitation(owner)
@@ -115,6 +116,7 @@ describe('/administrator/organizations/memberships', function () {
       const req = TestHelper.createRequest('/administrator/organizations/memberships')
       req.account = administrator.account
       req.session = administrator.session
+      let pin = 0
       for (const field in fields) {
         global.userProfileFields = ['contact-email', 'full-name']
         const owner = await TestHelper.createUser()
@@ -127,7 +129,8 @@ describe('/administrator/organizations/memberships', function () {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: `1234${pin++}`
         })
         usingFields.push(field)
         global.userProfileFields = global.membershipProfileFields = usingFields

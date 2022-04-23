@@ -14,7 +14,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -43,7 +44,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -71,7 +73,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -99,7 +102,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -126,7 +130,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -153,7 +158,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -180,7 +186,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -207,7 +214,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -234,7 +242,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -261,7 +270,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -288,7 +298,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -328,7 +339,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -392,7 +404,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -425,7 +438,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -456,7 +470,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -486,7 +501,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -518,7 +534,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -549,7 +566,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -580,7 +598,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -611,7 +630,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -642,7 +662,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -673,7 +694,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -704,7 +726,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -738,7 +761,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -772,7 +796,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -819,7 +844,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -853,7 +879,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -899,7 +926,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -938,7 +966,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -977,7 +1006,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1008,7 +1038,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1051,7 +1082,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1090,7 +1122,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1121,7 +1154,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1152,7 +1186,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1183,7 +1218,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
@@ -1214,7 +1250,8 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12344'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()

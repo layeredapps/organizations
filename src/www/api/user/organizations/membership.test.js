@@ -50,7 +50,8 @@ describe('/api/user/organizations/membership', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
@@ -85,7 +86,8 @@ describe('/api/user/organizations/membership', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       await TestHelper.acceptInvitation(user, owner)

@@ -18,7 +18,8 @@ describe('/api/user/organizations/create-organization', () => {
         req.body = {
           name: '',
           email: owner.profile.contactEmail,
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         }
         let errorMessage
         try {
@@ -45,7 +46,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'Sales',
         email: owner.profile.contactEmail,
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       global.minimumOrganizationNameLength = 100
       let errorMessage
@@ -78,7 +80,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'Sales',
         email: owner.profile.contactEmail,
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       global.maximumOrganizationNameLength = 1
       let errorMessage
@@ -114,7 +117,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'Family',
         email: '',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       let errorMessage
       try {
@@ -139,7 +143,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'Family',
         email: 'invalid',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       let errorMessage
       try {
@@ -160,7 +165,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: ''
+        profileid: '',
+        pin: '12345'
       }
       let errorMessage
       try {
@@ -179,7 +185,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: 'invalid'
+        profileid: 'invalid',
+        pin: '12345'
       }
       let errorMessage
       try {
@@ -203,7 +210,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       let errorMessage
       try {
@@ -229,7 +237,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       const organization = await req.post()
       assert.strictEqual(organization.email, 'this@address.com')
@@ -248,7 +257,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       const organization = await req.post()
       assert.strictEqual(organization.name, 'this is the name')
@@ -267,7 +277,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       const organization = await req.post()
       const req2 = TestHelper.createRequest(`/api/user/organizations/organization-membership?organizationid=${organization.organizationid}`)
@@ -292,7 +303,8 @@ describe('/api/user/organizations/create-organization', () => {
       req.body = {
         name: 'this is the name',
         email: 'this@address.com',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       }
       req.filename = __filename
       req.saveResponse = true

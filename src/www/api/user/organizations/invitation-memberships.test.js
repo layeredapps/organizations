@@ -50,7 +50,8 @@ describe('/api/user/organizations/invitation-memberships', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)
@@ -79,7 +80,8 @@ describe('/api/user/organizations/invitation-memberships', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -112,7 +114,8 @@ describe('/api/user/organizations/invitation-memberships', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       for (let i = 0, len = global.pageSize + 1; i < len; i++) {

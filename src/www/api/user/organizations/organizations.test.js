@@ -19,7 +19,8 @@ describe('/api/user/organizations/organizations', function () {
       await TestHelper.createOrganization(user, {
         email: user.profile.displayEmail,
         name: 'My organization',
-        profileid: user.profile.profileid
+        profileid: user.profile.profileid,
+        pin: `1234${i}`
       })
       cachedOrganizations.unshift(user.organization.organizationid)
     }
@@ -91,7 +92,8 @@ describe('/api/user/organizations/organizations', function () {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'New organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)

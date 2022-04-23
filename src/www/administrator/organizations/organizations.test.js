@@ -21,7 +21,8 @@ describe('/administrator/organizations/organizations', function () {
       await TestHelper.createOrganization(user, {
         email: user.profile.displayEmail,
         name: 'My organization',
-        profileid: user.profile.profileid
+        profileid: user.profile.profileid,
+        pin: `1234${i}`
       })
       cachedOrganizations.unshift(user.organization.organizationid)
     }

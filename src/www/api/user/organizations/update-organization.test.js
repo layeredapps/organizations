@@ -50,7 +50,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner)
         await TestHelper.createInvitation(owner)
@@ -68,6 +69,174 @@ describe('/api/user/organizations/update-organization', () => {
       })
     })
 
+    describe('invalid-pin', () => {
+      it('missing posted pin', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          name: 'My organization',
+          email: owner.profile.displayEmail
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-pin')
+      })
+
+      it('invalid posted pin is not alphanumeric', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          name: 'My organization',
+          email: owner.profile.displayEmail,
+          pin: '!@#$#@$#@$'
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-pin')
+      })
+    })
+
+    describe('duplicate-pin', () => {
+      it('duplicate posted pin', async () => {
+        const owner = await TestHelper.createUser()
+        const other = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        await TestHelper.createProfile(other, {
+          'display-name': other.profile.firstName,
+          'display-email': other.profile.contactEmail
+        })
+        await TestHelper.createOrganization(other, {
+          email: other.profile.displayEmail,
+          name: 'Other organization',
+          profileid: other.profile.profileid,
+          pin: '54321'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          name: 'My organization',
+          email: owner.profile.displayEmail,
+          pin: '54321'
+        }
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'duplicate-pin')
+      })
+    })
+
+    describe('invalid-pin-length', () => {
+      it('posted pin is too short', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          name: 'My organization',
+          email: owner.profile.displayEmail,
+          pin: '1'
+        }
+        global.minimumOrganizationPINLength = 10
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-pin-length')
+      })
+
+      it('posted pin is too long', async () => {
+        const owner = await TestHelper.createUser()
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+        req.account = owner.account
+        req.session = owner.session
+        req.body = {
+          name: 'My organization',
+          email: owner.profile.displayEmail,
+          pin: '1234567890123456789012345678901234567890'
+        }
+        global.maximumOrganizationPINLength = 10
+        let errorMessage
+        try {
+          await req.patch(req)
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-pin-length')
+      })
+    })
+
     describe('invalid-organization-name', () => {
       it('missing posted name', async () => {
         const owner = await TestHelper.createUser()
@@ -79,7 +248,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -109,7 +279,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -120,14 +291,6 @@ describe('/api/user/organizations/update-organization', () => {
         }
         global.minimumOrganizationNameLength = 100
         let errorMessage
-        try {
-          await req.patch(req)
-        } catch (error) {
-          errorMessage = error.message
-        }
-        assert.strictEqual(errorMessage, 'invalid-organization-name-length')
-        global.maximumOrganizationNameLength = 1
-        errorMessage = undefined
         try {
           await req.patch(req)
         } catch (error) {
@@ -146,7 +309,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -157,14 +321,6 @@ describe('/api/user/organizations/update-organization', () => {
         }
         global.maximumOrganizationNameLength = 1
         let errorMessage
-        try {
-          await req.patch(req)
-        } catch (error) {
-          errorMessage = error.message
-        }
-        assert.strictEqual(errorMessage, 'invalid-organization-name-length')
-        global.maximumOrganizationNameLength = 1
-        errorMessage = undefined
         try {
           await req.patch(req)
         } catch (error) {
@@ -185,7 +341,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -213,7 +370,8 @@ describe('/api/user/organizations/update-organization', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
         req.account = owner.account
@@ -244,14 +402,16 @@ describe('/api/user/organizations/update-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
       req.session = owner.session
       req.body = {
         name: 'Organization Name',
-        email: 'test@test.com'
+        email: 'test@test.com',
+        pin: '12345'
       }
       const organizationNow = await req.patch()
       assert.strictEqual(organizationNow.name, 'Organization Name')
@@ -267,17 +427,44 @@ describe('/api/user/organizations/update-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
       req.session = owner.session
       req.body = {
         name: 'Organization Name',
-        email: 'test@test.com'
+        email: 'test@test.com',
+        pin: '12345'
       }
       const organizationNow = await req.patch()
       assert.strictEqual(organizationNow.email, 'test@test.com')
+    })
+
+    it('required posted pin', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12345'
+      })
+      const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        name: 'Organization Name',
+        email: 'test@test.com',
+        pin: '54321'
+      }
+      const organizationNow = await req.patch()
+      assert.strictEqual(organizationNow.pin, '54321')
     })
   })
 
@@ -292,7 +479,8 @@ describe('/api/user/organizations/update-organization', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       const req = TestHelper.createRequest(`/api/user/organizations/update-organization?organizationid=${owner.organization.organizationid}`)
       req.account = owner.account
@@ -301,7 +489,8 @@ describe('/api/user/organizations/update-organization', () => {
       req.saveResponse = true
       req.body = {
         name: 'Organization Name',
-        email: 'test@test.com'
+        email: 'test@test.com',
+        pin: '12345'
       }
       const organizationNow = await req.patch()
       assert.strictEqual(organizationNow.object, 'organization')

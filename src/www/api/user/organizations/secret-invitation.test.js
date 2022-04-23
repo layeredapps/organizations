@@ -7,7 +7,18 @@ describe('/api/user/organizations/secret-invitation', () => {
     describe('invalid-secret-code', () => {
       it('missing querystring secret-code', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/secret-invitation')
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?organization-pin=${owner.organization.pin}`)
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -21,7 +32,18 @@ describe('/api/user/organizations/secret-invitation', () => {
 
       it('invalid querystring secret-code', async () => {
         const owner = await TestHelper.createUser()
-        const req = TestHelper.createRequest('/api/user/organizations/secret-invitation?secret-code=invalid')
+        global.userProfileFields = ['display-name', 'display-email']
+        await TestHelper.createProfile(owner, {
+          'display-name': owner.profile.firstName,
+          'display-email': owner.profile.contactEmail
+        })
+        await TestHelper.createOrganization(owner, {
+          email: owner.profile.displayEmail,
+          name: 'My organization',
+          profileid: owner.profile.profileid,
+          pin: '12345'
+        })
+        const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?secret-code=invalid&organization-pin=${owner.organization.pin}`)
         req.account = owner.account
         req.session = owner.session
         let errorMessage
@@ -31,6 +53,36 @@ describe('/api/user/organizations/secret-invitation', () => {
           errorMessage = error.message
         }
         assert.strictEqual(errorMessage, 'invalid-secret-code')
+      })
+    })
+
+    describe('invalid-organization-pin', () => {
+      it('missing querystring organization-pin', async () => {
+        const owner = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/organizations/secret-invitation?secret-code=13245')
+        req.account = owner.account
+        req.session = owner.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-organization-pin')
+      })
+
+      it('invalid querystring organization-pin', async () => {
+        const owner = await TestHelper.createUser()
+        const req = TestHelper.createRequest('/api/user/organizations/secret-invitation?secret-code=12345&organization-pin=invalid')
+        req.account = owner.account
+        req.session = owner.session
+        let errorMessage
+        try {
+          await req.get()
+        } catch (error) {
+          errorMessage = error.message
+        }
+        assert.strictEqual(errorMessage, 'invalid-organization-pin')
       })
     })
 
@@ -50,13 +102,14 @@ describe('/api/user/organizations/secret-invitation', () => {
         await TestHelper.createOrganization(owner, {
           email: owner.profile.displayEmail,
           name: 'My organization',
-          profileid: owner.profile.profileid
+          profileid: owner.profile.profileid,
+          pin: '12345'
         })
         await TestHelper.createInvitation(owner, {
           lifespan: 'single'
         })
         await TestHelper.acceptInvitation(user, owner)
-        const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?secret-code=${owner.invitation.secretCode}`)
+        const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?secret-code=${owner.invitation.secretCode}&organization-pin=${owner.organization.pin}`)
         req.account = user.account
         req.session = user.session
         let errorMessage
@@ -81,11 +134,12 @@ describe('/api/user/organizations/secret-invitation', () => {
       await TestHelper.createOrganization(owner, {
         email: owner.profile.displayEmail,
         name: 'My organization',
-        profileid: owner.profile.profileid
+        profileid: owner.profile.profileid,
+        pin: '12345'
       })
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?secret-code=${owner.invitation.secretCode}`)
+      const req = TestHelper.createRequest(`/api/user/organizations/secret-invitation?secret-code=${owner.invitation.secretCode}&organization-pin=${owner.organization.pin}`)
       req.account = user.account
       req.session = user.session
       req.filename = __filename

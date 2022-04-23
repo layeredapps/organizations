@@ -134,6 +134,10 @@ module.exports = async () => {
     },
     ownerid: DataTypes.STRING(64),
     name: DataTypes.STRING,
+    pin: {
+      type: DataTypes.STRING,
+      unique: true
+    },
     email: DataTypes.STRING,
     // 'createdAt' is specified for each model because mysql/mariadb truncate
     // the ms and this makes the return order unpredictable and throws off the

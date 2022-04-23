@@ -22,7 +22,8 @@ describe('/api/administrator/organizations/organizations', function () {
       await TestHelper.createOrganization(user, {
         email: user.profile.displayEmail,
         name: 'My organization',
-        profileid: user.profile.profileid
+        profileid: user.profile.profileid,
+        pin: `7788${i}`
       })
       cachedOrganizations.unshift(user.organization.organizationid)
     }
@@ -37,7 +38,8 @@ describe('/api/administrator/organizations/organizations', function () {
       await TestHelper.createOrganization(user, {
         email: user.profile.displayEmail,
         name: 'My organization 1',
-        profileid: user.profile.profileid
+        profileid: user.profile.profileid,
+        pin: `1234${i}`
       })
       accountOrganizations.unshift(user.organization.organizationid)
       cachedOrganizations.unshift(user.organization.organizationid)

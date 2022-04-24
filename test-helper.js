@@ -25,7 +25,7 @@ module.exports = {
 }
 
 for (const x in TestHelper) {
-  module.exports[x] = TestHelper[x]
+  module.exports[x] = module.exports[x] || TestHelper[x]
 }
 
 async function setupBefore () {

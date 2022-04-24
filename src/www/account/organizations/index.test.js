@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/account/organizations/index', () => {
+describe('/account/organizations', () => {
   describe('before', () => {
     it('should bind data to req', async () => {
       const owner = await TestHelper.createUser()

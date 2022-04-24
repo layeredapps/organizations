@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 const ScreenshotData = require('../../../../screenshot-data.js')
 
-describe('/administrator/organizations/index', () => {
+describe('/administrator/organizations', () => {
   describe('before', () => {
     it('should bind data to req', async () => {
       const administrator = await TestHelper.createAdministrator()

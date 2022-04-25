@@ -12,6 +12,7 @@
 
 - [Introduction](#introduction)
 - [Import this module](#import-this-module)
+- [Provided server, content and proxy handlers](#provided-server-content-and-proxy-handlers)
 - [Storage engine](#storage-engine)
 - [Customizing membership profiles](#customizing-membership-profiles)
 - [Access the API](#access-the-api)
@@ -37,6 +38,16 @@ Edit your `package.json` to activate the module:
         "@layeredapps/organizations"
       ]
     }
+
+# Provided server, content and proxy handlers
+
+Dashboard comes with some convenience scripts you can add to your `package.json`:
+
+| Type     | Script path                                                                  | Description                                                                                                                                                                                                                                                                                                                                                                                      |
+|----------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| proxy    | @layeredapps/organizations/src/proxy/x-memberships.js                        | Dashboard will bundle the user's Membership objects in `x-memberships` header.                                                                                                                                                                                                                                                                                                                   |
+| proxy    | @layeredapps/organizations/src/proxy/x-organizations.js                      | Dashboard will bundle the user's Organization objects in `x-organizations` header.                                                                                                                                                                                                                                                                                                               |
+| server   | @layeredapps/organizations/src/server/check-before-delete-organization.js    | Require users complete steps, such as deleting subscriptions, before deleting their organization.  Set a `CHECK_BEFORE_DELETE_ORGANIZATION` path such as `/check-delete` on your Application server, Dashboard will query this API passing `?organizationid=xxxxx` and you may respond with { "redirect": "/your-delete-requirements" } or { "redirect": false }" to enforce the requirements.   |
 
 ## Storage engine
 

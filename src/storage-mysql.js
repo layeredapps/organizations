@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize')
+const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations-mysql')
 
 module.exports = async () => {
   const prefixedDatabase = process.env.ORGANIZATIONS_MYSQL_DATABASE || process.env.MYSQL_DATABASE
@@ -7,7 +8,9 @@ module.exports = async () => {
   const prefixedHost = process.env.ORGANIZATIONS_MYSQL_HOST || process.env.MYSQL_HOST
   const prefixedPort = process.env.ORGANIZATIONS_MYSQL_PORT || process.env.MYSQL_PORT
   const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
-    logging: false,
+    logging: (sql) => {
+      return Log.info(sql)
+    },
     dialect: 'mysql',
     host: prefixedHost,
     port: prefixedPort,

@@ -15,6 +15,7 @@ global.testConfiguration.minimumInvitationCodeLength = 1
 global.testConfiguration.maximumInvitationCodeLength = 100
 
 const TestHelper = require('@layeredapps/dashboard/test-helper.js')
+const Log = require('@layeredapps/dashboard/src/log.js')('test-helper-organizations')
 let organizations
 
 module.exports = {
@@ -46,6 +47,7 @@ beforeEach(setupBeforeEach)
 afterEach(setupAfter)
 
 async function createOrganization (user, properties) {
+  Log.info('createOrganization', user, properties)
   const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${user.account.accountid}`, 'POST')
   req.account = user.account
   req.session = user.session
@@ -61,6 +63,7 @@ async function createOrganization (user, properties) {
 
 let invitationNumber = 0
 async function createInvitation (owner, properties) {
+  Log.info('createInvitation', owner, properties)
   const code = 'secret' + invitationNumber++
   const req = TestHelper.createRequest(`/api/user/organizations/create-invitation?organizationid=${owner.organization.organizationid}`, 'POST')
   req.account = owner.account
@@ -78,6 +81,7 @@ async function createInvitation (owner, properties) {
 }
 
 async function acceptInvitation (user, owner) {
+  Log.info('acceptInvitation', user, owner)
   const req = TestHelper.createRequest('/api/user/organizations/create-membership', 'POST')
   req.account = user.account
   req.session = user.session
@@ -91,6 +95,7 @@ async function acceptInvitation (user, owner) {
 }
 
 async function terminateInvitation (owner) {
+  Log.info('terminateInvitation', owner)
   const req = TestHelper.createRequest(`/api/user/organizations/set-invitation-terminated?invitationid=${owner.invitation.invitationid}`, 'PATCH')
   req.account = owner.account
   req.session = owner.session

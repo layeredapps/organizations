@@ -1,4 +1,5 @@
 const { Sequelize } = require('sequelize')
+const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations-sqlite')
 
 module.exports = async () => {
   const prefixedDatabaseFile = process.env.ORGANIZATIONS_SQLITE_DATABASE_FILE || process.env.SQLITE_DATABASE_FILE
@@ -7,8 +8,9 @@ module.exports = async () => {
   if (prefixedDatabaseFile) {
     sequelize = new Sequelize(prefixedDatabaseName || 'organizations', '', '', {
       storage: prefixedDatabaseFile,
-      dialect: 'sqlite',
-      logging: false,
+      logging: (sql) => {
+        return Log.info(sql)
+      },
       pool: {
         max: process.env.ORGANIZATIONS_MAX_CONNECTIONS || process.env.MAX_CONNECTIONS || 10,
         min: 0,
@@ -18,7 +20,9 @@ module.exports = async () => {
   } else {
     sequelize = new Sequelize('sqlite::memory', {
       dialect: 'sqlite',
-      logging: false,
+      logging: (sql) => {
+        return Log.info(sql)
+      },
       pool: {
         max: process.env.ORGANIZATIONS_MAX_CONNECTIONS || process.env.MAX_CONNECTIONS || 10,
         min: 0,

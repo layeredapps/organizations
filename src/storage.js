@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize')
 const metrics = require('@layeredapps/dashboard/src/metrics.js')
+const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations')
 
 module.exports = async () => {
   let storage, dateType
@@ -111,7 +112,6 @@ module.exports = async () => {
     sequelize,
     modelName: 'membership'
   })
-
   class Organization extends Model {}
   Organization.init({
     organizationid: {
@@ -152,6 +152,13 @@ module.exports = async () => {
     modelName: 'organization'
   })
   await sequelize.sync({ alter: true, force: true })
+  const originalQuery = sequelize.query
+  sequelize.query = function () {
+    return originalQuery.apply(this, arguments).catch((error) => {
+      Log.error(error)
+      throw error
+    })
+  }
   Organization.afterCreate(async (object) => {
     if (global.disableMetrics) {
       return

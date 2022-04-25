@@ -41,8 +41,6 @@ async function setupAfter () {
   await organizations.Storage.flush()
 }
 
-module.exports.createProfile = createProfile
-
 before(setupBefore)
 beforeEach(setupBeforeEach)
 afterEach(setupAfter)
@@ -98,13 +96,4 @@ async function terminateInvitation (owner) {
   req.session = owner.session
   owner.invitation = await req.patch()
   return owner.invitation
-}
-
-async function createProfile (user, properties) {
-  const req = module.exports.createRequest(`/api/user/create-profile?accountid=${user.account.accountid}`)
-  req.account = user.account
-  req.session = user.session
-  req.body = properties
-  user.profile = await req.route.api.post(req)
-  return user.profile
 }

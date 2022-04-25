@@ -151,7 +151,7 @@
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
 
-  /account/organizations/index
+  /account/organizations
     before
       ✔ should bind data to req
     view
@@ -234,7 +234,7 @@
     submit
       ✔ should transfer ownership (screenshots)
 
-  /administrator/organizations/index
+  /administrator/organizations
     before
       ✔ should bind data to req
     view

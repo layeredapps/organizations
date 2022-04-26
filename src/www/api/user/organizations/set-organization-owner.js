@@ -46,7 +46,8 @@ module.exports = {
       ownerid: req.body.accountid
     }, {
       where: {
-        organizationid: req.query.organizationid
+        organizationid: req.query.organizationid,
+        appid: req.appid || global.appid
       }
     })
     organization.ownerid = req.body.accountid

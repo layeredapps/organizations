@@ -3,15 +3,13 @@ const organizations = require('../../../../../index.js')
 module.exports = {
   get: async (req) => {
     req.query = req.query || {}
-    let where
+    const where = {
+      appid: req.appid || global.appid
+    }
     if (req.query.accountid) {
-      where = {
-        accountid: req.query.accountid
-      }
+      where.accountid = req.query.accountid
     } else if (req.query.organizationid) {
-      where = {
-        organizationid: req.query.organizationid
-      }
+      where.organizationid = req.query.organizationid
     }
     let membershipids
     if (req.query.all) {

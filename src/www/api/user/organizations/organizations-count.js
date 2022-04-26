@@ -11,7 +11,8 @@ module.exports = {
     }
     return organizations.Storage.Organization.count({
       where: {
-        ownerid: req.query.accountid
+        ownerid: req.query.accountid,
+        appid: req.appid || global.appid
       }
     })
   }

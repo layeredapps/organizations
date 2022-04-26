@@ -10,7 +10,8 @@ module.exports = {
     if (!organization) {
       const organizationInfo = await organizations.Storage.Organization.findOne({
         where: {
-          organizationid: req.query.organizationid
+          organizationid: req.query.organizationid,
+          appid: req.appid || global.appid
         }
       })
       if (!organizationInfo) {

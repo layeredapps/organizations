@@ -36,7 +36,8 @@ module.exports = {
     if (req.body.pin !== organization.pin) {
       const existing = await organizations.Storage.Organization.findOne({
         where: {
-          pin: req.body.pin
+          pin: req.body.pin,
+          appid: req.appid || global.appid
         }
       })
       if (existing && existing.dataValues && existing.dataValues.organizationid) {
@@ -50,7 +51,8 @@ module.exports = {
         pin: req.body.pin
       }, {
         where: {
-          organizationid: req.query.organizationid
+          organizationid: req.query.organizationid,
+          appid: req.appid || global.appid
         }
       })
     } catch (error) {

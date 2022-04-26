@@ -20,7 +20,8 @@ module.exports = {
     }
     await organizations.Storage.Membership.destroy({
       where: {
-        membershipid: req.query.membershipid
+        membershipid: req.query.membershipid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.membershipid)

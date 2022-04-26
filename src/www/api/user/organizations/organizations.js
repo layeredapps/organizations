@@ -13,7 +13,8 @@ module.exports = {
     if (req.query.all) {
       organizationids = await organizations.Storage.Membership.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['organizationid'],
         order: [
@@ -25,7 +26,8 @@ module.exports = {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       organizationids = await organizations.Storage.Membership.findAll({
         where: {
-          accountid: req.query.accountid
+          accountid: req.query.accountid,
+          appid: req.appid || global.appid
         },
         attributes: ['organizationid'],
         offset,

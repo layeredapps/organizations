@@ -11,7 +11,8 @@ module.exports = {
     if (!organization) {
       const organizationInfo = await organizations.Storage.Organization.findOne({
         where: {
-          organizationid: invitation.organizationid
+          organizationid: invitation.organizationid,
+          appid: req.appid || global.appid
         }
       })
       if (!organizationInfo) {

@@ -18,7 +18,8 @@ module.exports = {
     if (req.query.all) {
       membershipids = await organizations.Storage.Membership.findAll({
         where: {
-          invitationid: req.query.invitationid
+          invitationid: req.query.invitationid,
+          appid: req.appid || global.appid
         },
         attributes: ['membershipid'],
         order: [
@@ -30,7 +31,8 @@ module.exports = {
       const limit = req.query.limit ? parseInt(req.query.limit, 10) : global.pageSize
       membershipids = await organizations.Storage.Membership.findAll({
         where: {
-          invitationid: req.query.invitationid
+          invitationid: req.query.invitationid,
+          appid: req.appid || global.appid
         },
         attributes: ['membershipid'],
         offset,

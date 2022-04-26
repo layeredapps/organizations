@@ -19,7 +19,8 @@ module.exports = {
     }
     return organizations.Storage.Membership.count({
       where: {
-        invitationid: req.query.invitationid
+        invitationid: req.query.invitationid,
+        appid: req.appid || global.appid
       }
     })
   }

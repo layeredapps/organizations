@@ -15,7 +15,8 @@ module.exports = {
       const organizationInfo = await organizations.Storage.Organization.findOne({
         attributes: ['organizationid'],
         where: {
-          pin: req.query['organization-pin']
+          pin: req.query['organization-pin'],
+          appid: req.appid || global.appid
         }
       })
       if (!organizationInfo) {
@@ -24,7 +25,8 @@ module.exports = {
       const invitationInfo = await organizations.Storage.Invitation.findOne({
         where: {
           secretCode: req.query['secret-code'],
-          organizationid: organizationInfo.dataValues.organizationid
+          organizationid: organizationInfo.dataValues.organizationid,
+          appid: req.appid || global.appid
         }
       })
       if (!invitationInfo) {

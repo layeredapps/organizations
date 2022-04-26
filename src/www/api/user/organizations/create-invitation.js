@@ -36,7 +36,8 @@ module.exports = {
     const existing = await organizations.Storage.Invitation.findOne({
       where: {
         secretCode,
-        organizationid: req.query.organizationid
+        organizationid: req.query.organizationid,
+        appid: req.appid || global.appid
       }
     })
     if (existing && existing.dataValues && existing.dataValues.invitationid) {

@@ -59,7 +59,8 @@ module.exports = {
         acceptedAt: new Date()
       }, {
         where: {
-          invitationid: req.query.invitationid
+          invitationid: req.query.invitationid,
+          appid: req.appid || global.appid
         }
       })
       await dashboard.StorageCache.remove(`invitation_by_secret_${invitation.secretCode}`)

@@ -9,19 +9,17 @@ module.exports = {
     if (!account) {
       throw new Error('invalid-account')
     }
-    let where
+    const where = {
+      appid: req.appid || global.appid
+    }
     if (req.query.organizationid) {
       const membership = await global.api.user.organizations.OrganizationMembership.get(req)
       if (!membership) {
         throw new Error('invalid-organizationid')
       }
-      where = {
-        organizationid: req.query.organizationid
-      }
+      where.organizationid = req.query.organizationid
     } else {
-      where = {
-        accountid: req.query.accountid
-      }
+      where.accountid = req.query.accountid
     }
     let membershipids
     if (req.query.all) {

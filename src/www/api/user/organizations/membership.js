@@ -10,7 +10,8 @@ module.exports = {
     if (!membership) {
       const membershipInfo = await organizations.Storage.Membership.findOne({
         where: {
-          membershipid: req.query.membershipid
+          membershipid: req.query.membershipid,
+          appid: req.appid || global.appid
         }
       })
       if (!membershipInfo) {

@@ -10,7 +10,8 @@ module.exports = {
     if (!organization) {
       const organizationInfo = await organizations.Storage.Organization.findOne({
         where: {
-          organizationid: req.query.organizationid
+          organizationid: req.query.organizationid,
+          appid: req.appid || global.appid
         }
       })
       if (!organizationInfo) {
@@ -28,7 +29,8 @@ module.exports = {
         const membershipInfo = await organizations.Storage.Membership.findOne({
           where: {
             organizationid: req.query.organizationid,
-            accountid: req.account.accountid
+            accountid: req.account.accountid,
+            appid: req.appid || global.appid
           }
         })
         if (!membershipInfo) {

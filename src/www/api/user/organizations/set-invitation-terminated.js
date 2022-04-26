@@ -22,7 +22,8 @@ module.exports = {
       terminatedAt: new Date()
     }, {
       where: {
-        invitationid: req.query.invitationid
+        invitationid: req.query.invitationid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.invitationid)

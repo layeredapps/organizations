@@ -15,7 +15,8 @@ module.exports = {
     }
     await organizations.Storage.Organization.destroy({
       where: {
-        organizationid: req.query.organizationid
+        organizationid: req.query.organizationid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.organizationid)

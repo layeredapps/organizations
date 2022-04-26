@@ -27,7 +27,8 @@ module.exports = {
     }
     await organizations.Storage.Invitation.destroy({
       where: {
-        invitationid: req.query.invitationid
+        invitationid: req.query.invitationid,
+        appid: req.appid || global.appid
       }
     })
     await dashboard.StorageCache.remove(req.query.invitationid)

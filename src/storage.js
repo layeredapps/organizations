@@ -151,7 +151,9 @@ module.exports = async () => {
     sequelize,
     modelName: 'organization'
   })
-  await sequelize.sync({ alter: true, force: true })
+  // table creation
+  await sequelize.sync()
+  // exception logging
   const originalQuery = sequelize.query
   sequelize.query = function () {
     return originalQuery.apply(this, arguments).catch((error) => {
@@ -159,6 +161,7 @@ module.exports = async () => {
       throw error
     })
   }
+  // metrics
   Organization.afterCreate(async (object) => {
     if (global.disableMetrics) {
       return
@@ -190,9 +193,9 @@ module.exports = async () => {
     sequelize,
     flush: async () => {
       if (process.env.NODE_ENV === 'testing') {
-        await Organization.destroy({ where: {} })
-        await Membership.destroy({ where: {} })
-        await Invitation.destroy({ where: {} })
+        await Organization.sync({ force: true })
+        await Membership.sync({ force: true })
+        await Invitation.sync({ force: true })
       }
     },
     Organization,

@@ -9,7 +9,9 @@ module.exports = {
     if (!account) {
       throw new Error('invalid-account')
     }
-    let where
+    const where = {
+      appid: req.appid || global.appid
+    }
     if (req.query.organizationid) {
       const organization = await global.api.user.organizations.Organization.get(req)
       if (!organization) {
@@ -18,14 +20,12 @@ module.exports = {
       if (organization.ownerid !== req.account.accountid) {
         throw new Error('invalid-account')
       }
-      where = {
-        organizationid: req.query.organizationid
-      }
+      where.organizationid = req.query.organizationid
     } else {
-      where = {
-        accountid: req.query.accountid
-      }
+      where.accountid = req.query.accountid
     }
-    return organizations.Storage.Invitation.count({ where })
+    return organizations.Storage.Invitation.count({
+      where
+    })
   }
 }

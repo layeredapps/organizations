@@ -1,4 +1,6 @@
-module.exports = async (req, proxyRequestOptions) => {
+module.exports = addXOrganizationsHeader
+
+async function addXOrganizationsHeader (req, proxyRequestOptions) {
   if (!req.account || req.route) {
     return
   }

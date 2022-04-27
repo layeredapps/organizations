@@ -1,4 +1,8 @@
 
+> @layeredapps/organizations@1.0.26 test
+> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+
+
 
   index
     MINIMUM_ORGANIZATION_NAME_LENGTH
@@ -706,5 +710,5 @@
       ✔ object
 
 
-  349 passing (12m)
+  349 passing (11m)
 

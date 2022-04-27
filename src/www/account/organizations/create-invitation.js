@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const dashboard = require('@layeredapps/dashboard')
 
 module.exports = {
@@ -43,7 +44,7 @@ async function renderPage (req, res, messageTemplate) {
   }
   dashboard.HTML.renderTemplate(doc, note, 'alphanumeric-note', 'note-container')
   doc.getElementById('organization-pin').setAttribute('value', req.data.organization.pin)
-  doc.getElementById('secret-code').setAttribute('value', dashboard.UUID.random(global.minimumInvitationCodeLength))
+  doc.getElementById('secret-code').setAttribute('value', crypto.randomBytes(Math.ceil(global.minimumInvitationCodeLength / 2)).toString('hex'))
   return dashboard.Response.end(req, res, doc)
 }
 

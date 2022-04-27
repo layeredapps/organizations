@@ -101,7 +101,7 @@ describe('/account/organizations/create-invitation', () => {
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': 'secret' + new Date().getTime(),
+        'secret-code': 'secret',
         multi: true
       }
       req.filename = __filename

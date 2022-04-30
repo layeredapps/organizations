@@ -1,5 +1,5 @@
 @layeredapps/dashboard 0.0.72
-http://localhost:50007
+http://localhost:8000
 
 Administrator menu:
 @layeredapps/organizations/src/www/administrator/organizations "Organizations module"
@@ -175,4 +175,4 @@ URL ------------------------------------------------- AUTH - TEMPLATE - HTTP REQ
 /api/user/update-profile                                                PATCH           @layeredapps/dashboard                               
 /home                                                                                   static-page                /src/www                  
 
-2022-04-29T23:36:03.505Z
+2022-04-30T01:01:12.701Z

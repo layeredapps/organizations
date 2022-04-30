@@ -1,6 +1,6 @@
 
-> @layeredapps/organizations@1.0.26 test
-> NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
+> @layeredapps/organizations@1.0.28 test
+> PORT=50008 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
 

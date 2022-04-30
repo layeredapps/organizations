@@ -1,4 +1,4 @@
-# Documentation for Organizations
+# Documentation for Organizations module
 
 #### Shortcuts
 

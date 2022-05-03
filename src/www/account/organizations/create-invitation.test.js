@@ -167,7 +167,7 @@ describe('/account/organizations/create-invitation', () => {
       req.account = owner.account
       req.session = owner.session
       req.body = {
-        'secret-code': owner.invitation.secretCode,
+        'secret-code': 'mysecret123',
         'csrf-token': 'invalid'
       }
       const result = await req.post()

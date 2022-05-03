@@ -208,6 +208,7 @@ describe('/account/organizations/accept-invitation', () => {
         profileid: owner.profile.profileid,
         pin: '1230'
       })
+      await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.puppeteer = false

@@ -131,6 +131,7 @@ describe('/account/organizations/accept-invitation', () => {
         pin: '1230'
       })
       await TestHelper.createInvitation(owner)
+      // owner cannot accept invitation
       const req = TestHelper.createRequest('/account/organizations/accept-invitation')
       req.account = owner.account
       req.session = owner.session
@@ -143,6 +144,7 @@ describe('/account/organizations/accept-invitation', () => {
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-account')
+      // invalid account because existing member
       const member = await TestHelper.createUser()
       await TestHelper.createProfile(member, {
         'display-name': 'Person',
@@ -163,6 +165,64 @@ describe('/account/organizations/accept-invitation', () => {
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
       assert.strictEqual(message2.attr.template, 'invalid-account')
+    })
+
+    it('invalid-xss-input', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1230'
+      })
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': '<script>',
+        'organization-pin': '1230'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1230'
+      })
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/organizations/accept-invitation')
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'secret-code': owner.invitation.secretCode,
+        'organization-pin': '1230',
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
     })
   })
 })

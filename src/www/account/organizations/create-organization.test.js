@@ -194,5 +194,45 @@ describe('/account/organizations/create-organization', () => {
       const message = doc.getElementById('message-container').child[0]
       assert.strictEqual(message.attr.template, 'invalid-organization-email')
     })
+
+    it('invalid-xss-input', async () => {
+      const owner = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/organizations/create-organization')
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        name: '<script>',
+        email: 'test@test.com',
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail,
+        pin: '12344'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const owner = await TestHelper.createUser()
+      const req = TestHelper.createRequest('/account/organizations/create-organization')
+      req.puppeteer = false
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        name: 'org-name',
+        email: 'test@test.com',
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail,
+        pin: '12344',
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
   })
 })

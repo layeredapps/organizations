@@ -121,4 +121,60 @@ describe('/account/organizations/create-invitation', () => {
       assert.strictEqual(message.attr.template, 'success')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-xss-input', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1230'
+      })
+      const req = TestHelper.createRequest(`/account/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        'secret-code': '<script>'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '1230'
+      })
+      const req = TestHelper.createRequest(`/account/organizations/create-invitation?organizationid=${owner.organization.organizationid}`)
+      req.puppeteer = false
+      req.account = owner.account
+      req.session = owner.session
+      req.body = {
+        'secret-code': owner.invitation.secretCode,
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
+  })
 })

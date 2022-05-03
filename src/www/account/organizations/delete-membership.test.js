@@ -151,4 +151,40 @@ describe('/account/organizations/delete-membership', () => {
       assert.strictEqual(errorMessage, 'invalid-membershipid')
     })
   })
+
+  describe('errors', () => {
+    it('invalid-csrf-token', async () => {
+      const owner = await TestHelper.createUser()
+      const user = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createProfile(user, {
+        'display-name': user.profile.firstName,
+        'display-email': user.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12344'
+      })
+      await TestHelper.createInvitation(owner)
+      await TestHelper.acceptInvitation(user, owner)
+      const req = TestHelper.createRequest(`/account/organizations/delete-membership?membershipid=${user.membership.membershipid}`)
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'csrf-token': 'invalid'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
+  })
 })

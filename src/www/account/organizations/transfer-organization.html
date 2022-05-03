@@ -32,6 +32,7 @@
         </table>
       </div>
       <form id="submit-form" class="input-form" action="/account/organizations/transfer-organization?organizationid=${organization.organizationid}" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <div class="input-fields">
           <label class="field-label" for="accountid" translate="yes">New organization owner</label>
           <div class="field">
@@ -65,6 +66,16 @@
     <template id="invalid-accountid">
       <div class="error message" translate="yes">
         Error! An invalid recipient was selected or provided
+      </div>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-xss-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
       </div>
     </template>
   </body>

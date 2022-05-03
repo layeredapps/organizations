@@ -15,6 +15,7 @@
       <p translate="yes">Users require the organization PIN and the invite code to accept invitations.  If you change the PIN</p>
       <div id="message-container"></div>
       <form id="submit-form" method="post" class="input-form" action="/account/organizations/create-invitation?organizationid=${organization.organizationid}" name="submit-form">
+        <input type="hidden" name="csrf-token" />
         <div class="input-fields">
           <label class="field-label" for="organization-name" translate="yes">Organization</label>
           <div class="checkbox-fields">
@@ -69,6 +70,16 @@
     <template id="success">
       <div class="success message">
         <p translate="yes">Success!  To join your organization users must go to the <a href="/account/organizations/accept-invitation">accept invitation</a> page and enter your secret code.</p>
+      </div>
+    </template>
+    <template id="invalid-csrf-token">
+      <div class="error message" translate="yes">
+        Error! This form was not submitted correctly
+      </div>
+    </template>
+    <template id="invalid-xss-input">
+      <div class="error message" translate="yes">
+        Error! Invalid value(s) were posted to the server
       </div>
     </template>
   </body>

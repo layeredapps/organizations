@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const { Model, DataTypes } = require('sequelize')
 const metrics = require('@layeredapps/dashboard/src/metrics.js')
 const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations')
@@ -40,7 +41,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'invt_' + idValue.substring(0, 16)
       }
     },
@@ -82,7 +83,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'mmbr_' + idValue.substring(0, 16)
       }
     },
@@ -118,7 +119,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = Math.random().toString(16).substring(2) + Math.random().toString(16).substring(2)
+        const idValue = crypto.randomBytes(32).toString('hex')
         return 'orgn_' + idValue.substring(0, 16)
       }
     },

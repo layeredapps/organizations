@@ -1,5 +1,5 @@
 
-> @layeredapps/organizations@1.0.28 test
+> @layeredapps/organizations@1.0.34 test
 > PORT=50008 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -43,6 +43,8 @@
       ✔ should accept invitation and create profile (screenshots)
     errors
       ✔ invalid-account
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/create-invitation
     exceptions
@@ -53,6 +55,9 @@
       ✔ should present the form
     submit
       ✔ should create invitation (screenshots)
+    errors
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/create-organization
     view
@@ -66,6 +71,8 @@
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-invitation
     exceptions
@@ -76,6 +83,8 @@
       ✔ should present the form
     submit
       ✔ should delete invitation (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-membership
     exceptions
@@ -86,6 +95,8 @@
       ✔ should present the form
     submit
       ✔ should delete membership (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/organizations/delete-organization
     exceptions
@@ -96,6 +107,8 @@
       ✔ should present the form
     submit
       ✔ should delete organization (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/organizations/edit-membership-profile
     view
@@ -154,6 +167,8 @@
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations
     before
@@ -227,6 +242,8 @@
       ✔ should present the form
     submit
       ✔ should delete membership (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /account/organizations/transfer-organization
     exceptions
@@ -237,6 +254,8 @@
       ✔ should present the form
     submit
       ✔ should transfer ownership (screenshots)
+    errors
+      ✔ invalid-csrf-token
 
   /administrator/organizations
     before
@@ -710,5 +729,5 @@
       ✔ object
 
 
-  349 passing (11m)
+  362 passing (11m)
 

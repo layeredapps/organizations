@@ -1,5 +1,5 @@
 
-> @layeredapps/organizations@1.0.34 test
+> @layeredapps/organizations@1.0.37 test
 > PORT=50008 NODE_ENV=testing STORAGE=sqlite SQLITE_DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -246,10 +246,11 @@
 
   /account/organizations/invitation
     before
-      ✔ should require owner
       ✔ should bind data to req
     view
       ✔ should have row for invitation (screenshots)
+    errors
+      ✔ invalid-account
 
   /account/organizations/membership
     before
@@ -273,12 +274,13 @@
 
   /account/organizations/organization-invitations
     before
-      ✔ should require owner
       ✔ should bind data to req
     view
       ✔ should return one page (screenshots)
       ✔ should change page size
       ✔ should change offset
+    errors
+      ✔ invalid-account
 
   /account/organizations/organization-memberships
     before

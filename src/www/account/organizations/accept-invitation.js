@@ -13,7 +13,7 @@ async function beforeRequest (req) {
   const profiles = await global.api.user.Profiles.get(req)
   const validProfiles = []
   if (profiles && profiles.length) {
-    const requiredFields = req.userProfileFields || global.membershipProfileFields
+    const requiredFields = req.membershipProfileFields || global.membershipProfileFields
     for (const profile of profiles) {
       let include = true
       for (const field of requiredFields) {
@@ -42,47 +42,57 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html)
-  const submitForm = doc.getElementById('submit-form')
+  const removeElements = []
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success' || messageTemplate === 'invalid-account') {
-      submitForm.parentNode.removeChild(submitForm)
-      return dashboard.Response.end(req, res, doc)
+    if (messageTemplate === 'success') {
+      removeElements.push('submit-form')
     }
-  }
-  const profileFields = req.userProfileFields || global.membershipProfileFields
-  const removeFields = [].concat(global.profileFields)
-  if (req.data && req.data.profiles && req.data.profiles.length) {
-    dashboard.HTML.renderList(doc, req.data.profiles, 'profile-option', 'profileid')
   } else {
-    removeFields.push('existing-profile')
-  }
-  for (const field of profileFields) {
-    removeFields.splice(removeFields.indexOf(field), 1)
-  }
-  for (const id of removeFields) {
-    const element = doc.getElementById(`${id}-container`)
-    if (!element || !element.parentNode) {
-      continue
-    }
-    element.parentNode.removeChild(element)
-  }
-  if (req.body) {
-    const codeField = doc.getElementById('secret-code')
-    codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code'] || ''))
-    if (req.body.profileid) {
-      dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', dashboard.Format.replaceQuotes(req.body.profileid || ''))
+    if (req.data && req.data.profiles && req.data.profiles.length) {
+      dashboard.HTML.renderList(doc, req.data.profiles, 'profile-option', 'profileid')
     } else {
-      const profileFields = req.userProfileFields || global.membershipProfileFields
-      for (const field of profileFields) {
-        if (req.body[field]) {
-          const element = doc.getElementById(field)
-          element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field] || ''))
+      removeElements.push('existing-profile-container')
+    }
+    const retainedFields = req.membershipProfileFields || global.membershipProfileFields
+    for (const field of global.profileFields) {
+      if (retainedFields.indexOf(field) > -1) {
+        continue
+      }
+      removeElements.push(`${field}-container`)
+    }
+    if (req.body) {
+      const codeField = doc.getElementById('secret-code')
+      codeField.setAttribute('value', dashboard.Format.replaceQuotes(req.body['secret-code'] || ''))
+      if (req.body.profileid) {
+        dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', dashboard.Format.replaceQuotes(req.body.profileid || ''))
+      } else {
+        const profileFields = req.membershipProfileFields || global.membershipProfileFields
+        for (const field of profileFields) {
+          if (field === 'full-name') {
+            if (req.body['first-name']) {
+              const element = doc.getElementById('first-name')
+              element.setAttribute('value', dashboard.Format.replaceQuotes(req.body['first-name']))
+            }
+            if (req.body['last-name']) {
+              const element = doc.getElementById('last-name')
+              element.setAttribute('value', dashboard.Format.replaceQuotes(req.body['last-name']))
+            }
+            continue
+          }
+          if (req.body[field]) {
+            const element = doc.getElementById(field)
+            element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field] || ''))
+          }
         }
       }
     }
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }
@@ -154,13 +164,81 @@ async function submitForm (req, res) {
       }
     }
   } else {
-    req.userProfileFields = req.userProfileFields || global.membershipProfileFields
-    for (const field of req.userProfileFields) {
-      if (req.body[field] && req.body[field].trim) {
-        req.body[field] = req.body[field].trim()
+    const requiredFields = req.membershipProfileFields || global.membershipProfileFields
+    for (const field of requiredFields) {
+      switch (field) {
+        case 'full-name':
+          if (req.body['first-name'] && req.body['first-name'].trim) {
+            req.body['first-name'] = req.body['first-name'].trim()
+          }
+          if (!req.body['first-name'] || !req.body['first-name'].length) {
+            return renderPage(req, res, 'invalid-first-name')
+          }
+          if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
+            global.maximumProfileFirstNameLength < req.body['first-name'].length) {
+            return renderPage(req, res, 'invalid-first-name-length')
+          }
+          if (req.body['last-name'] && req.body['last-name'].trim) {
+            req.body['last-name'] = req.body['last-name'].trim()
+          }
+          if (!req.body['last-name'] || !req.body['last-name'].length) {
+            return renderPage(req, res, 'invalid-last-name')
+          }
+          if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
+            global.maximumProfileLastNameLength < req.body['last-name'].length) {
+            return renderPage(req, res, 'invalid-last-name-length')
+          }
+          continue
+        case 'contact-email':
+          if (!req.body[field] || req.body[field].indexOf('@') < 1) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        case 'display-email':
+          if (!req.body[field] || req.body[field].indexOf('@') < 1) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        case 'display-name':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          if (global.minimumProfileDisplayNameLength > req.body[field].length ||
+            global.maximumProfileDisplayNameLength < req.body[field].length) {
+            return renderPage(req, res, 'invalid-display-name-length')
+          }
+          continue
+        case 'company-name':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          if (global.minimumProfileCompanyNameLength > req.body[field].length ||
+            global.maximumProfileCompanyNameLength < req.body[field].length) {
+            return renderPage(req, res, 'invalid-company-name-length')
+          }
+          continue
+        case 'dob':
+          if (!req.body[field] || !req.body[field].length) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          try {
+            const date = dashboard.Format.parseDate(req.body[field])
+            if (!date || !date.getFullYear) {
+              return renderPage(req, res, `invalid-${field}`)
+            }
+          } catch (error) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
+        default:
+          if (!req.body || !req.body[field]) {
+            return renderPage(req, res, `invalid-${field}`)
+          }
+          continue
       }
     }
     try {
+      req.userProfileFields = requiredFields
       const profile = await global.api.user.CreateProfile.post(req)
       req.body.profileid = profile.profileid
     } catch (error) {

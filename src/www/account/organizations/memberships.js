@@ -23,38 +23,25 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.html || req.route.html)
   const removeElements = []
   if (req.data.memberships && req.data.memberships.length) {
-    const removeFields = [].concat(global.profileFields)
-    const usedFields = []
+    const retainedFields = req.membershipProfileFields || global.membershipProfileFields
     for (const membership of req.data.memberships) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) > -1) {
+      for (const field of global.profileFields) {
+        if (retainedFields.indexOf(field) > -1) {
           continue
         }
         if (field === 'full-name') {
-          if (membership.firstName && usedFields.indexOf(field) === -1) {
-            usedFields.push(field)
+          if (retainedFields.indexOf('first-name') === -1) {
+            removeElements.push(`first-name-${membership.membershipid}`)
+          }
+          if (retainedFields.indexOf('last-name') === -1) {
+            removeElements.push(`last-name-${membership.membershipid}`)
           }
           continue
         }
-        const displayName = global.profileFieldMap[field]
-        if (membership[displayName] && usedFields.indexOf(field) === -1) {
-          usedFields.push(field)
-        }
-      }
-    }
-    for (const field of removeFields) {
-      if (usedFields.indexOf(field) === -1) {
-        removeElements.push(field)
+        removeElements.push(`${field}-${membership.membershipid}`)
       }
     }
     dashboard.HTML.renderTable(doc, req.data.memberships, 'membership-row', 'memberships-table')
-    for (const membership of req.data.memberships) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) === -1) {
-          removeElements.push(`${field}-${membership.membershipid}`)
-        }
-      }
-    }
     if (req.data.total <= global.pageSize) {
       removeElements.push('page-links')
     } else {

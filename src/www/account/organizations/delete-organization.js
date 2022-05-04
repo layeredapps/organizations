@@ -8,7 +8,14 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.organizationid) {
-    throw new Error('invalid-organization')
+    req.error = 'invalid-organization'
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: req.query.organizationid
+      }
+    }
+    return
   }
   if (req.query.message === 'success') {
     req.data = {
@@ -16,26 +23,48 @@ async function beforeRequest (req) {
         organizationid: ''
       }
     }
+    req.removeContents = true
     return
   }
-  const organization = await global.api.user.organizations.Organization.get(req)
-  if (!organization) {
-    throw new Error('invalid-organization')
+  let organization
+  try {
+    organization = await global.api.user.organizations.Organization.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: ''
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   if (organization.ownerid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    req.error = 'invalid-account'
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
-  organization.createdAtFormatted = dashboard.Format.date(organization.createdAt)
+  if (organization.createdAt) {
+    organization.createdAtFormatted = dashboard.Format.date(organization.createdAt)
+  }
   req.data = { organization }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.organization, 'organization')
-
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)

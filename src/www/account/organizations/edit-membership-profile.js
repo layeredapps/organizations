@@ -9,61 +9,113 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.membershipid) {
-    throw new Error('invalid-membershipid')
+    req.error = 'invalid-membershipid'
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: ''
+      },
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      }
+    }
+    return
   }
-  const membership = await global.api.user.organizations.Membership.get(req)
-  if (!membership) {
-    throw new Error('invalid-membershipid')
+  let membership
+  try {
+    membership = await global.api.user.organizations.Membership.get(req)
+  } catch (error) {
+    req.removeContents = true
+    if (error.message === 'invalid-membershipid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    req.data = {
+      organization: {
+        organizationid: req.query.organizationid
+      },
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      }
+    }
+    return
   }
   if (membership.accountid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    req.error = 'invalid-account'
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: req.query.organizationid
+      },
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      }
+    }
+    return
   }
   req.query.organizationid = membership.organizationid
-  const organization = await global.api.user.organizations.Organization.get(req)
-  if (!organization) {
-    throw new Error('invalid-organization')
+  let organization
+  try {
+    organization = await global.api.user.organizations.Organization.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: req.query.organizationid
+      },
+      membership: {
+        membershipid: ''
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   req.data = { organization, membership }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.membership, 'membership')
   await navbar.setup(doc, req.data.organization, req.account)
+  const removeElements = []
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
-      const submitForm = doc.getElementById('submit-form')
-      submitForm.parentNode.removeChild(submitForm)
-      return dashboard.Response.end(req, res, doc)
+    if (req.removeContents) {
+      removeElements.push('submit-form')
     }
-  }
-  const removeFields = [].concat(global.profileFields)
-  const profileFields = req.userProfileFields || global.membershipProfileFields
-  for (const field of profileFields) {
-    removeFields.splice(removeFields.indexOf(field), 1)
-  }
-  if (messageTemplate) {
-    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
-      removeFields.push('submit-form')
-    }
-  }
-  for (const id of removeFields) {
-    const element = doc.getElementById(`${id}-container`)
-    if (!element || !element.parentNode) {
-      continue
-    }
-    element.parentNode.removeChild(element)
-  }
-  if (req.method === 'GET') {
-    for (const field in req.data.membership) {
-      const element = doc.getElementById(field)
-      if (!element) {
+  } else {
+    const retainedFields = req.membershipProfileFields || global.membershipProfileFields
+    for (const field of global.profileFields) {
+      if (retainedFields.indexOf(field) > -1) {
         continue
       }
-      element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership[field]))
+      removeElements.push(`${field}-container`)
     }
+    if (req.method === 'GET') {
+      for (const field of retainedFields) {
+        if (field === 'full-name') {
+          const firstName = doc.getElementById('first-name')
+          firstName.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership['first-name']))
+          const lastName = doc.getElementById('last-name')
+          lastName.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership['last-name']))
+          continue
+        }
+        const element = doc.getElementById(field)
+        element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership[field]))
+      }
+    }
+  }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }
@@ -75,7 +127,7 @@ async function submitForm (req, res) {
   if (req.query && req.query.message === 'success') {
     return renderPage(req, res)
   }
-  req.userProfileFields = req.userProfileFields || global.membershipProfileFields
+  req.membershipProfileFields = req.membershipProfileFields || global.membershipProfileFields
   try {
     await global.api.user.UpdateProfile.patch(req)
   } catch (error) {

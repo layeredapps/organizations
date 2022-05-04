@@ -47,6 +47,8 @@
         <td><a href="/account/organizations/membership?membershipid=${membership.membershipid}">${membership.membershipid}</a></td>
         <td><a href="/account/organizations/invitation?invitationid=${membership.invitationid}">${membership.invitationid}</a></td>
         <td id="full-name-${membership.membershipid}">${membership.firstName} ${membership.lastName}</td>
+        <td id="first-name-${membership.membershipid}">${membership.firstName}</td>
+        <td id="last-name-${membership.membershipid}">${membership.lastName}</td>
         <td id="contact-email-${membership.membershipid}"><a href="mailto:${membership.contactEmail}">${membership.contactEmail}</a></td>
         <td id="display-name-${membership.membershipid}">${membership.displayName}</td>
         <td id="display-email-${membership.membershipid}"><a href="mailto:${membership.displayEmail}">${membership.displayEmail}</a></td>
@@ -58,6 +60,21 @@
         <td id="website-${membership.membershipid}"><a href="${membership.website}">${membership.website}</a></td>
         <td>${membership.createdAtFormatted}</td>
       </tr>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-organizationid">
+      <div class="error message" translate="yes">
+        Error! An invalid organization was specified
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! You cannot view somebody else's organization memberships
+      </div>
     </template>
   </body>
 </html>

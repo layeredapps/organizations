@@ -1272,5 +1272,70 @@ describe('/account/organizations/edit-membership-profile', () => {
       const message = messageContainer.child[0]
       assert.strictEqual(message.attr.template, 'invalid-website')
     })
+
+    it('invalid-xss-input', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = global.membershipProfileFields = ['display-name']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName
+      })
+      await TestHelper.createOrganization(owner, {
+        email: 'test@email.com',
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12344'
+      })
+      await TestHelper.createInvitation(owner)
+      const user = await TestHelper.createUser()
+      await TestHelper.createProfile(user, {
+        'display-name': user.profile.firstName
+      })
+      await TestHelper.acceptInvitation(user, owner)
+      const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'display-name': '<script>'
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-xss-input')
+    })
+
+    it('invalid-csrf-token', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = global.membershipProfileFields = ['display-name']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName
+      })
+      await TestHelper.createOrganization(owner, {
+        email: 'test@email.com',
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12344'
+      })
+      await TestHelper.createInvitation(owner)
+      const user = await TestHelper.createUser()
+      const identity = user.profile
+      await TestHelper.createProfile(user, {
+        'display-name': user.profile.firstName
+      })
+      await TestHelper.acceptInvitation(user, owner)
+      const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
+      req.puppeteer = false
+      req.account = user.account
+      req.session = user.session
+      req.body = {
+        'display-name': identity.firstName + ' ' + identity.lastName.substring(0, 1),
+        'csrf-token': ''
+      }
+      const result = await req.post()
+      const doc = TestHelper.extractDoc(result.html)
+      const messageContainer = doc.getElementById('message-container')
+      const message = messageContainer.child[0]
+      assert.strictEqual(message.attr.template, 'invalid-csrf-token')
+    })
   })
 })

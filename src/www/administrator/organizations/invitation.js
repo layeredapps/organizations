@@ -7,16 +7,25 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.invitationid) {
-    throw new Error('invalid-invitationid')
+    req.error = 'invalid-invitationid'
+    req.removeContents = true
+    req.data = {
+      invitation: {
+        invitationid: ''
+      }
+    }
+    return
   }
   const invitation = await global.api.administrator.organizations.Invitation.get(req)
   if (!invitation) {
-    throw new Error('invalid-invitationid')
+    req.error = 'invalid-invitationid'
+    return
   }
   req.query.organizationid = invitation.organizationid
   const organization = await global.api.administrator.organizations.Organization.get(req)
   if (!organization) {
-    throw new Error('invalid-organization')
+    req.error = 'invalid-organization'
+    return
   }
   invitation.createdAtFormatted = dashboard.Format.date(invitation.createdAt)
   if (invitation.acceptedAt) {
@@ -25,22 +34,30 @@ async function beforeRequest (req) {
   req.data = { invitation }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invitation, 'invitation')
   const removeElements = []
-  if (req.data.invitation.multi) {
-    removeElements.push('single-use', 'accepted-row')
-    if (req.data.invitation.terminatedAt) {
-      removeElements.push('not-terminated')
-    } else {
-      removeElements.push('terminated')
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('invitations-table')
     }
   } else {
-    removeElements.push('multi-use', 'terminated-row')
-    if (req.data.invitation.acceptedAt) {
-      removeElements.push('not-accepted')
+    if (req.data.invitation.multi) {
+      removeElements.push('single-use', 'accepted-row')
+      if (req.data.invitation.terminatedAt) {
+        removeElements.push('not-terminated')
+      } else {
+        removeElements.push('terminated')
+      }
     } else {
-      removeElements.push('accepted')
+      removeElements.push('multi-use', 'terminated-row')
+      if (req.data.invitation.acceptedAt) {
+        removeElements.push('not-accepted')
+      } else {
+        removeElements.push('accepted')
+      }
     }
   }
   for (const id of removeElements) {

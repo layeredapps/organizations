@@ -46,12 +46,7 @@
       <span class="field-note">
         ${note.min} - ${note.max} characters using letters and numbers only
       </span>
-    </template>    
-    <template id="unknown-error">
-      <div class="error message" translate="yes">
-        Error! An unknown error occurred
-      </div>
-    </template>
+    </template>   
     <template id="duplicate-secret-code">
       <div class="error message" translate="yes">
         Error! The secret code has already been used
@@ -70,6 +65,21 @@
     <template id="success">
       <div class="success message">
         <p translate="yes">Success!  To join your organization users must go to the <a href="/account/organizations/accept-invitation">accept invitation</a> page and enter your secret code.</p>
+      </div>
+    </template>
+    <template id="unknown-error">
+      <div class="error message" translate="yes">
+        Error! An unknown error occurred
+      </div>
+    </template>
+    <template id="invalid-organizationid">
+      <div class="error message" translate="yes">
+        Error! An invalid organization was specified
+      </div>
+    </template>
+    <template id="invalid-account">
+      <div class="error message" translate="yes">
+        Error! You cannot create invitations for someone else's organization
       </div>
     </template>
     <template id="invalid-csrf-token">

@@ -7,14 +7,37 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.organizationid) {
-    throw new Error('invalid-organizationid')
+    req.error = 'invalid-organizationid'
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
-  const organization = await global.api.user.organizations.Organization.get(req)
-  if (!organization) {
-    throw new Error('invalid-organization')
+  let organization
+  try {
+    organization = await global.api.user.organizations.Organization.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      organization: {
+        organizationid: ''
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   if (organization.ownerid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    req.error = 'invalid-account'
+    req.removeContents = true
+    req.data = { organization }
+    return
   }
   req.query.accountid = req.account.accountid
   const total = await global.api.user.organizations.MembershipsCount.get(req)
@@ -28,56 +51,49 @@ async function beforeRequest (req) {
   req.data = { organization, memberships, total, offset }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.organization, 'organization')
   const removeElements = []
-  if (req.data.memberships && req.data.memberships.length) {
-    const removeFields = [].concat(global.profileFields)
-    const usedFields = []
-    for (const membership of req.data.memberships) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) > -1) {
-          continue
-        }
-        if (field === 'full-name') {
-          if (membership.firstName && usedFields.indexOf(field) === -1) {
-            usedFields.push(field)
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('submit-form')
+    }
+  } else {
+    if (req.data.memberships && req.data.memberships.length) {
+      const retainedFields = req.membershipProfileFields || global.membershipProfileFields
+      for (const membership of req.data.memberships) {
+        for (const field of global.profileFields) {
+          if (retainedFields.indexOf(field) > -1) {
+            continue
           }
-          continue
-        }
-        const displayName = global.profileFieldMap[field]
-        if (membership[displayName] && usedFields.indexOf(field) === -1) {
-          usedFields.push(field)
-        }
-      }
-    }
-    for (const field of removeFields) {
-      if (usedFields.indexOf(field) === -1) {
-        removeElements.push(field)
-      }
-    }
-    dashboard.HTML.renderTable(doc, req.data.memberships, 'membership-row', 'memberships-table')
-    for (const membership of req.data.memberships) {
-      for (const field of removeFields) {
-        if (usedFields.indexOf(field) === -1) {
+          if (field === 'full-name') {
+            if (retainedFields.indexOf('first-name') === -1) {
+              removeElements.push(`first-name-${membership.membershipid}`)
+            }
+            if (retainedFields.indexOf('last-name') === -1) {
+              removeElements.push(`last-name-${membership.membershipid}`)
+            }
+            continue
+          }
           removeElements.push(`${field}-${membership.membershipid}`)
         }
       }
-    }
-    if (req.data.total <= global.pageSize) {
-      removeElements.push('page-links')
+      dashboard.HTML.renderTable(doc, req.data.memberships, 'membership-row', 'memberships-table')
+      if (req.data.total <= global.pageSize) {
+        removeElements.push('page-links')
+      } else {
+        dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
+      }
+      removeElements.push('no-memberships')
     } else {
-      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
+      removeElements.push('memberships-table')
     }
-    removeElements.push('no-memberships')
-  } else {
-    removeElements.push('memberships-table')
   }
   for (const id of removeElements) {
     const element = doc.getElementById(id)
-    if (element) {
-      element.parentNode.removeChild(element)
-    }
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

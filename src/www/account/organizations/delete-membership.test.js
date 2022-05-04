@@ -3,47 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/account/organizations/delete-membership', () => {
-  describe('exceptions', () => {
-    it('invalid-account', async () => {
-      const owner = await TestHelper.createUser()
-      const user = await TestHelper.createUser()
-      global.userProfileFields = ['display-name', 'display-email']
-      await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
-        'display-email': owner.profile.contactEmail
-      })
-      await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
-        'display-email': user.profile.contactEmail
-      })
-      await TestHelper.createOrganization(owner, {
-        email: owner.profile.displayEmail,
-        name: 'My organization',
-        profileid: owner.profile.profileid,
-        pin: '12344'
-      })
-      await TestHelper.createInvitation(owner)
-      await TestHelper.acceptInvitation(user, owner)
-      global.userProfileFields = ['contact-email', 'full-name']
-      const user2 = await TestHelper.createUser()
-      global.userProfileFields = ['display-name', 'display-email']
-      await TestHelper.createProfile(user2, {
-        'display-name': user2.profile.firstName,
-        'display-email': user2.profile.contactEmail
-      })
-      const req = TestHelper.createRequest(`/account/organizations/delete-membership?membershipid=${user.membership.membershipid}`)
-      req.account = user2.account
-      req.session = user2.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-  })
-
   describe('before', () => {
     it('should bind data to req', async () => {
       const owner = await TestHelper.createUser()
@@ -138,21 +97,48 @@ describe('/account/organizations/delete-membership', () => {
         { fill: '#submit-form' }
       ]
       global.pageSize = 50
-      await req.post()
-      const req2 = TestHelper.createRequest(`/api/user/organizations/membership?membershipid=${user.membership.membershipid}`)
-      req2.account = owner.account
-      req2.session = owner.session
-      let errorMessage
-      try {
-        await req2.get(req2)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-membershipid')
+      const result = await req.post(req)
+      const doc = TestHelper.extractDoc(result.html)
+      const message = doc.getElementById('message-container').child[0]
+      assert.strictEqual(message.attr.template, 'success')
     })
   })
 
   describe('errors', () => {
+    it('invalid-account', async () => {
+      const owner = await TestHelper.createUser()
+      const user = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createProfile(user, {
+        'display-name': user.profile.firstName,
+        'display-email': user.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12344'
+      })
+      await TestHelper.createInvitation(owner)
+      await TestHelper.acceptInvitation(user, owner)
+      global.userProfileFields = ['contact-email', 'full-name']
+      const user2 = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(user2, {
+        'display-name': user2.profile.firstName,
+        'display-email': user2.profile.contactEmail
+      })
+      const req = TestHelper.createRequest(`/account/organizations/delete-membership?membershipid=${user.membership.membershipid}`)
+      req.account = user2.account
+      req.session = user2.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
+    })
+
     it('invalid-csrf-token', async () => {
       const owner = await TestHelper.createUser()
       const user = await TestHelper.createUser()

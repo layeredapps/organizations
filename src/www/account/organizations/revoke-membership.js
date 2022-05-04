@@ -9,9 +9,20 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.membershipid) {
-    throw new Error('invalid-membershipid')
+    req.error = 'invalid-membershipid'
+    req.removeContents = true
+    req.data = {
+      membership: {
+        membershipid: ''
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
   if (req.query.message === 'success') {
+    req.removeContents = true
     req.data = {
       membership: {
         membershipid: req.query.membershipid
@@ -22,29 +33,64 @@ async function beforeRequest (req) {
     }
     return
   }
-  const membership = await global.api.user.organizations.Membership.get(req)
-  if (!membership) {
-    throw new Error('invalid-membership')
+  let membership
+  try {
+    membership = await global.api.user.organizations.Membership.get(req)
+  } catch (error) {
+    req.removeContents = true
+    if (error.message === 'invalid-membershipid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    req.data = {
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
   req.query.organizationid = membership.organizationid
-  const organization = await global.api.user.organizations.Organization.get(req)
-  if (!organization) {
-    throw new Error('invalid-organization')
+  let organization
+  try {
+    organization = await global.api.user.organizations.Organization.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   if (organization.ownerid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    req.error = 'invalid-account'
+    return
   }
   membership.createdAtFormatted = dashboard.Format.date(membership.createdAt)
   req.data = { organization, membership }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.membership, 'membership')
   await navbar.setup(doc, req.data.organization, req.account)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)

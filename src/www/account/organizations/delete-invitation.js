@@ -8,30 +8,56 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.invitationid) {
-    throw new Error('invalid-invitationid')
+    req.error = 'invalid-invitationid'
+    req.removeContents = true
+    req.data = {
+      invitation: {
+        invitationid: '',
+        organizationid: req.query.organizationid
+      }
+    }
+    return
   }
   if (req.query.message === 'success') {
     req.data = {
       invitation: {
         invitationid: '',
-        organizationid: req.query.organi
+        organizationid: req.query.organizationid
       }
     }
     return
   }
-  const invitation = await global.api.user.organizations.Invitation.get(req)
+  let invitation
+  try {
+    invitation = await global.api.user.organizations.Invitation.get(req)
+  } catch (error) {
+    req.removeContents = true
+    if (error.mesage === 'invalid-invitationid' || error.message === 'invalid-organizationid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    req.data = {
+      invitation: {
+        invitationid: '',
+        organizationid: req.query.organizationid
+      }
+    }
+    return
+  }
   if (invitation.acceptedAt) {
-    throw new Error('invalid-invitation')
+    req.error = 'invalid-invitation'
+    return
   }
   req.data = { invitation }
 }
 
 async function renderPage (req, res, messageTemplate) {
-  messageTemplate = messageTemplate || (req.query ? req.query.message : null)
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invitation, 'invitation')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (req.removeContents) {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
     }

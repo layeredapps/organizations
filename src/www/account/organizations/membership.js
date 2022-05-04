@@ -8,53 +8,103 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (!req.query || !req.query.membershipid) {
-    throw new Error('invalid-membershipid')
+    req.error = 'invalid-membershipid'
+    req.removeContents = true
+    req.data = {
+      membership: {
+        membershipid: ''
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
-  const membership = await global.api.administrator.organizations.Membership.get(req)
-  if (!membership) {
-    throw new Error('invalid-membershipid')
+  let membership
+  try {
+    membership = await global.api.user.organizations.Membership.get(req)
+  } catch (error) {
+    req.removeContents = true
+    if (error.message === 'invalid-membershipid' || error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    req.data = {
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    return
   }
   req.query.organizationid = membership.organizationid
-  const organization = await global.api.administrator.organizations.Organization.get(req)
-  if (!organization) {
-    throw new Error('invalid-organization')
+  let organization
+  try {
+    organization = await global.api.user.organizations.Organization.get(req)
+  } catch (error) {
+    req.removeContents = true
+    req.data = {
+      membership: {
+        membershipid: '',
+        organizationid: req.query.organizationid
+      },
+      organization: {
+        organizationid: ''
+      }
+    }
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    return
   }
   if (membership.accountid !== req.account.accountid && organization.ownerid !== req.account.accountid) {
-    throw new Error('invalid-account')
+    req.error = 'invalid-account'
+    req.removeContents = true
+    return
   }
-  membership.createdAtFormatted = dashboard.Format.date(membership.createdAt)
+  if (membership.createdAt) {
+    membership.createdAtFormatted = dashboard.Format.date(membership.createdAt)
+  }
   req.data = { organization, membership }
 }
 
-async function renderPage (req, res) {
+async function renderPage (req, res, messageTemplate) {
+  messageTemplate = req.error || messageTemplate || (req.query ? req.query.message : null)
   const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.membership, 'membership')
   await navbar.setup(doc, req.data.organization, req.account)
-  const removeFields = [].concat(global.profileFields)
-  const usedFields = []
-  for (const field of removeFields) {
-    if (usedFields.indexOf(field) > -1) {
-      continue
+  const removeElements = []
+  if (messageTemplate) {
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
+    if (req.removeContents) {
+      removeElements.push('submit-form')
     }
-    if (field === 'full-name') {
-      if (req.data.membership.firstName &&
-          removeFields.indexOf('full-name') > -1 &&
-          usedFields.indexOf(field) === -1) {
-        usedFields.push(field)
+  } else {
+    const retainedFields = req.membershipProfileFields || global.userProfileFields
+    for (const field of global.profileFields) {
+      if (retainedFields.indexOf(field) > -1) {
+        continue
       }
-      continue
-    }
-    const displayName = global.profileFieldMap[field]
-    if (req.data.membership[displayName] &&
-        removeFields.indexOf(field) > -1 &&
-        usedFields.indexOf(field) === -1) {
-      usedFields.push(field)
+      if (field === 'full-name') {
+        if (retainedFields.indexOf('first-name') === -1) {
+          removeElements.push('first-name')
+        }
+        if (retainedFields.indexOf('last-name') === -1) {
+          removeElements.push('last-name')
+        }
+        continue
+      }
+      removeElements.push(field)
     }
   }
-  for (const id of removeFields) {
-    if (usedFields.indexOf(id) === -1) {
-      const element = doc.getElementById(id)
-      element.parentNode.removeChild(element)
-    }
+  for (const id of removeElements) {
+    const element = doc.getElementById(id)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

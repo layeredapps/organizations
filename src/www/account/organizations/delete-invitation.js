@@ -19,6 +19,7 @@ async function beforeRequest (req) {
     return
   }
   if (req.query.message === 'success') {
+    req.removeContents = true
     req.data = {
       invitation: {
         invitationid: '',

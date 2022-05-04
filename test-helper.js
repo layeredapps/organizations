@@ -22,6 +22,7 @@ module.exports = {
   acceptInvitation,
   createInvitation,
   createOrganization,
+  deleteOrganization,
   terminateInvitation
 }
 
@@ -59,6 +60,14 @@ async function createOrganization (user, properties) {
   req2.body = properties
   user.membership = await req2.get()
   return user.organization
+}
+
+async function deleteOrganization (owner) {
+  Log.info('deleteOrganization', owner)
+  const req = TestHelper.createRequest(`/api/user/organizations/delete-organization?organizationid=${owner.organization.organizationid}`, 'DELETE')
+  req.account = owner.account
+  req.session = owner.session
+  await req.delete()
 }
 
 let invitationNumber = 0

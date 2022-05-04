@@ -49,33 +49,6 @@ describe('/account/organizations/organization-invitations', function () {
     cachedResponses.offset = await req2.get()
   })
   describe('before', () => {
-    it('should require owner', async () => {
-      const owner = await TestHelper.createUser()
-      global.userProfileFields = ['display-name', 'display-email']
-      await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
-        'display-email': owner.profile.contactEmail
-      })
-      await TestHelper.createOrganization(owner, {
-        email: owner.profile.displayEmail,
-        name: 'My organization',
-        profileid: owner.profile.profileid,
-        pin: '12345'
-      })
-      await TestHelper.createInvitation(owner)
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/organizations/organization-invitations?organizationid=${owner.organization.organizationid}`)
-      req.account = user.account
-      req.session = user.session
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.strictEqual(errorMessage, 'invalid-account')
-    })
-
     it('should bind data to req', async () => {
       const data = cachedResponses.before
       assert.strictEqual(data.invitations.length, global.pageSize)
@@ -111,6 +84,30 @@ describe('/account/organizations/organization-invitations', function () {
       for (let i = 0, len = global.pageSize; i < len; i++) {
         assert.strictEqual(doc.getElementById(cachedInvitations[offset + i]).tag, 'tr')
       }
+    })
+  })
+
+  describe('errors', () => {
+    it('invalid-account', async () => {
+      const owner = await TestHelper.createUser()
+      global.userProfileFields = ['display-name', 'display-email']
+      await TestHelper.createProfile(owner, {
+        'display-name': owner.profile.firstName,
+        'display-email': owner.profile.contactEmail
+      })
+      await TestHelper.createOrganization(owner, {
+        email: owner.profile.displayEmail,
+        name: 'My organization',
+        profileid: owner.profile.profileid,
+        pin: '12345'
+      })
+      await TestHelper.createInvitation(owner)
+      const user = await TestHelper.createUser()
+      const req = TestHelper.createRequest(`/account/organizations/organization-invitations?organizationid=${owner.organization.organizationid}`)
+      req.account = user.account
+      req.session = user.session
+      await req.route.api.before(req)
+      assert.strictEqual(req.error, 'invalid-account')
     })
   })
 })

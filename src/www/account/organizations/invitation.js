@@ -16,9 +16,22 @@ async function beforeRequest (req) {
     }
     return
   }
-  const invitation = await global.api.user.organizations.Invitation.get(req)
-  if (!invitation) {
-    req.error = 'invalid-invitationid'
+  let invitation
+  try {
+    invitation = await global.api.user.organizations.Invitation.get(req)
+  } catch (error) {
+    req.removeContents = true
+    if (error.mesage === 'invalid-invitationid' || error.message === 'invalid-organizationid' || error.message === 'invalid-account') {
+      req.error = error.message
+    } else {
+      req.error = 'unknown-error'
+    }
+    req.data = {
+      invitation: {
+        invitationid: '',
+        organizationid: req.query.organizationid
+      }
+    }
     return
   }
   req.query.organizationid = invitation.organizationid

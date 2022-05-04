@@ -24,7 +24,7 @@ async function beforeRequest (req) {
     organization = {
       organizationid: ''
     }
-    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid') {
+    if (error.message === 'invalid-account' || error.message === 'invalid-organizationid' || error.message === 'invalid-account') {
       req.error = error.message
     } else {
       req.error = 'unknown-error'

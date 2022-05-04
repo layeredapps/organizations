@@ -29,6 +29,7 @@ async function beforeRequest (req) {
     } else {
       req.error = 'unknown-error'
     }
+    return
   }
   if (!req.error && organization.ownerid !== req.account.accountid) {
     req.error = 'invalid-account'

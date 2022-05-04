@@ -38,17 +38,50 @@
     view
       ✔ should present the form
       ✔ should exclude invalid profiles
+      ✔ should have elements for full-name
+      ✔ should have elements for display-name
+      ✔ should have elements for contact-email
+      ✔ should have elements for display-email
+      ✔ should have elements for dob
+      ✔ should have elements for phone
+      ✔ should have elements for occupation
+      ✔ should have elements for location
+      ✔ should have elements for company-name
+      ✔ should have elements for website
     submit
       ✔ should accept valid existing profile
       ✔ should accept invitation and create profile (screenshots)
+      ✔ should accept invitation and create profile with full-name
+      ✔ should accept invitation and create profile with display-name
+      ✔ should accept invitation and create profile with contact-email
+      ✔ should accept invitation and create profile with display-email
+      ✔ should accept invitation and create profile with dob in YYYY-MM-DD
+      ✔ should accept invitation and create profile with dob in MM-DD-YYYY
+      ✔ should accept invitation and create profile with phone
+      ✔ should accept invitation and create profile with occupation
+      ✔ should accept invitation and create profile with location
+      ✔ should accept invitation and create profile with company-name
+      ✔ should accept invitation and create profile with website
     errors
       ✔ invalid-account
+      ✔ invalid-first-name
+      ✔ invalid-first-name-length
+      ✔ invalid-last-name
+      ✔ invalid-last-name-length
+      ✔ invalid-contact-email
+      ✔ invalid-display-email
+      ✔ invalid-display-name
+      ✔ invalid-display-name-length
+      ✔ invalid-dob
+      ✔ invalid-phone
+      ✔ invalid-occupation
+      ✔ invalid-location
+      ✔ invalid-company-name
+      ✔ invalid-website
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
   /account/organizations/create-invitation
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
@@ -56,27 +89,61 @@
     submit
       ✔ should create invitation (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
   /account/organizations/create-organization
     view
       ✔ should present the form
+      ✔ should have elements for full-name
+      ✔ should have elements for display-name
+      ✔ should have elements for contact-email
+      ✔ should have elements for display-email
+      ✔ should have elements for dob
+      ✔ should have elements for phone
+      ✔ should have elements for occupation
+      ✔ should have elements for location
+      ✔ should have elements for company-name
+      ✔ should have elements for website
     submit
       ✔ should accept valid existing profile
-      ✔ should create organization (screenshots)
+      ✔ should create organization and new profile (screenshots)
+      ✔ should create organization and new profile with full-name
+      ✔ should create organization and new profile with display name
+      ✔ should create organization and new profile with contact-email
+      ✔ should create organization and new profile with display-email
+      ✔ should create organization and new profile with dob in YYYY-MM-DD
+      ✔ should create organization and new profile with dob in MM-DD-YYYY
+      ✔ should create organization and new profile with phone
+      ✔ should create organization and new profile with occupation
+      ✔ should create organization and new profile with location
+      ✔ should create organization and new profile with company-name
+      ✔ should create organization and new profile with website
     errors
       ✔ invalid-pin
       ✔ duplicate-pin
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ invalid-first-name
+      ✔ invalid-first-name-length
+      ✔ invalid-last-name
+      ✔ invalid-last-name-length
+      ✔ invalid-contact-email
+      ✔ invalid-display-email
+      ✔ invalid-display-name
+      ✔ invalid-display-name-length
+      ✔ invalid-dob
+      ✔ invalid-phone
+      ✔ invalid-occupation
+      ✔ invalid-location
+      ✔ invalid-company-name
+      ✔ invalid-website
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
   /account/organizations/delete-invitation
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data
     view
@@ -84,11 +151,10 @@
     submit
       ✔ should delete invitation (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/organizations/delete-membership
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
@@ -96,11 +162,10 @@
     submit
       ✔ should delete membership (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/organizations/delete-organization
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
@@ -108,6 +173,7 @@
     submit
       ✔ should delete organization (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/organizations/edit-membership-profile
@@ -151,10 +217,10 @@
       ✔ invalid-location
       ✔ invalid-company-name
       ✔ invalid-website
+      ✔ invalid-xss-input
+      ✔ invalid-csrf-token
 
   /account/organizations/edit-organization
-    exceptions
-      ✔ should require owner
     before
       ✔ should bind data to req
     view
@@ -167,6 +233,7 @@
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
+      ✔ should require owner
       ✔ invalid-xss-input
       ✔ invalid-csrf-token
 
@@ -186,11 +253,14 @@
 
   /account/organizations/membership
     before
-      ✔ should reject non-member
       ✔ should bind data to req
     view
       ✔ should have row for membership (screenshots)
       ✔ should show profile fields if data exists
+    errors
+      ✔ invalid-membershipid
+      ✔ invalid-organizationid
+      ✔ invalid-account
 
   /account/organizations/memberships
     before
@@ -220,10 +290,11 @@
 
   /account/organizations/organization
     before
-      ✔ should reject non-member
       ✔ should bind data to req
     view
       ✔ should have row for organization (screenshots)
+    errors
+      ✔ invalid-account
 
   /account/organizations/organizations
     before
@@ -234,8 +305,6 @@
       ✔ should change offset
 
   /account/organizations/revoke-membership
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
@@ -243,11 +312,10 @@
     submit
       ✔ should delete membership (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /account/organizations/transfer-organization
-    exceptions
-      ✔ invalid-account
     before
       ✔ should bind data to req
     view
@@ -255,6 +323,7 @@
     submit
       ✔ should transfer ownership (screenshots)
     errors
+      ✔ invalid-account
       ✔ invalid-csrf-token
 
   /administrator/organizations
@@ -729,5 +798,5 @@
       ✔ object
 
 
-  362 passing (11m)
+  436 passing (13m)
 

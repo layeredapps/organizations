@@ -56,6 +56,14 @@ By default this module will share whatever storage you use for Dashboard.  You c
     ORGANIZATIONS_STORAGE=postgresql
     ORGANIZATIONS_DATABASE_URL=postgres://localhost:5432/organizations
 
+If your Dashboard is configured with database read replication servers this module will follow that configuration.  You can also specify module-specific read replication:
+
+    ORGANIZATIONS_STORAGE_REPLICATION=true
+    ORGANIZATIONS_DATABASE_URL=postgres://1.0.0.0:5432/organizations
+    ORGANIZATIONS_READ_DATABASE_URL1=postgres://1.0.0.1:5432/organizations
+    ORGANIZATIONS_READ_DATABASE_URL2=postgres://1.0.0.2:5432/organizations
+    ORGANIZATIONS_READ_DATABASE_URL#=postgres://1.0.0.3:5432/organizations
+
 # Customizing membership profiles
 
 Memberships designate a Profile which you can configure to collect the information relevant to your organizations.  You specify the fields you want in an environment variable:

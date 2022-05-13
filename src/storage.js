@@ -1,40 +1,26 @@
 const crypto = require('crypto')
-const { Model, DataTypes } = require('sequelize')
+const { Sequelize, Model, DataTypes } = require('sequelize')
 const metrics = require('@layeredapps/dashboard/src/metrics.js')
 const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations')
 
 module.exports = async () => {
-  let storage, dateType
+  let dateType
   const prefixedStorage = process.env.ORGANIZATIONS_STORAGE || process.env.STORAGE
   switch (prefixedStorage) {
+    case 'mariadb':
+    case 'mysql':
+      dateType = DataTypes.DATE(6)
+      break
     case 'postgresql':
     case 'postgres':
-      storage = require('./storage-postgresql.js')
-      dateType = DataTypes.DATE
-      break
-    case 'mariadb':
-      storage = require('./storage-mariadb.js')
-      dateType = DataTypes.DATE(6)
-      break
-    case 'mysql':
-      storage = require('./storage-mysql.js')
-      dateType = DataTypes.DATE(6)
-      break
     case 'db2':
-      storage = require('./storage-db2.js')
-      dateType = DataTypes.DATE
-      break
     case 'mssql':
-      storage = require('./storage-mssql.js')
-      dateType = DataTypes.DATE
-      break
     case 'sqlite':
     default:
-      storage = require('./storage-sqlite.js')
       dateType = DataTypes.DATE
       break
   }
-  const sequelize = await storage()
+  const sequelize = await createConnection(prefixedStorage)
   class Invitation extends Model {}
   Invitation.init({
     invitationid: {
@@ -200,4 +186,56 @@ module.exports = async () => {
     Membership,
     Invitation
   }
+}
+
+async function createConnection (dialect) {
+  // sqlite
+  if (dialect === 'sqlite') {
+    const databaseFile = process.env.ORGANIZATIONS_DATABASE_FILE || process.env.DATABASE_FILE
+    if (databaseFile) {
+      return new Sequelize(process.env.DATABASE || 'dashboard', '', '', {
+        storage: databaseFile,
+        dialect: 'sqlite',
+        logging: (sql) => {
+          return Log.info(sql)
+        }
+      })
+    } else {
+      return new Sequelize('sqlite::memory', {
+        dialect: 'sqlite',
+        logging: (sql) => {
+          return Log.info(sql)
+        }
+      })
+    }
+  }
+  // all other databases
+  let url = global.organizationsDatabaseURL || process.env.ORGANIZATIONS_DATABASE_URL || global.databaseURL || process.env.DATABASE_URL
+  const sslModeRequiredIndex = url.indexOf('?sslmode=require')
+  const dialectOptions = {}
+  if (sslModeRequiredIndex > -1) {
+    url = url.substring(0, sslModeRequiredIndex)
+    dialectOptions.ssl = {
+      require: true,
+      rejectUnauthorized: false
+    }
+    dialectOptions.keepAlive = true
+  }
+  if (dialect === 'mssql') {
+    dialectOptions.driver = 'SQL Server Native Client 11.0'
+  }
+  const pool = {
+    max: process.env.ORGANIZATIONS_MAX_CONNECTIONS || process.env.MAX_CONNECTIONS || 10,
+    min: 0,
+    idle: process.env.ORGANIZATIONS_IDLE_CONNECION_LIMIT || process.env.IDLE_CONNECTION_LIMIT || 10000
+  }
+  const sequelize = new Sequelize(url, {
+    dialect,
+    dialectOptions,
+    pool,
+    logging: (sql) => {
+      return Log.info(sql)
+    }
+  })
+  return sequelize
 }

@@ -5,7 +5,7 @@ const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organization
 
 module.exports = async () => {
   let dateType
-  const prefixedStorage = process.env.ORGANIZATIONS_STORAGE || process.env.STORAGE
+  const prefixedStorage = process.env.ORGANIZATIONS_STORAGE || process.env.STORAGE || 'sqlite'
   switch (prefixedStorage) {
     case 'mariadb':
     case 'mysql':

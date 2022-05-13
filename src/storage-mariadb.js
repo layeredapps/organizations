@@ -2,18 +2,12 @@ const { Sequelize } = require('sequelize')
 const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations-mariadb')
 
 module.exports = async () => {
-  const prefixedDatabase = process.env.ORGANIZATIONS_MARIADB_DATABASE || process.env.MARIADB_DATABASE
-  const prefixedUsername = process.env.ORGANIZATIONS_MARIADB_USERNAME || process.env.MARIADB_USERNAME
-  const prefixedPassword = process.env.ORGANIZATIONS_MARIADB_PASSWORD || process.env.MARIADB_PASSWORD
-  const prefixedHost = process.env.ORGANIZATIONS_MARIADB_HOST || process.env.MARIADB_HOST
-  const prefixedPort = process.env.ORGANIZATIONS_MARIADB_PORT || process.env.MARIADB_PORT
-  const sequelize = new Sequelize(prefixedDatabase, prefixedUsername, prefixedPassword, {
+  const prefixedDatabaseURL = process.env.ORGANIZATIONS_DATABASE_URL || process.env.DATABASE_URL
+  const sequelize = new Sequelize(prefixedDatabaseURL, {
     logging: (sql) => {
       return Log.info(sql)
     },
     dialect: 'mysql',
-    host: prefixedHost,
-    port: prefixedPort,
     pool: {
       max: process.env.ORGANIZATIONS_MAX_CONNECTIONS || process.env.MAX_CONNECTIONS || 10,
       min: 0,

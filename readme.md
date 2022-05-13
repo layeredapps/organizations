@@ -54,7 +54,7 @@ Dashboard comes with some convenience scripts you can add to your `package.json`
 By default this module will share whatever storage you use for Dashboard.  You can specify nothing, specify an alternate storage backend, or specify the same type with a separate database.
 
     ORGANIZATIONS_STORAGE=postgresql
-    ORGANIZATIONS_POSTGRESQL_DATABASE_URL=postgres://localhost:5432/organizations
+    ORGANIZATIONS_DATABASE_URL=postgres://localhost:5432/organizations
 
 # Customizing membership profiles
 

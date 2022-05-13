@@ -2,8 +2,8 @@ const { Sequelize } = require('sequelize')
 const Log = require('@layeredapps/dashboard/src/log.js')('sequelize-organizations-sqlite')
 
 module.exports = async () => {
-  const prefixedDatabaseFile = process.env.ORGANIZATIONS_SQLITE_DATABASE_FILE || process.env.SQLITE_DATABASE_FILE
-  const prefixedDatabaseName = process.env.ORGANIZATIONS_SQLITE_DATABASE || process.env.SQLITE_DATABASE
+  const prefixedDatabaseFile = process.env.ORGANIZATIONS_DATABASE_FILE || process.env.DATABASE_FILE
+  const prefixedDatabaseName = process.env.ORGANIZATIONS_DATABASE || process.env.DATABASE
   let sequelize
   if (prefixedDatabaseFile) {
     sequelize = new Sequelize(prefixedDatabaseName || 'organizations', '', '', {

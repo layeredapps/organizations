@@ -41,8 +41,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'invt_' + idValue.substring(0, 16)
+        return 'invt_' + crypto.randomBytes(8).toString('hex')
       }
     },
     organizationid: DataTypes.STRING(64),
@@ -83,8 +82,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'mmbr_' + idValue.substring(0, 16)
+        return 'mmbr_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {
@@ -119,8 +117,7 @@ module.exports = async () => {
       type: DataTypes.STRING(64),
       primaryKey: true,
       defaultValue: () => {
-        const idValue = crypto.randomBytes(32).toString('hex')
-        return 'orgn_' + idValue.substring(0, 16)
+        return 'orgn_' + crypto.randomBytes(8).toString('hex')
       }
     },
     object: {

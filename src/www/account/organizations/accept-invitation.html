@@ -108,8 +108,11 @@
             <input required="" id="website" name="website" type="text" maxlength="1000">
           </div>
         </div>
-        <div class="form-buttons">
-          <button type="submit" id="submit-button" class="button" translate="yes">Join organization</button>
+        <div class="input-fields">
+          <label class="field-label"></label>
+          <div class="form-buttons">
+            <button id="submit-button" type="submit" class="button" translate="yes">Join organization</button>
+          </div>
         </div>
       </form>
     </div>
@@ -143,11 +146,6 @@
         Error! You own or are a member of this organization
       </div>
     </template>
-    <template id="unknown-error">
-      <div class="error message" translate="yes">
-        Error! An unknown error occurred
-      </div>
-    </template>
     <template id="profile-option">
       <option value="${profile.profileid}">
         ${profile.displayName} / ${profile.displayEmail}
@@ -175,7 +173,7 @@
     </template>
     <template id="unknown-error">
       <div class="error message" translate="yes">
-        Error! An unknown error occurred
+        Error! Something went wrong submitting the form
       </div>
     </template>
     <template id="invalid-first-name">

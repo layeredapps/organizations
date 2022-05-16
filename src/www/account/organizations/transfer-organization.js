@@ -56,7 +56,16 @@ async function beforeRequest (req) {
   req.query.offset = 0
   req.query.accountid = req.account.accountid
   req.query.all = true
-  req.data.memberships = await global.api.user.organizations.Memberships.get(req)
+  const allMemberships = await global.api.user.organizations.Memberships.get(req)
+  const memberships = []
+  for (const membership of allMemberships) {
+    if (membership.accountid === req.account.accountid) {
+      continue
+    }
+    membership.identifier = membership.fullName || membership.contactEmail || membership.displayName || membership.displayEmail || membership.occupation || membership.company || membership.location
+    memberships.push(membership)
+  }
+  req.data.memberships = memberships
 }
 
 async function renderPage (req, res, messageTemplate) {

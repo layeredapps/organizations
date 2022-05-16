@@ -29,7 +29,7 @@ describe('/account/organizations/transfer-organization', () => {
       req.session = owner.session
       await req.route.api.before(req)
       assert.strictEqual(req.data.organization.organizationid, owner.organization.organizationid)
-      assert.strictEqual(req.data.memberships.length, 2)
+      assert.strictEqual(req.data.memberships.length, 1)
     })
   })
 

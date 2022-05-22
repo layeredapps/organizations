@@ -49,9 +49,7 @@
         <td><a href="/account/organizations/membership?membershipid=${membership.membershipid}">${membership.membershipid}</a></td>
         <td><a href="/account/organizations/invitation?invitationid=${membership.invitationid}">${membership.invitationid}</a></td>
         <td><a href="/account/organizations/organization?organizationid=${membership.organizationid}">${membership.organizationid}</a></td>
-        <td id="full-name-${membership.membershipid}">${membership.firstName} ${membership.lastName}</td>
-        <td id="first-name-${membership.membershipid}">${membership.firstName}</td>
-        <td id="last-name-${membership.membershipid}">${membership.lastName}</td>
+        <td id="full-name-${membership.membershipid}">${membership.fullName}</td>
         <td id="contact-email-${membership.membershipid}"><a href="mailto:${membership.contactEmail}">${membership.contactEmail}</a></td>
         <td id="display-name-${membership.membershipid}">${membership.displayName}</td>
         <td id="display-email-${membership.membershipid}"><a href="mailto:${membership.displayEmail}">${membership.displayEmail}</a></td>

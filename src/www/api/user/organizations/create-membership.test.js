@@ -9,7 +9,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -23,13 +23,13 @@ describe('/api/user/organizations/create-membership', () => {
         })
         const user = await TestHelper.createUser()
         await TestHelper.createProfile(user, {
-          'display-name': user.profile.firstName,
+          'display-name': user.profile.fullName,
           'display-email': user.profile.contactEmail
         })
         await TestHelper.acceptInvitation(user, owner)
         const user2 = await TestHelper.createUser()
         await TestHelper.createProfile(user2, {
-          'display-name': user2.profile.firstName,
+          'display-name': user2.profile.fullName,
           'display-email': user2.profile.contactEmail
         })
         const req = TestHelper.createRequest('/api/user/organizations/create-membership')
@@ -38,8 +38,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          email: user2.profile.contactEmail,
-          name: user2.profile.firstName
+          profileid: user2.profile.profileid
         }
         let errorMessage
         try {
@@ -54,7 +53,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -69,7 +68,7 @@ describe('/api/user/organizations/create-membership', () => {
         await TestHelper.terminateInvitation(owner)
         const user = await TestHelper.createUser()
         await TestHelper.createProfile(user, {
-          'display-name': user.profile.firstName,
+          'display-name': user.profile.fullName,
           'display-email': user.profile.contactEmail
         })
         const req = TestHelper.createRequest('/api/user/organizations/create-membership')
@@ -78,8 +77,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          email: user.profile.contactEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -96,7 +94,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -113,8 +111,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '',
           'secret-code': owner.invitation.secretCode,
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -129,7 +126,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -146,8 +143,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': 'invalid',
           'secret-code': owner.invitation.secretCode,
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -164,7 +160,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -181,8 +177,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': '',
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -197,7 +192,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -214,8 +209,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': 'invalid',
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -232,7 +226,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -248,8 +242,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          email: owner.profile.contactEmail,
-          name: owner.profile.firstName
+          profileid: owner.profile.profileid
         }
         let errorMessage
         try {
@@ -265,11 +258,11 @@ describe('/api/user/organizations/create-membership', () => {
         const user = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createProfile(user, {
-          'display-name': user.profile.firstName,
+          'display-name': user.profile.fullName,
           'display-email': user.profile.contactEmail
         })
         global.userProfileFields = ['display-email', 'display-name']
@@ -305,7 +298,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -322,9 +315,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          profileid: '',
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: ''
         }
         let errorMessage
         try {
@@ -339,7 +330,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -356,9 +347,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          profileid: 'invalid',
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: 'invalid'
         }
         let errorMessage
         try {
@@ -375,7 +364,7 @@ describe('/api/user/organizations/create-membership', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = global.membershipProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -397,9 +386,7 @@ describe('/api/user/organizations/create-membership', () => {
         req.body = {
           'organization-pin': '12345',
           'secret-code': owner.invitation.secretCode,
-          profileid: user.profile.profileid,
-          email: user.profile.displayEmail,
-          name: user.profile.firstName
+          profileid: user.profile.profileid
         }
         let errorMessage
         try {
@@ -418,15 +405,15 @@ describe('/api/user/organizations/create-membership', () => {
         const user2 = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createProfile(user, {
-          'display-name': user.profile.firstName,
+          'display-name': user.profile.fullName,
           'display-email': user.profile.contactEmail
         })
         await TestHelper.createProfile(user2, {
-          'display-name': user2.profile.firstName,
+          'display-name': user2.profile.fullName,
           'display-email': user2.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -464,11 +451,11 @@ describe('/api/user/organizations/create-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -495,11 +482,11 @@ describe('/api/user/organizations/create-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -528,11 +515,11 @@ describe('/api/user/organizations/create-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {

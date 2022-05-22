@@ -13,7 +13,7 @@ describe('/api/user/organizations/memberships', function () {
     const user = await TestHelper.createUser()
     global.userProfileFields = ['display-email', 'display-name']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -21,7 +21,7 @@ describe('/api/user/organizations/memberships', function () {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -47,7 +47,7 @@ describe('/api/user/organizations/memberships', function () {
       const member = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(member, {
-        'display-name': member.profile.firstName,
+        'display-name': member.profile.fullName,
         'display-email': member.profile.contactEmail
       })
       await TestHelper.acceptInvitation(member, user)
@@ -116,11 +116,11 @@ describe('/api/user/organizations/memberships', function () {
         const user = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createProfile(user, {
-          'display-name': user.profile.firstName,
+          'display-name': user.profile.fullName,
           'display-email': user.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {

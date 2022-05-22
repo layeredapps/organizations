@@ -42,8 +42,7 @@ module.exports = {
     const requireProfileFields = global.membershipProfileFields
     for (const field of requireProfileFields) {
       if (field === 'full-name') {
-        membership.firstName = profile.firstName
-        membership.lastName = profile.lastName
+        membership.fullName = profile.fullName
       } else {
         const displayName = global.profileFieldMap[field]
         membership[displayName] = profile[displayName]

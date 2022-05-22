@@ -9,11 +9,11 @@ describe('/account/organizations/delete-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -38,11 +38,11 @@ describe('/account/organizations/delete-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -69,11 +69,11 @@ describe('/account/organizations/delete-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -110,11 +110,11 @@ describe('/account/organizations/delete-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -129,7 +129,7 @@ describe('/account/organizations/delete-membership', () => {
       const user2 = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(user2, {
-        'display-name': user2.profile.firstName,
+        'display-name': user2.profile.fullName,
         'display-email': user2.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/account/organizations/delete-membership?membershipid=${user.membership.membershipid}`)
@@ -144,11 +144,11 @@ describe('/account/organizations/delete-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {

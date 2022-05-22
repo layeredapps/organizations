@@ -37,15 +37,6 @@ async function renderPage (req, res) {
         if (retainedFields.indexOf(field) > -1) {
           continue
         }
-        if (field === 'full-name') {
-          if (retainedFields.indexOf('first-name') === -1) {
-            removeElements.push(`first-name-${membership.membershipid}`)
-          }
-          if (retainedFields.indexOf('last-name') === -1) {
-            removeElements.push(`last-name-${membership.membershipid}`)
-          }
-          continue
-        }
         removeElements.push(`${field}-${membership.membershipid}`)
       }
     }

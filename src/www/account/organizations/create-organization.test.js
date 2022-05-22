@@ -168,7 +168,7 @@ describe('/account/organizations/create-organization', () => {
       req.body = {
         name: 'org-name',
         email: 'test@test.com',
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail,
         pin: '12344'
       }
@@ -196,8 +196,7 @@ describe('/account/organizations/create-organization', () => {
         name: 'org-name',
         email: 'test@test.com',
         pin: '1230',
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
+        'full-name': owner.profile.fullName
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -216,7 +215,7 @@ describe('/account/organizations/create-organization', () => {
         name: 'org-name',
         email: 'test@test.com',
         pin: '1230',
-        'display-name': owner.profile.lastName
+        'display-name': owner.profile.fullName
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -525,7 +524,7 @@ describe('/account/organizations/create-organization', () => {
       assert.strictEqual(message.attr.template, 'invalid-organization-email')
     })
 
-    it('invalid-first-name', async () => {
+    it('invalid-full-name', async () => {
       const owner = await TestHelper.createUser()
       global.membershipProfileFields = ['full-name']
       const req = TestHelper.createRequest('/account/organizations/create-organization')
@@ -535,17 +534,16 @@ describe('/account/organizations/create-organization', () => {
         name: 'org-name',
         email: 'test@test.com',
         pin: '1230',
-        'first-name': '',
-        'last-name': owner.profile.lastName
+        'full-name': ''
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-first-name')
+      assert.strictEqual(message.attr.template, 'invalid-full-name')
     })
 
-    it('invalid-first-name-length', async () => {
+    it('invalid-full-name-length', async () => {
       const owner = await TestHelper.createUser()
       global.membershipProfileFields = ['full-name']
       const req = TestHelper.createRequest('/account/organizations/create-organization')
@@ -555,86 +553,28 @@ describe('/account/organizations/create-organization', () => {
         name: 'org-name',
         email: 'test@test.com',
         pin: '1230',
-        'first-name': '1',
-        'last-name': owner.profile.lastName
+        'full-name': '1'
       }
-      global.minimumProfileFirstNameLength = 10
-      global.maximumProfileFirstNameLength = 100
+      global.minimumProfileFullNameLength = 10
+      global.maximumProfileFullNameLength = 100
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-first-name-length')
-      global.minimumProfileFirstNameLength = 1
-      global.maximumProfileFirstNameLength = 10
+      assert.strictEqual(message.attr.template, 'invalid-full-name-length')
+      global.minimumProfileFullNameLength = 10
+      global.maximumProfileFullNameLength = 20
       req.body = {
         name: 'org-name',
         email: 'test@test.com',
         pin: '1230',
-        'first-name': '1000000000000000000000000000',
-        'last-name': owner.profile.lastName
+        'full-name': '10000000000000000000000000000000000000000000000000'
       }
       const result2 = await req.post()
       const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
-      assert.strictEqual(message2.attr.template, 'invalid-first-name-length')
-    })
-
-    it('invalid-last-name', async () => {
-      const owner = await TestHelper.createUser()
-      global.membershipProfileFields = ['full-name']
-      const req = TestHelper.createRequest('/account/organizations/create-organization')
-      req.account = owner.account
-      req.session = owner.session
-      req.body = {
-        name: 'org-name',
-        email: 'test@test.com',
-        pin: '1230',
-        'first-name': owner.profile.firstName,
-        'last-name': ''
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const messageContainer = doc.getElementById('message-container')
-      const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-last-name')
-    })
-
-    it('invalid-last-name-length', async () => {
-      const owner = await TestHelper.createUser()
-      global.membershipProfileFields = ['full-name']
-      const req = TestHelper.createRequest('/account/organizations/create-organization')
-      req.account = owner.account
-      req.session = owner.session
-      req.body = {
-        name: 'org-name',
-        email: 'test@test.com',
-        pin: '1230',
-        'first-name': owner.profile.firstName,
-        'last-name': '1'
-      }
-      global.minimumProfileLastNameLength = 10
-      global.maximumProfileLastNameLength = 100
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const messageContainer = doc.getElementById('message-container')
-      const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-last-name-length')
-      global.minimumProfileLastNameLength = 1
-      global.maximumProfileLastNameLength = 10
-      req.body = {
-        name: 'org-name',
-        email: 'test@test.com',
-        pin: '1230',
-        'first-name': owner.profile.firstName,
-        'last-name': '1000000000000000000'
-      }
-      const result2 = await req.post()
-      const doc2 = TestHelper.extractDoc(result2.html)
-      const messageContainer2 = doc2.getElementById('message-container')
-      const message2 = messageContainer2.child[0]
-      assert.strictEqual(message2.attr.template, 'invalid-last-name-length')
+      assert.strictEqual(message2.attr.template, 'invalid-full-name-length')
     })
 
     it('invalid-contact-email', async () => {
@@ -883,7 +823,7 @@ describe('/account/organizations/create-organization', () => {
       req.body = {
         name: '<script>',
         email: 'test@test.com',
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail,
         pin: '12344'
       }
@@ -903,7 +843,7 @@ describe('/account/organizations/create-organization', () => {
       req.body = {
         name: 'org-name',
         email: 'test@test.com',
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail,
         pin: '12344',
         'csrf-token': 'invalid'

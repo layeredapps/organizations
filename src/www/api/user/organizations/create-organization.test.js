@@ -9,7 +9,7 @@ describe('/api/user/organizations/create-organization', () => {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-name', 'display-email']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -37,7 +37,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -71,7 +71,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -107,7 +107,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail,
         profileid: owner.profile.profileid
       })
@@ -133,7 +133,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail,
         profileid: owner.profile.profileid
       })
@@ -228,7 +228,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -248,7 +248,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -268,7 +268,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)
@@ -294,7 +294,7 @@ describe('/api/user/organizations/create-organization', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       const req = TestHelper.createRequest(`/api/user/organizations/create-organization?accountid=${owner.account.accountid}`)

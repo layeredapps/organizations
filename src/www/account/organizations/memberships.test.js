@@ -12,7 +12,7 @@ describe('/account/organizations/memberships', function () {
     const user = await TestHelper.createUser()
     global.userProfileFields = ['display-email', 'display-name']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     for (let i = 0, len = global.pageSize + 1; i < len; i++) {
@@ -20,7 +20,7 @@ describe('/account/organizations/memberships', function () {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -94,7 +94,7 @@ describe('/account/organizations/memberships', function () {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       const fields = {
@@ -121,7 +121,7 @@ describe('/account/organizations/memberships', function () {
         const owner = await TestHelper.createUser()
         global.userProfileFields = ['display-email', 'display-name']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         global.membershipProfileFields = ['display-email', 'display-name']
@@ -132,12 +132,7 @@ describe('/account/organizations/memberships', function () {
           pin: `1234${pin++}`
         })
         usingFields.push(field)
-        if (field === 'full-name') {
-          postingBody['first-name'] = fields[field].split(' ')[0]
-          postingBody['last-name'] = fields[field].split(' ')[1]
-        } else {
-          postingBody[field] = fields[field]
-        }
+        postingBody[field] = fields[field]
         global.userProfileFields = usingFields
         await TestHelper.createProfile(user, postingBody)
         await TestHelper.createInvitation(owner)

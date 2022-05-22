@@ -9,11 +9,11 @@ describe('/account/organizations', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -38,7 +38,7 @@ describe('/account/organizations', () => {
       const owner = await TestHelper.createOwner()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -61,7 +61,7 @@ describe('/account/organizations', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -71,7 +71,7 @@ describe('/account/organizations', () => {
         pin: '12345'
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createInvitation(owner)

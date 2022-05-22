@@ -101,13 +101,6 @@ async function renderPage (req, res, messageTemplate) {
     }
     if (req.method === 'GET') {
       for (const field of retainedFields) {
-        if (field === 'full-name') {
-          const firstName = doc.getElementById('first-name')
-          firstName.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership['first-name']))
-          const lastName = doc.getElementById('last-name')
-          lastName.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership['last-name']))
-          continue
-        }
         const element = doc.getElementById(field)
         element.setAttribute('value', dashboard.Format.replaceQuotes(req.data.membership[field]))
       }

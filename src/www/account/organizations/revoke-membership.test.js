@@ -9,11 +9,11 @@ describe('/account/organizations/revoke-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -38,11 +38,11 @@ describe('/account/organizations/revoke-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -69,11 +69,11 @@ describe('/account/organizations/revoke-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -113,11 +113,11 @@ describe('/account/organizations/revoke-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -140,11 +140,11 @@ describe('/account/organizations/revoke-membership', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {

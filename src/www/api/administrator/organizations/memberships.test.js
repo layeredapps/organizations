@@ -17,7 +17,7 @@ describe('/api/administrator/organizations/memberships', function () {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -31,7 +31,7 @@ describe('/api/administrator/organizations/memberships', function () {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.createInvitation(owner)
@@ -42,7 +42,7 @@ describe('/api/administrator/organizations/memberships', function () {
     const user = await TestHelper.createUser()
     global.userProfileFields = ['display-email', 'display-name']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {
@@ -59,7 +59,7 @@ describe('/api/administrator/organizations/memberships', function () {
       const member = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(member, {
-        'display-name': member.profile.firstName,
+        'display-name': member.profile.fullName,
         'display-email': member.profile.contactEmail
       })
       await TestHelper.createInvitation(user)
@@ -72,7 +72,7 @@ describe('/api/administrator/organizations/memberships', function () {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {

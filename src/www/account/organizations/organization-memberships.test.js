@@ -12,7 +12,7 @@ describe('/account/organizations/organization-memberships', function () {
     const user = await TestHelper.createUser()
     global.userProfileFields = global.membershipProfileFields = ['display-email', 'display-name']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {
@@ -26,7 +26,7 @@ describe('/account/organizations/organization-memberships', function () {
       const member = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(member, {
-        'display-name': member.profile.firstName,
+        'display-name': member.profile.fullName,
         'display-email': member.profile.contactEmail
       })
       await TestHelper.createInvitation(user)

@@ -1,5 +1,5 @@
 
-> @layeredapps/organizations@1.0.39 test
+> @layeredapps/organizations@1.0.40 test
 > PORT=50008 NODE_ENV=testing STORAGE=sqlite DATABASE=organizations mocha --ignore 'node_modules/**/*' --timeout 90000 --slow 90000 --recursive --extension .test.js .
 
 
@@ -64,10 +64,8 @@
       ✔ should accept invitation and create profile with website
     errors
       ✔ invalid-account
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -126,10 +124,8 @@
       ✔ invalid-organization-name
       ✔ invalid-organization-name-length
       ✔ invalid-organization-email
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -203,10 +199,8 @@
       ✔ should update profile with company-name
       ✔ should update profile with website
     errors
-      ✔ invalid-first-name
-      ✔ invalid-first-name-length
-      ✔ invalid-last-name
-      ✔ invalid-last-name-length
+      ✔ invalid-full-name
+      ✔ invalid-full-name-length
       ✔ invalid-contact-email
       ✔ invalid-display-email
       ✔ invalid-display-name
@@ -800,5 +794,5 @@
       ✔ object
 
 
-  436 passing (13m)
+  430 passing (13m)
 

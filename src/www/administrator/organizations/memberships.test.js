@@ -16,7 +16,7 @@ describe('/administrator/organizations/memberships', function () {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -30,7 +30,7 @@ describe('/administrator/organizations/memberships', function () {
       const user = await TestHelper.createUser()
       global.userProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.acceptInvitation(user, owner)
@@ -123,7 +123,7 @@ describe('/administrator/organizations/memberships', function () {
         const user = await TestHelper.createUser()
         global.userProfileFields = global.membershipProfileFields = ['display-email', 'display-name']
         await TestHelper.createProfile(owner, {
-          'display-name': owner.profile.firstName,
+          'display-name': owner.profile.fullName,
           'display-email': owner.profile.contactEmail
         })
         await TestHelper.createOrganization(owner, {
@@ -134,12 +134,7 @@ describe('/administrator/organizations/memberships', function () {
         })
         usingFields.push(field)
         global.userProfileFields = global.membershipProfileFields = usingFields
-        if (field === 'full-name') {
-          postingBody['first-name'] = fields[field].split(' ')[0]
-          postingBody['last-name'] = fields[field].split(' ')[1]
-        } else {
-          postingBody[field] = fields[field]
-        }
+        postingBody[field] = fields[field]
         await TestHelper.createProfile(user, postingBody)
         await TestHelper.createInvitation(owner)
         await TestHelper.acceptInvitation(user, owner)

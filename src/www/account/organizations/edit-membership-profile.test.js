@@ -8,7 +8,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -21,7 +21,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-email', 'display-name']
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName,
+        'display-name': user.profile.fullName,
         'display-email': user.profile.contactEmail
       })
       await TestHelper.acceptInvitation(user, owner)
@@ -38,8 +38,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
+        'full-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -51,8 +50,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
+        'full-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
@@ -68,7 +66,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName
+        'display-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -323,8 +321,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       await TestHelper.createProfile(owner, {
-        'first-name': 'Test',
-        'last-name': 'Person',
+        'full-name': 'Test Person',
         'contact-email': 'test1@test.com',
         'display-email': 'test2@test.com',
         dob: '2000-01-01',
@@ -346,8 +343,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name', 'display-name', 'contact-email', 'display-email', 'dob', 'phone', 'occupation', 'location', 'company-name', 'website']
       await TestHelper.createProfile(user, {
-        'first-name': 'Organization',
-        'last-name': 'Owner',
+        'full-name': 'Test Person',
         'contact-email': 'test1@test.com',
         'display-email': 'test2@test.com',
         dob: '2000-01-01',
@@ -364,8 +360,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': 'Test',
-        'last-name': 'Person',
+        'full-name': 'Test Person',
         'contact-email': 'test3@test.com',
         'display-email': 'test3@test.com',
         dob: '2000-01-01',
@@ -398,8 +393,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
+        'full-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -411,16 +405,14 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
+        'full-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': 'Test',
-        'last-name': 'Person'
+        'full-name': 'Test Person'
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -433,7 +425,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName
+        'display-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -445,14 +437,14 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       const identity = user.profile
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName
+        'display-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-name': identity.firstName + ' ' + identity.lastName.substring(0, 1)
+        'display-name': identity.fullName
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
@@ -751,12 +743,11 @@ describe('/account/organizations/edit-membership-profile', () => {
   })
 
   describe('errors', () => {
-    it('invalid-first-name', async () => {
+    it('invalid-full-name', async () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
+        'full-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -768,30 +759,27 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
+        'full-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': '',
-        'last-name': 'Test'
+        'full-name': ''
       }
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-first-name')
+      assert.strictEqual(message.attr.template, 'invalid-full-name')
     })
 
-    it('invalid-first-name-length', async () => {
+    it('invalid-full-name-length', async () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
+        'full-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -803,118 +791,32 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['full-name']
       await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
+        'full-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
       req.account = user.account
       req.session = user.session
       req.body = {
-        'first-name': '1',
-        'last-name': 'Test'
+        'full-name': '1'
       }
-      global.minimumProfileFirstNameLength = 10
-      global.maximumProfileFirstNameLength = 100
+      global.minimumProfileFullNameLength = 10
+      global.maximumProfileFullNameLength = 100
       const result = await req.post()
       const doc = TestHelper.extractDoc(result.html)
       const messageContainer = doc.getElementById('message-container')
       const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-first-name-length')
-      global.minimumProfileFirstNameLength = 1
-      global.maximumProfileFirstNameLength = 1
+      assert.strictEqual(message.attr.template, 'invalid-full-name-length')
+      global.minimumProfileFullNameLength = 1
+      global.maximumProfileFullNameLength = 1
       req.body = {
-        'first-name': '123456789',
-        'last-name': 'Test'
+        'full-name': '123456789'
       }
       const result2 = await req.post()
       const doc2 = TestHelper.extractDoc(result2.html)
       const messageContainer2 = doc2.getElementById('message-container')
       const message2 = messageContainer2.child[0]
-      assert.strictEqual(message2.attr.template, 'invalid-first-name-length')
-    })
-
-    it('invalid-last-name', async () => {
-      const owner = await TestHelper.createUser()
-      global.userProfileFields = global.membershipProfileFields = ['full-name']
-      await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
-      })
-      await TestHelper.createOrganization(owner, {
-        email: 'test@email.com',
-        name: 'My organization',
-        profileid: owner.profile.profileid,
-        pin: '12344'
-      })
-      await TestHelper.createInvitation(owner)
-      const user = await TestHelper.createUser()
-      global.userProfileFields = global.membershipProfileFields = ['full-name']
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
-      })
-      await TestHelper.acceptInvitation(user, owner)
-      const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': 'Test',
-        'last-name': ''
-      }
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const messageContainer = doc.getElementById('message-container')
-      const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-last-name')
-    })
-
-    it('invalid-last-name-length', async () => {
-      const owner = await TestHelper.createUser()
-      global.userProfileFields = global.membershipProfileFields = ['full-name']
-      await TestHelper.createProfile(owner, {
-        'first-name': owner.profile.firstName,
-        'last-name': owner.profile.lastName
-      })
-      await TestHelper.createOrganization(owner, {
-        email: 'test@email.com',
-        name: 'My organization',
-        profileid: owner.profile.profileid,
-        pin: '12344'
-      })
-      await TestHelper.createInvitation(owner)
-      const user = await TestHelper.createUser()
-      global.userProfileFields = global.membershipProfileFields = ['full-name']
-      await TestHelper.createProfile(user, {
-        'first-name': user.profile.firstName,
-        'last-name': user.profile.lastName
-      })
-      await TestHelper.acceptInvitation(user, owner)
-      const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
-      req.account = user.account
-      req.session = user.session
-      req.body = {
-        'first-name': '1',
-        'last-name': 'Test'
-      }
-      global.minimumProfileLastNameLength = 10
-      global.maximumProfileLastNameLength = 100
-      const result = await req.post()
-      const doc = TestHelper.extractDoc(result.html)
-      const messageContainer = doc.getElementById('message-container')
-      const message = messageContainer.child[0]
-      assert.strictEqual(message.attr.template, 'invalid-last-name-length')
-      global.minimumProfileLastNameLength = 1
-      global.maximumProfileLastNameLength = 1
-      req.body = {
-        'first-name': '123456789',
-        'last-name': 'Test'
-      }
-      const result2 = await req.post()
-      const doc2 = TestHelper.extractDoc(result2.html)
-      const messageContainer2 = doc2.getElementById('message-container')
-      const message2 = messageContainer2.child[0]
-      assert.strictEqual(message2.attr.template, 'invalid-last-name-length')
+      assert.strictEqual(message2.attr.template, 'invalid-full-name-length')
     })
 
     it('invalid-contact-email', async () => {
@@ -1277,7 +1179,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName
+        'display-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -1288,7 +1190,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       await TestHelper.createInvitation(owner)
       const user = await TestHelper.createUser()
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName
+        'display-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
@@ -1308,7 +1210,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = global.membershipProfileFields = ['display-name']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName
+        'display-name': owner.profile.fullName
       })
       await TestHelper.createOrganization(owner, {
         email: 'test@email.com',
@@ -1320,7 +1222,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       const user = await TestHelper.createUser()
       const identity = user.profile
       await TestHelper.createProfile(user, {
-        'display-name': user.profile.firstName
+        'display-name': user.profile.fullName
       })
       await TestHelper.acceptInvitation(user, owner)
       const req = TestHelper.createRequest(`/account/organizations/edit-membership-profile?membershipid=${user.membership.membershipid}`)
@@ -1328,7 +1230,7 @@ describe('/account/organizations/edit-membership-profile', () => {
       req.account = user.account
       req.session = user.session
       req.body = {
-        'display-name': identity.firstName + ' ' + identity.lastName.substring(0, 1),
+        'display-name': identity.fullName,
         'csrf-token': ''
       }
       const result = await req.post()

@@ -26,12 +26,6 @@ async function beforeRequest (req) {
     for (const profile of profiles) {
       let include = true
       for (const field of requiredFields) {
-        if (field === 'full-name') {
-          if (!profile.firstName || !profile.lastName) {
-            include = false
-            break
-          }
-        }
         const displayName = global.profileFieldMap[field]
         include = profile[displayName] && profile[displayName].length
         if (!include) {
@@ -88,17 +82,6 @@ async function renderPage (req, res, messageTemplate) {
         dashboard.HTML.setSelectedOptionByValue(doc, 'profileid', req.body.profileid || '')
       }
       for (const field of profileFields) {
-        if (field === 'full-name') {
-          if (req.body['first-name']) {
-            const element = doc.getElementById('first-name')
-            element.setAttribute('value', dashboard.Format.replaceQuotes(req.body['first-name']))
-          }
-          if (req.body['last-name']) {
-            const element = doc.getElementById('last-name')
-            element.setAttribute('value', dashboard.Format.replaceQuotes(req.body['last-name']))
-          }
-          continue
-        }
         if (req.body[field]) {
           const element = doc.getElementById(field)
           element.setAttribute('value', dashboard.Format.replaceQuotes(req.body[field]))
@@ -159,25 +142,15 @@ async function submitForm (req, res) {
     for (const field of requiredFields) {
       switch (field) {
         case 'full-name':
-          if (req.body['first-name'] && req.body['first-name'].trim) {
-            req.body['first-name'] = req.body['first-name'].trim()
+          if (req.body['full-name'] && req.body['full-name'].trim) {
+            req.body['full-name'] = req.body['full-name'].trim()
           }
-          if (!req.body['first-name'] || !req.body['first-name'].length) {
-            return renderPage(req, res, 'invalid-first-name')
+          if (!req.body['full-name'] || !req.body['full-name'].length) {
+            return renderPage(req, res, 'invalid-full-name')
           }
-          if (global.minimumProfileFirstNameLength > req.body['first-name'].length ||
-            global.maximumProfileFirstNameLength < req.body['first-name'].length) {
-            return renderPage(req, res, 'invalid-first-name-length')
-          }
-          if (req.body['last-name'] && req.body['last-name'].trim) {
-            req.body['last-name'] = req.body['last-name'].trim()
-          }
-          if (!req.body['last-name'] || !req.body['last-name'].length) {
-            return renderPage(req, res, 'invalid-last-name')
-          }
-          if (global.minimumProfileLastNameLength > req.body['last-name'].length ||
-            global.maximumProfileLastNameLength < req.body['last-name'].length) {
-            return renderPage(req, res, 'invalid-last-name-length')
+          if (global.minimumProfileFullNameLength > req.body['full-name'].length ||
+            global.maximumProfileFullNameLength < req.body['full-name'].length) {
+            return renderPage(req, res, 'invalid-full-name-length')
           }
           continue
         case 'contact-email':

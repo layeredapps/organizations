@@ -28,12 +28,6 @@ module.exports = {
     }
     const requireProfileFields = global.membershipProfileFields
     for (const field of requireProfileFields) {
-      if (field === 'full-name') {
-        if (!profile.firstName || !profile.lastName) {
-          throw new Error('invalid-profile')
-        }
-        continue
-      }
       const displayName = global.profileFieldMap[field]
       if (!profile[displayName]) {
         throw new Error('invalid-profile')

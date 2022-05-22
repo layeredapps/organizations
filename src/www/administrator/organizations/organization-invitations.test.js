@@ -14,7 +14,7 @@ describe('/administrator/organizations/organization-invitations', function () {
     const user = await TestHelper.createUser()
     global.userProfileFields = ['display-email', 'display-name']
     await TestHelper.createProfile(user, {
-      'display-name': user.profile.firstName,
+      'display-name': user.profile.fullName,
       'display-email': user.profile.contactEmail
     })
     await TestHelper.createOrganization(user, {

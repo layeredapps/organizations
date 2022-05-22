@@ -9,7 +9,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {
-        'display-name': owner.profile.firstName,
+        'display-name': owner.profile.fullName,
         'display-email': owner.profile.contactEmail
       })
       await TestHelper.createOrganization(owner, {
@@ -22,7 +22,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
       const user1 = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(user1, {
-        'display-name': user1.profile.firstName,
+        'display-name': user1.profile.fullName,
         'display-email': user1.profile.contactEmail
       })
       await TestHelper.createInvitation(owner)
@@ -31,7 +31,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
       const owner2 = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner2, {
-        'display-name': owner2.profile.firstName,
+        'display-name': owner2.profile.fullName,
         'display-email': owner2.profile.contactEmail
       })
       await TestHelper.createOrganization(owner2, {
@@ -44,7 +44,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
       const user2 = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(user2, {
-        'display-name': user2.profile.firstName,
+        'display-name': user2.profile.fullName,
         'display-email': user2.profile.contactEmail
       })
       await TestHelper.createInvitation(owner2)
@@ -53,7 +53,7 @@ describe('/api/administrator/organizations/memberships-count', () => {
       const user3 = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(user3, {
-        'display-name': user3.profile.firstName,
+        'display-name': user3.profile.fullName,
         'display-email': user3.profile.contactEmail
       })
       await TestHelper.createInvitation(owner2)

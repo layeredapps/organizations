@@ -27,7 +27,7 @@ describe('/account/organizations/invitation', () => {
   })
 
   describe('view', () => {
-    it('should have row for invitation (screenshots)', async () => {
+    it('should present invitation table (screenshots)', async () => {
       const owner = await TestHelper.createUser()
       global.userProfileFields = ['display-name', 'display-email']
       await TestHelper.createProfile(owner, {

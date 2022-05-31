@@ -35,7 +35,7 @@ describe('/administrator/organizations/membership', () => {
   })
 
   describe('view', () => {
-    it('should have row for membership (screenshots)', async () => {
+    it('should present membership table (screenshots)', async () => {
       const administrator = await TestHelper.createOwner()
       const owner = await TestHelper.createUser()
       const user = await TestHelper.createUser()
